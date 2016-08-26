@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Changelog::VERSION
   spec.authors       = ['dblock']
   spec.email         = ['dblock@dblock.org']
-  spec.description   = %q{A short description of danger-changelog.}
-  spec.summary       = %q{A longer description of danger-changelog.}
+  spec.description   = %q{A danger.systems plugin that is OCD about your CHANGELOG.}
+  spec.summary       = %q{A danger.systems plugin that is OCD about your CHANGELOG.}
   spec.homepage      = 'https://github.com/dblock/danger-changelog'
   spec.license       = 'MIT'
 
@@ -20,30 +20,13 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'danger-plugin-api', '~> 1.0'
 
-  # General ruby development
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake', '~> 10.0'
-
-  # Testing support
   spec.add_development_dependency 'rspec', '~> 3.4'
-
-  # Linting code and docs
   spec.add_development_dependency "rubocop", "~> 0.41"
   spec.add_development_dependency "yard", "~> 0.8"
-
-  # Makes testing easy via `bundle exec guard`
   spec.add_development_dependency 'guard', '~> 2.14'
   spec.add_development_dependency 'guard-rspec', '~> 4.7'
-
-  # If you want to work on older builds of ruby
   spec.add_development_dependency 'listen', '3.0.7'
-
-  # This gives you the chance to run a REPL inside your tests
-  # via:
-  #
-  #    require 'pry'
-  #    binding.pry
-  #
-  # This will stop test execution and let you inspect the results
   spec.add_development_dependency 'pry'
 end
