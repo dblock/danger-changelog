@@ -9,32 +9,63 @@ module Danger
   # @tags changelog
 
   class DangerChangelog < Plugin
+    # Sets the CHANGELOG file name.
+    # defaults to `CHANGELOG.md`.
+    #
+    # @return   [String]
+    attr_accessor :filename
+
+    def initialize(dangerfile)
+      @filename = 'CHANGELOG.md'
+      super
+    end
+
     # Has the CHANGELOG file been modified?
     # @return [boolean]
-    def has_changelog_changes?
-      git.modified_files.include?('CHANGELOG.md')
+    def changelog_changes?
+      git.modified_files.include?(filename) || git.added_files.include?(filename)
     end
 
     # Runs all checks.
     # @return [void]
     def check
       have_you_updated_changelog?
+      is_changelog_format_correct?
     end
 
     # Have you updated CHANGELOG.md?
     # @return [boolean]
     def have_you_updated_changelog?
-      if has_changelog_changes?
+      if changelog_changes?
         true
       else
         markdown <<-MARKDOWN
-Here's an example of a CHANGELOG.md entry:
+Here's an example of a #{filename} entry:
 
 ```markdown
 * [##{github.pr_json[:number]}](#{github.pr_json[:html_url]}): #{github.pr_title} - [@#{github.pr_author}](https://github.com/#{github.pr_author}).
 ```
 MARKDOWN
-        warn "Unless you're refactoring existing code, please update CHANGELOG.md.", sticky: false
+        warn "Unless you're refactoring existing code, please update #{filename}.", sticky: false
+        false
+      end
+    end
+
+    # Is the CHANGELOG.md format correct?
+    def is_changelog_format_correct?
+      changelog_file = Danger::Changelog::ChangelogFile.new(filename)
+      if changelog_file.exists?
+        changelog_file.bad_lines.each do |line|
+          markdown <<-MARKDOWN
+```markdown
+#{line}```
+MARKDOWN
+        end
+        messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.", sticky: false) if changelog_file.bad_lines?
+        messaging.fail("Please put back the `* Your contribution here.` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
+        changelog_file.good?
+      else
+        messaging.fail('The #{filename} file does not exist.', sticky: false)
         false
       end
     end
