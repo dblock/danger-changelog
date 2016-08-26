@@ -1,17 +1,22 @@
 module Danger
-  # CHANGELOG OCD in your projects.
+  # Enforce CHANGELOG.md O.C.D. in your projects.
   #
-  # @example Checking for everuthing
+  # This plugin can, for example, make sure the changes are attributes properly and that they are always terminated with a period.
+  #
+  # @example Run all checks on the default CHANGELOG.md.
   #
   #          changelog.check
+  #
+  # @example Customize the CHANGELOG file name and remind the requester to update it when necessary.
+  #
+  #          changelog.filename = 'CHANGES.md'
+  #          changelog.have_you_updated_changelog?
   #
   # @see  dblock/danger-changelog
   # @tags changelog
 
   class DangerChangelog < Plugin
-    # Sets the CHANGELOG file name.
-    # defaults to `CHANGELOG.md`.
-    #
+    # The changelog file name, defaults to `CHANGELOG.md`.
     # @return   [String]
     attr_accessor :filename
 
@@ -20,17 +25,17 @@ module Danger
       super
     end
 
-    # Has the CHANGELOG file been modified?
-    # @return [boolean]
-    def changelog_changes?
-      git.modified_files.include?(filename) || git.added_files.include?(filename)
-    end
-
-    # Runs all checks.
+    # Run all checks.
     # @return [void]
     def check
       have_you_updated_changelog?
       is_changelog_format_correct?
+    end
+
+    # Has the CHANGELOG file been modified?
+    # @return [boolean]
+    def changelog_changes?
+      git.modified_files.include?(filename) || git.added_files.include?(filename)
     end
 
     # Have you updated CHANGELOG.md?
