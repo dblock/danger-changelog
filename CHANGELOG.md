@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.0 (Next)
+
+* Your contribution here.
+
 ### 0.1.0 (8/26/2016)
 
 * [#2](https://github.com/dblock/danger-changelog/pull/2): Added `is_changelog_format_correct?` - [@dblock](https://github.com/dblock).
