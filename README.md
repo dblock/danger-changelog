@@ -3,6 +3,7 @@
 A pull request linter plugin to [danger.systems](http://danger.systems) that enforces CHANGELOG.md O.C.D. in your projects.
 This plugin can, for example, make sure the changes are attributes properly and that they are always terminated with a period.
 
+[![Gem Version](https://badge.fury.io/rb/danger-changelog.svg)](https://badge.fury.io/rb/danger-changelog)
 [![Build Status](https://travis-ci.org/dblock/danger-changelog.svg?branch=master)](https://travis-ci.org/dblock/danger-changelog)
 
 ## Installation
