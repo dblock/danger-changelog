@@ -2,6 +2,8 @@
 
 A plugin that is OCD about your CHANGELOG format.
 
+[![Build Status](https://travis-ci.org/dblock/danger-changelog.svg?branch=master)](https://travis-ci.org/dblock/danger-changelog)
+
 ## Installation
 
     $ gem install danger-changelog
