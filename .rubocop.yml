@@ -1,1 +1,7 @@
+AllCops:
+  Include:
+    - Rakefile
+  Exclude:
+    - vendor/**/*
+
 inherit_from: .rubocop_todo.yml
