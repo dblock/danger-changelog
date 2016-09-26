@@ -14,19 +14,6 @@ describe Danger::Changelog::ChangelogFile do
       expect(subject.bad_lines).to eq []
       expect(subject.bad_lines?).to be false
     end
-    it 'valid lines' do
-      expect(subject.send(:valid_line?, '* Reticluated spline - [@dblock](https://github.com/dblock).')).to be true
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): Reticluated spline - [@dblock](https://github.com/dblock).')).to be true
-    end
-    it 'invalid lines' do
-      expect(subject.send(:valid_line?, 'Missing star - [@dblock](https://github.com/dblock).')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): No dash [@dblock](https://github.com/dblock).')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): No name.')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): No https in github - [@dblock](http://github.com/dblock).')).to be false
-      expect(subject.send(:valid_line?, '* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra trailing slash - [@dblock](https://github.com/dblock/).')).to be false
-    end
     it 'is valid' do
       expect(subject.bad_lines?).to be false
     end
