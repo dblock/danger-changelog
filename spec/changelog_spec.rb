@@ -18,11 +18,11 @@ describe Danger::Changelog do
       before do
         # typical PR JSON looks like https://raw.githubusercontent.com/danger/danger/bffc246a11dac883d76fc6636319bd6c2acd58a3/spec/fixtures/pr_response.json
         changelog.env.request_source.pr_json = {
-          number: 123,
-          title: 'being dangerous',
-          html_url: 'https://github.com/dblock/danger-changelog/pull/123',
-          user: {
-            login: 'dblock'
+          'number' => 123,
+          'title' => 'being dangerous',
+          'html_url' => 'https://github.com/dblock/danger-changelog/pull/123',
+          'user' => {
+            'login' => 'dblock'
           }
         }
       end
@@ -42,7 +42,7 @@ describe Danger::Changelog do
             expect(subject).to be false
             expect(status_report[:errors]).to eq []
             expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code, please update #{filename}."]
-            expect(status_report[:markdowns]).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+            expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
           end
         end
 
@@ -119,7 +119,7 @@ describe Danger::Changelog do
               expect(subject).to be false
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces."]
               expect(status_report[:warnings]).to eq []
-              expect(status_report[:markdowns]).to eq [
+              expect(status_report[:markdowns].map(&:message)).to eq [
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n```\n",
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n```\n"
               ]

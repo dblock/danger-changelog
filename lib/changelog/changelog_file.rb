@@ -45,7 +45,7 @@ module Danger
             @your_contribution_here = true
             next
           end
-          next if ChangelogLine.valid?(line)
+          next if Danger::Changelog::ChangelogLine.valid?(line)
           @bad_lines << line
         end
       end

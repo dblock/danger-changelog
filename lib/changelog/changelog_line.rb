@@ -11,9 +11,11 @@ module Danger
 
       # provide an example of a CHANGELOG line based on a commit message
       def self.example(github)
-        pr_number = github.pr_json[:number]
-        pr_url = github.pr_json[:html_url]
+        pr_number = github.pr_json['number']
+        pr_url = github.pr_json['html_url']
         pr_title = github.pr_title
+                         .sub(/[?.!,;]?$/, '')
+                         .capitalize
         pr_author = github.pr_author
         pr_author_url = "https://github.com/#{github.pr_author}"
         "* [##{pr_number}](#{pr_url}): #{pr_title} - [@#{pr_author}](#{pr_author_url})."
