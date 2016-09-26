@@ -48,7 +48,7 @@ module Danger
 Here's an example of a #{filename} entry:
 
 ```markdown
-* [##{github.pr_json[:number]}](#{github.pr_json[:html_url]}): #{github.pr_title} - [@#{github.pr_author}](https://github.com/#{github.pr_author}).
+#{ChangelogLine.example(github)}
 ```
 MARKDOWN
         warn "Unless you're refactoring existing code, please update #{filename}.", sticky: false
