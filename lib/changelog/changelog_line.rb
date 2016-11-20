@@ -9,6 +9,11 @@ module Danger
         false
       end
 
+      def self.changelog_line?(line)
+        return true if line =~ %r{[\`[:upper:]].* \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\)}
+        false
+      end
+
       # provide an example of a CHANGELOG line based on a commit message
       def self.example(github)
         pr_number = github.pr_json['number']

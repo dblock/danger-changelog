@@ -14,6 +14,7 @@ describe Danger::Changelog::ChangelogLine do
       expect(subject.valid?('* [#1](https://github.com/dblock/danger-changelog/pull/1): No name.')).to be false
       expect(subject.valid?('* [#1](https://github.com/dblock/danger-changelog/pull/1): No https in github - [@dblock](http://github.com/dblock).')).to be false
       expect(subject.valid?('* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra trailing slash - [@dblock](https://github.com/dblock/).')).to be false
+      expect(subject.valid?('# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).')).to be false
     end
   end
   context 'example' do

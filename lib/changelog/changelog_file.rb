@@ -38,13 +38,12 @@ module Danger
         @your_contribution_here = false
         @bad_lines = []
         File.open(filename).each_line do |line|
-          # ignore lines that aren't changes
-          next unless line[0] == '*'
           # notice your contribution here
           if line == "* Your contribution here.\n"
             @your_contribution_here = true
             next
           end
+          next unless Danger::Changelog::ChangelogLine.changelog_line?(line)
           next if Danger::Changelog::ChangelogLine.valid?(line)
           @bad_lines << line
         end
