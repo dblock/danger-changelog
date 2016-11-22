@@ -7,7 +7,7 @@ module Danger
       end
 
       def self.validates_as_changelog_line?(line)
-        line =~ %r{^\#+}
+        line =~ /^\#+/
       end
     end
   end

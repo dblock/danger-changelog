@@ -39,13 +39,13 @@ module Danger
         @bad_lines = []
         File.open(filename).each_line do |line|
           changelog_line = ChangelogLineParser.parse(line)
-          if line.nil? || !line.valid?
+          if changelog_line.nil? || !changelog_line.valid?
             @bad_lines << line
             next
           end
 
           # notice your contribution here
-          if line.kind_of?(ChangelogPlaceholderLine)
+          if changelog_line.is_a?(ChangelogPlaceholderLine)
             @your_contribution_here = true
             next
           end

@@ -10,11 +10,11 @@ module Danger
 
       # Match the line with the validation rules
       def valid?
-        raise "ChangelogLine subclass must implement the valid? method"
+        raise 'ChangelogLine subclass must implement the valid? method'
       end
 
       # Match the given line if it potentially represents the specific changelog line
-      def self.validates_as_changelog_line?(line)
+      def self.validates_as_changelog_line?(_line)
         abort "You need to include a function for #{self} for validates_as_changelog_line?"
       end
     end
