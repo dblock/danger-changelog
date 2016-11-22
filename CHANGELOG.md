@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.1 (Next)
+
+* Your contribution here.
+
 ### 0.2.0 (11/21/2016)
 
 * [#13](https://github.com/dblock/danger-changelog/pull/13): Fix: suggested CHANGELOG entry may not be of correct format - [@dblock](https://github.com/dblock).
