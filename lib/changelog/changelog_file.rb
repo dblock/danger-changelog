@@ -38,14 +38,17 @@ module Danger
         @your_contribution_here = false
         @bad_lines = []
         File.open(filename).each_line do |line|
+          changelog_line = ChangelogLineParser.parse(line)
+          if line.nil? || !line.valid?
+            @bad_lines << line
+            next
+          end
+
           # notice your contribution here
-          if line == "* Your contribution here.\n"
+          if line.kind_of?(ChangelogPlaceholderLine)
             @your_contribution_here = true
             next
           end
-          next unless Danger::Changelog::ChangelogLine.changelog_line?(line)
-          next if Danger::Changelog::ChangelogLine.valid?(line)
-          @bad_lines << line
         end
       end
     end
