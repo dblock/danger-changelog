@@ -80,6 +80,14 @@ describe Danger::Changelog do
           changelog.is_changelog_format_correct?
         end
 
+        context 'without a CHANGELOG file' do
+          let(:filename) { 'does-not-exist' }
+          it 'complains' do
+            expect(subject).to be false
+            expect(status_report[:errors]).to eq ['The does-not-exist file does not exist.']
+          end
+        end
+
         context 'with CHANGELOG changes' do
           before do
             allow(changelog.git).to receive(:modified_files).and_return([filename])

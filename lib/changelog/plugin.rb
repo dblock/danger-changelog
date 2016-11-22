@@ -70,7 +70,7 @@ MARKDOWN
         messaging.fail("Please put back the `* Your contribution here.` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
         changelog_file.good?
       else
-        messaging.fail('The #{filename} file does not exist.', sticky: false)
+        messaging.fail("The #{filename} file does not exist.", sticky: false)
         false
       end
     end
