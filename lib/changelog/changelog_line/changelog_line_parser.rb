@@ -1,3 +1,7 @@
+require 'changelog/changelog_line/changelog_entry_line'
+require 'changelog/changelog_line/changelog_header_line'
+require 'changelog/changelog_line/changelog_placeholder_line'
+
 module Danger
   module Changelog
     # A parser of the CHANGELOG.md lines

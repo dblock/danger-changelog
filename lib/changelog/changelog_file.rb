@@ -38,7 +38,11 @@ module Danger
         @your_contribution_here = false
         @bad_lines = []
         File.open(filename).each_line do |line|
+          # ignore new line
+          next if line == "\n"
+
           changelog_line = ChangelogLineParser.parse(line)
+
           if changelog_line.nil? || !changelog_line.valid?
             @bad_lines << line
             next
