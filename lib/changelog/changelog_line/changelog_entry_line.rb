@@ -11,7 +11,12 @@ module Danger
       end
 
       def self.validates_as_changelog_line?(line)
-        line =~ %r{[\`[:upper:]].* \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
+        matched_rules_count = 0
+        matched_rules_count += 1 if starts_with_star?(line)
+        matched_rules_count += 1 if with_pr_link?(line)
+        matched_rules_count += 1 if with_changelog_description?(line)
+        matched_rules_count += 1 if with_author_link?(line)
+        matched_rules_count >= 2
       end
 
       # provide an example of a CHANGELOG line based on a commit message
@@ -24,6 +29,26 @@ module Danger
         pr_author = github.pr_author
         pr_author_url = "https://github.com/#{github.pr_author}"
         "* [##{pr_number}](#{pr_url}): #{pr_title} - [@#{pr_author}](#{pr_author_url})."
+      end
+
+      # checks whether line starts with *
+      def self.starts_with_star?(line)
+        line =~ /^\*\s/
+      end
+
+      # checks whether line contains a MARKDOWN  link to a PR
+      def self.with_pr_link?(line)
+        line =~ %r{\[\#\d+\]\(http[\s]?:\/\/github\.com\/.*\d+[\/]?\)}
+      end
+
+      # checks whether line contains a capitalized Text, treated as a description
+      def self.with_changelog_description?(line)
+        line =~ /\`[:upper:]].*/
+      end
+
+      # checks whether line contains a MARKDOWN  link to an author
+      def self.with_author_link?(line)
+        line =~ %r{\[\@[\w\d\-\_]+\]\(http[\s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
       end
     end
   end
