@@ -18,6 +18,7 @@ module Danger
       private_class_method
 
       def self.available_changelog_lines
+        # Order is important
         [ChangelogPlaceholderLine, ChangelogEntryLine, ChangelogHeaderLine]
       end
     end
