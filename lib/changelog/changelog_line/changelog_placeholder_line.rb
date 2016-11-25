@@ -3,7 +3,7 @@ module Danger
     # A CHANGELOG.md line represents the "Your contribution here".
     class ChangelogPlaceholderLine < ChangelogLine
       def valid?
-        true
+        ChangelogPlaceholderLine.validates_as_changelog_line?(line)
       end
 
       def self.validates_as_changelog_line?(line)
