@@ -2,7 +2,7 @@
 
 ### 0.2.1 (Next)
 
-* [#17](https://github.com/dblock/danger-changelog/pull/17): Fix: improve CHANGELOG line validation - [@antondomashnev](https://github.com/antondomashnev).
+* [#17](https://github.com/dblock/danger-changelog/pull/17): Fix: handle CHANGELOG lines that mistakenly start with a symbol other than * - [@antondomashnev](https://github.com/antondomashnev).
 * Your contribution here.
 
 ### 0.2.0 (11/21/2016)
