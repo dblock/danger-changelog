@@ -18,7 +18,7 @@ module Danger
       private_class_method
 
       def self.available_changelog_lines
-        [ChangelogEntryLine, ChangelogHeaderLine, ChangelogPlaceholderLine]
+        [ChangelogPlaceholderLine, ChangelogEntryLine, ChangelogHeaderLine]
       end
     end
   end

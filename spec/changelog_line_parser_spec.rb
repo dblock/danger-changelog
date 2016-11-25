@@ -25,7 +25,7 @@ describe Danger::Changelog::ChangelogLineParser do
     end
 
     context 'changelog your contribution here line' do
-      let(:line) { '* Your contribution here.\n' }
+      let(:line) { "* Your contribution here.\n" }
       it 'returns ChangelogPlaceholderLine' do
         expect(described_class.parse(line)).to be_a(Danger::Changelog::ChangelogPlaceholderLine)
       end
