@@ -25,32 +25,32 @@ describe Danger::Changelog::ChangelogPlaceholderLine do
       context 'when without new line' do
         subject { Danger::Changelog::ChangelogPlaceholderLine.new('* Your contribution here.') }
 
-        it 'is not valid' do
-          expect(subject.valid?).to be false
+        it 'is invalid' do
+          expect(subject.invalid?).to be true
         end
       end
 
       context 'when no final period' do
         subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here\n") }
 
-        it 'is not valid' do
-          expect(subject.valid?).to be false
+        it 'is invalid' do
+          expect(subject.invalid?).to be true
         end
       end
 
       context 'when text doesnt match' do
         subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Put your contribution here.\n") }
 
-        it 'is not valid' do
-          expect(subject.valid?).to be false
+        it 'is invalid' do
+          expect(subject.invalid?).to be true
         end
       end
 
       context 'when there is not star' do
         subject { Danger::Changelog::ChangelogPlaceholderLine.new("Your contribution here.\n") }
 
-        it 'is not valid' do
-          expect(subject.valid?).to be false
+        it 'is invalid' do
+          expect(subject.invalid?).to be true
         end
       end
     end

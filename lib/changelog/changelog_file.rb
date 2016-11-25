@@ -42,7 +42,7 @@ module Danger
 
           changelog_line = ChangelogLineParser.parse(line)
 
-          if changelog_line.nil? || !changelog_line.valid?
+          if changelog_line.nil? || changelog_line.invalid?
             @bad_lines << line
             next
           end

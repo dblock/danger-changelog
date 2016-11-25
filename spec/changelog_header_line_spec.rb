@@ -10,7 +10,7 @@ describe Danger::Changelog::ChangelogHeaderLine do
     end
 
     it 'doesnt validate as changelog line' do
-      expect(described_class.validates_as_changelog_line?('* Star is not valid.')).to be false
+      expect(described_class.validates_as_changelog_line?('* Star is invalid.')).to be false
       expect(described_class.validates_as_changelog_line?('It requires a hash symbol')).to be false
       expect(described_class.validates_as_changelog_line?('1.1.1')).to be false
       expect(described_class.validates_as_changelog_line?('Version 2.0.1')).to be false
@@ -54,50 +54,50 @@ describe Danger::Changelog::ChangelogHeaderLine do
     end
 
     context 'when no hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is not valid.') }
+      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is invalid.') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when star instead of hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is not valid.') }
+      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is invalid.') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when no hash symbol' do
       subject { Danger::Changelog::ChangelogHeaderLine.new('It requires hash symbol.') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when hash symbol without space' do
       subject { Danger::Changelog::ChangelogHeaderLine.new('###Lollypop') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when hash symbol without header title' do
       subject { Danger::Changelog::ChangelogHeaderLine.new('### ') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when five hash symbols' do
       subject { Danger::Changelog::ChangelogHeaderLine.new('##### Tooooo much') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
   end

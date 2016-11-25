@@ -45,64 +45,64 @@ describe Danger::Changelog::ChangelogEntryLine do
     context 'when missing star' do
       subject { Danger::Changelog::ChangelogEntryLine.new('Missing star - [@dblock](https://github.com/dblock).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when not a colon' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when no dash' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): No dash [@dblock](https://github.com/dblock).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when no final period' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when no name' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): No name.') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when no https in GitHub' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): No https in github - [@dblock](http://github.com/dblock).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when extra trailing slash' do
       subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra trailing slash - [@dblock](https://github.com/dblock/).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
 
     context 'when hash instead of star' do
       subject { Danger::Changelog::ChangelogEntryLine.new('# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).') }
 
-      it 'is not valid' do
-        expect(subject.valid?).to be false
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
       end
     end
   end

@@ -15,7 +15,7 @@ module Danger
 
       # Match the line with the validation rules opposite to valid?
       def invalid?
-        return !valid?
+        !valid?
       end
 
       # Match the given line if it potentially represents the specific changelog line

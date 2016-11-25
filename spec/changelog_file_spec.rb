@@ -42,7 +42,7 @@ describe Danger::Changelog::ChangelogFile do
   end
   context 'with bad lines' do
     let(:filename) { File.expand_path('../fixtures/changelogs/with_bad_lines.md', __FILE__) }
-    it 'is not valid' do
+    it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
     it 'reports all bad lines' do
