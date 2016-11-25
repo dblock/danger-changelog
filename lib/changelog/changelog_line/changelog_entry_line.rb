@@ -38,17 +38,17 @@ module Danger
 
       # checks whether line contains a MARKDOWN  link to a PR
       def self.with_pr_link?(line)
-        line =~ %r{\[\#\d+\]\(http[\s]?:\/\/github\.com\/.*\d+[\/]?\)}
+        line =~ %r{\[\#\d+\]\(http[s]?:\/\/github\.com\/.*\d+[\/]?\)}
       end
 
       # checks whether line contains a capitalized Text, treated as a description
       def self.with_changelog_description?(line)
-        line =~ /\`[:upper:]].*/
+        line =~ /[\`[:upper:]].*/
       end
 
       # checks whether line contains a MARKDOWN  link to an author
       def self.with_author_link?(line)
-        line =~ %r{\[\@[\w\d\-\_]+\]\(http[\s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
+        line =~ %r{\[\@[\w\d\-\_]+\]\(http[s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
       end
     end
   end
