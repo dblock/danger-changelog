@@ -7,7 +7,8 @@ module Danger
       end
 
       def self.validates_as_changelog_line?(line)
-        line == "* Your contribution here.\n"
+        return true if line == "* Your contribution here.\n"
+        false
       end
     end
   end

@@ -7,7 +7,8 @@ module Danger
       end
 
       def self.validates_as_changelog_line?(line)
-        line =~ /^\#+/
+        return true if line =~ /^\#+\s.+/
+        false
       end
     end
   end

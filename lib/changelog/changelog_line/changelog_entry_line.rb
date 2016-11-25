@@ -33,22 +33,26 @@ module Danger
 
       # checks whether line starts with *
       def self.starts_with_star?(line)
-        line =~ /^\*\s/
+        return true if line =~ /^\*\s/
+        false
       end
 
       # checks whether line contains a MARKDOWN  link to a PR
       def self.with_pr_link?(line)
-        line =~ %r{\[\#\d+\]\(http[s]?:\/\/github\.com\/.*\d+[\/]?\)}
+        return true if line =~ %r{\[\#\d+\]\(http[s]?:\/\/github\.com\/.*\d+[\/]?\)}
+        false
       end
 
       # checks whether line contains a capitalized Text, treated as a description
       def self.with_changelog_description?(line)
-        line =~ /[\`[:upper:]].*/
+        return true if line =~ /[\`[:upper:]].*/
+        false
       end
 
       # checks whether line contains a MARKDOWN  link to an author
       def self.with_author_link?(line)
-        line =~ %r{\[\@[\w\d\-\_]+\]\(http[s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
+        return true if line =~ %r{\[\@[\w\d\-\_]+\]\(http[s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
+        false
       end
     end
   end
