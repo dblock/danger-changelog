@@ -30,7 +30,7 @@ describe Danger::Changelog::ChangelogPlaceholderLine do
         end
       end
 
-      context 'when without dot' do
+      context 'when no final period' do
         subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here\n") }
 
         it 'is not valid' do
