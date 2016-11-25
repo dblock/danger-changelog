@@ -106,4 +106,31 @@ describe Danger::Changelog::ChangelogEntryLine do
       end
     end
   end
+
+  context 'example' do
+    let(:github) do
+      double(Danger::RequestSources::GitHub,
+             pr_json: { 'number' => 123, 'html_url' => 'https://github.com/dblock/danger-changelog/pull/123' },
+             pr_author: 'dblock',
+             pr_title: pr_title)
+    end
+    context 'no transformation required' do
+      let(:pr_title) { 'Test' }
+      it 'uses title as is' do
+        expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
+      end
+    end
+    context 'with lowercase title' do
+      let(:pr_title) { 'test' }
+      it 'capitalizes it' do
+        expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
+      end
+    end
+    context 'with a trailing period' do
+      let(:pr_title) { 'Test.' }
+      it 'removes it' do
+        expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
+      end
+    end
+  end
 end

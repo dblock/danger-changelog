@@ -48,7 +48,7 @@ module Danger
 Here's an example of a #{filename} entry:
 
 ```markdown
-#{Danger::Changelog::ChangelogLine.example(github)}
+#{Danger::Changelog::ChangelogEntryLine.example(github)}
 ```
 MARKDOWN
         warn "Unless you're refactoring existing code, please update #{filename}.", sticky: false
