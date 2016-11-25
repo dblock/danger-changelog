@@ -13,15 +13,46 @@ describe Danger::Changelog::ChangelogPlaceholderLine do
       expect(described_class.validates_as_changelog_line?("Your contribution here.\n")).to be false
     end
 
-    it 'is valid' do
-      expect(subject.valid?("* Your contribution here.\n")).to be true
-    end
+    context 'changelog placeholder line' do
+      context 'when exactly expected string' do
+        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here.\n") }
 
-    it 'is not valid' do
-      expect(subject.valid?('* Your contribution here.')).to be false
-      expect(subject.valid?("* Your contribution here\n")).to be false
-      expect(subject.valid?("* Put your contribution here.\n")).to be false
-      expect(subject.valid?("Your contribution here.\n")).to be false
+        it 'is valid' do
+          expect(subject.valid?).to be true
+        end
+      end
+
+      context 'when without new line' do
+        subject { Danger::Changelog::ChangelogPlaceholderLine.new('* Your contribution here.') }
+
+        it 'is not valid' do
+          expect(subject.valid?).to be false
+        end
+      end
+
+      context 'when without dot' do
+        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here\n") }
+
+        it 'is not valid' do
+          expect(subject.valid?).to be false
+        end
+      end
+
+      context 'when text doesnt match' do
+        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Put your contribution here.\n") }
+
+        it 'is not valid' do
+          expect(subject.valid?).to be false
+        end
+      end
+
+      context 'when there is not star' do
+        subject { Danger::Changelog::ChangelogPlaceholderLine.new("Your contribution here.\n") }
+
+        it 'is not valid' do
+          expect(subject.valid?).to be false
+        end
+      end
     end
   end
 end
