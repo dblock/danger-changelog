@@ -42,13 +42,15 @@ describe Danger::Changelog::ChangelogFile do
   end
   context 'with bad lines' do
     let(:filename) { File.expand_path('../fixtures/changelogs/with_bad_lines.md', __FILE__) }
-    it 'is not valid' do
+    it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
     it 'reports all bad lines' do
       expect(subject.bad_lines).to eq [
+        "Missing star - [@dblock](https://github.com/dblock).\n",
         "* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n",
-        "* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n"
+        "* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n",
+        "# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\n"
       ]
     end
     it 'has your contribution here' do
