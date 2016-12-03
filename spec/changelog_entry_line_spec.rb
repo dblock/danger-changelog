@@ -98,6 +98,38 @@ describe Danger::Changelog::ChangelogEntryLine do
       end
     end
 
+    context 'when extra period' do
+      subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).') }
+
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
+      end
+    end
+
+    context 'when extra colon' do
+      subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra colon, - [@dblock](https://github.com/dblock).') }
+
+      it 'is invalid' do
+        expect(subject.invalid?).to be true
+      end
+    end
+
+    context 'when extra hash' do
+      subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): With # - [@dblock](https://github.com/dblock).') }
+
+      it 'is valid' do
+        expect(subject.valid?).to be true
+      end
+    end
+
+    context 'when with question mark' do
+      subject { Danger::Changelog::ChangelogEntryLine.new('* [#1](https://github.com/dblock/danger-changelog/pull/1): With ? - [@dblock](https://github.com/dblock).') }
+
+      it 'is valid' do
+        expect(subject.valid?).to be true
+      end
+    end
+
     context 'when hash instead of star' do
       subject { Danger::Changelog::ChangelogEntryLine.new('# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).') }
 
