@@ -1,11 +1,10 @@
 ## Changelog
 
-### 0.2.1 (Next)
+### 0.2.1 (12/04/2016)
 
 * [#17](https://github.com/dblock/danger-changelog/pull/17): Fix: handle CHANGELOG lines that mistakenly start with a symbol other than * - [@antondomashnev](https://github.com/antondomashnev).
 * [#19](https://github.com/dblock/danger-changelog/pull/19): Added: RELEASING.md document to formalize the process - [@antondomashnev](https://github.com/antondomashnev).
 * [#20](https://github.com/dblock/danger-changelog/pull/20): Fix: flag extra period and column in CHANGELOG - [@antondomashnev](https://github.com/antondomashnev).
-* Your contribution here.
 
 ### 0.2.0 (11/21/2016)
 
