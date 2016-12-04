@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.2 (Next)
+
+* Your contribution here.
+
 ### 0.2.1 (12/04/2016)
 
 * [#17](https://github.com/dblock/danger-changelog/pull/17): Fix: handle CHANGELOG lines that mistakenly start with a symbol other than * - [@antondomashnev](https://github.com/antondomashnev).
