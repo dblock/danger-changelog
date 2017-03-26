@@ -7,7 +7,7 @@ module Danger
     # A parser of the CHANGELOG.md lines
     class ChangelogLineParser
       # Returns an instance of Changelog::ChangelogLine class based on the given line
-      def self.parse(line, plugin_configuration = Danger::Changelog::PluginConfiguration.new())
+      def self.parse(line, plugin_configuration = Danger::Changelog::PluginConfiguration.default)
         changelog_line_class = available_changelog_lines.find do |changelog_line|
           changelog_line.validates_as_changelog_line?(line, plugin_configuration)
         end

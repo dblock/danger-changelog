@@ -4,7 +4,7 @@ module Danger
     class ChangelogFile
       attr_reader :filename, :bad_lines, :exists
 
-      def initialize(filename = 'CHANGELOG.md', plugin_configuration = Danger::Changelog::PluginConfiguration.new())
+      def initialize(filename = 'CHANGELOG.md', plugin_configuration = Danger::Changelog::PluginConfiguration.default)
         @plugin_configuration = plugin_configuration
         @filename = filename
         @exists = File.exist?(filename)

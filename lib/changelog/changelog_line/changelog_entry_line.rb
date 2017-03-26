@@ -10,7 +10,7 @@ module Danger
         false
       end
 
-      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.new())
+      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.default)
         matched_rules_count = 0
         matched_rules_count += 1 if starts_with_star?(line)
         matched_rules_count += 1 if with_pr_link?(line)

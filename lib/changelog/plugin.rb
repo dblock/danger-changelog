@@ -65,7 +65,7 @@ MARKDOWN
     #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
     # @return  [boolean]
     def is_changelog_format_correct?(configuration = nil)
-      changelog_plugin_configuration = Danger::Changelog::PluginConfiguration.new(configuration)
+      changelog_plugin_configuration = configuration ? Danger::Changelog::PluginConfiguration.default : Danger::Changelog::PluginConfiguration.new(configuration)
       changelog_file = Danger::Changelog::ChangelogFile.new(filename, changelog_plugin_configuration)
       if changelog_file.exists?
         changelog_file.bad_lines.each do |line|

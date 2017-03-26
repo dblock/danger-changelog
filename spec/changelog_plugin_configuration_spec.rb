@@ -1,6 +1,14 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog::PluginConfiguration do
+  describe 'default' do
+    subject { Danger::Changelog::PluginConfiguration.default }
+
+    it 'returns default configuration' do
+      expect(subject.placeholder_line).to eq "* Your contribution here.\n"
+    end
+  end
+
   describe 'placeholder_line' do
     context 'when custom provided in options' do
       context 'when has valid prefix and suffix' do

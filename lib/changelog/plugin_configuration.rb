@@ -10,6 +10,10 @@ module Danger
         setup_placeholder_line(options.nil? ? nil : options[:placeholder_line])
       end
 
+      def self.default
+        PluginConfiguration.new()
+      end
+
       private
 
       def setup_placeholder_line(given_placeholder_line)

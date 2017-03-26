@@ -6,7 +6,7 @@ module Danger
         ChangelogPlaceholderLine.validates_as_changelog_line?(line, plugin_configuration)
       end
 
-      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.new())
+      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.default)
         return true if line == plugin_configuration.placeholder_line
         false
       end
