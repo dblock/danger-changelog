@@ -2,10 +2,11 @@ module Danger
   module Changelog
     # An abstract CHANGELOG.md line.
     class ChangelogLine
-      attr_accessor :line
+      attr_accessor :line, :plugin_configuration
 
-      def initialize(line)
+      def initialize(line, plugin_configuration = Danger::Changelog::PluginConfiguration.new())
         self.line = line
+        self.plugin_configuration = plugin_configuration
       end
 
       # Match the line with the validation rules
@@ -19,7 +20,7 @@ module Danger
       end
 
       # Match the given line if it potentially represents the specific changelog line
-      def self.validates_as_changelog_line?(_line)
+      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.new())
         abort "You need to include a function for #{self} for validates_as_changelog_line?"
       end
     end

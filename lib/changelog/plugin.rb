@@ -26,10 +26,13 @@ module Danger
     end
 
     # Run all checks.
+    # @param   [Hash] configuration
+    #          Configuration for the plugin, defaults to nil. Available options:
+    #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
     # @return [void]
-    def check
+    def check(configuration = nil)
       have_you_updated_changelog?
-      is_changelog_format_correct?
+      is_changelog_format_correct?(configuration)
     end
 
     # Has the CHANGELOG file been modified?
@@ -60,9 +63,10 @@ MARKDOWN
     # @param   [Hash] configuration
     #          Configuration for the plugin, defaults to nil. Available options:
     #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
+    # @return  [boolean]
     def is_changelog_format_correct?(configuration = nil)
       changelog_plugin_configuration = Danger::Changelog::PluginConfiguration.new(configuration)
-      changelog_file = Danger::Changelog::ChangelogFile.new(filename)
+      changelog_file = Danger::Changelog::ChangelogFile.new(filename, changelog_plugin_configuration)
       if changelog_file.exists?
         changelog_file.bad_lines.each do |line|
           markdown <<-MARKDOWN

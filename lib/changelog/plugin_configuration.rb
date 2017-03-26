@@ -17,7 +17,7 @@ module Danger
           @placeholder_line = "* Your contribution here.\n"
           return
         end
-        
+
         custom_placeholder_line = given_placeholder_line
         custom_placeholder_line = "* #{custom_placeholder_line}" unless custom_placeholder_line.start_with?('* ')
         custom_placeholder_line = "#{custom_placeholder_line}\n" unless custom_placeholder_line.end_with?("\n")
