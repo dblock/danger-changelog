@@ -57,7 +57,11 @@ MARKDOWN
     end
 
     # Is the CHANGELOG.md format correct?
-    def is_changelog_format_correct?
+    # @param   [Hash] configuration
+    #          Configuration for the plugin, defaults to nil. Available options:
+    #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
+    def is_changelog_format_correct?(configuration = nil)
+      changelog_plugin_configuration = Danger::Changelog::PluginConfiguration.new(configuration)
       changelog_file = Danger::Changelog::ChangelogFile.new(filename)
       if changelog_file.exists?
         changelog_file.bad_lines.each do |line|
