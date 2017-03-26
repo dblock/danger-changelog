@@ -25,9 +25,23 @@ describe Danger::Changelog::ChangelogLineParser do
     end
 
     context 'changelog your contribution here line' do
-      let(:line) { "* Your contribution here.\n" }
-      it 'returns ChangelogPlaceholderLine' do
-        expect(described_class.parse(line)).to be_a(Danger::Changelog::ChangelogPlaceholderLine)
+      let(:configuration) {
+        mocked_configuration = Danger::Changelog::PluginConfiguration.new()
+        allow(mocked_configuration).to receive(:placeholder_line) { "* Nothing yet.\n" }
+        return mocked_configuration
+      }
+
+      context 'when line equals to placeholder_line from configuration' do
+        it 'returns ChangelogPlaceholderLine' do
+          expect(described_class.parse(configuration.placeholder_line, configuration)).to be_a(Danger::Changelog::ChangelogPlaceholderLine)
+        end
+      end
+
+      context 'when line doesnt equal to placeholder_line from configuration' do
+        let(:line) { "* Release is empty so far.\n" }
+        it 'returns ChangelogPlaceholderLine' do
+          expect(described_class.parse(line, configuration)).to_not be_a(Danger::Changelog::ChangelogPlaceholderLine)
+        end
       end
     end
 
