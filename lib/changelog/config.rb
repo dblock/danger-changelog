@@ -1,7 +1,5 @@
 module Danger
-  # A plugin module
   module Changelog
-    # A configuration for the Danger Changelog plugin
     module Config
       extend self
 

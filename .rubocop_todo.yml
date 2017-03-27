@@ -27,6 +27,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'lib/changelog/plugin.rb'
+    - 'lib/changelog/config.rb'
 
 # Offense count: 3
 Style/DoubleNegation:
