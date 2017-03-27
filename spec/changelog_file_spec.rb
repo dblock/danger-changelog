@@ -3,11 +3,11 @@ require File.expand_path('../spec_helper', __FILE__)
 describe Danger::Changelog::ChangelogFile do
   let(:filename) { 'CHANGELOG.md' }
   context 'when custom configuration' do
-    let(:configuration) {
-      mocked_configuration = Danger::Changelog::PluginConfiguration.new()
+    let(:configuration) do
+      mocked_configuration = Danger::Changelog::PluginConfiguration.new
       allow(mocked_configuration).to receive(:placeholder_line) { "* Nothing yet.\n" }
       return mocked_configuration
-    }
+    end
     subject do
       Danger::Changelog::ChangelogFile.new(filename, configuration)
     end

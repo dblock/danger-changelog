@@ -30,7 +30,7 @@ describe Danger::Changelog::PluginConfiguration do
       end
 
       context 'when without trailing new line' do
-        let(:placeholder_line) { "* Nothing yet." }
+        let(:placeholder_line) { '* Nothing yet.' }
         subject { Danger::Changelog::PluginConfiguration.new(placeholder_line: placeholder_line) }
 
         it 'appends trailing newline' do

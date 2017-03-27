@@ -20,7 +20,7 @@ module Danger
       end
 
       # Match the given line if it potentially represents the specific changelog line
-      def self.validates_as_changelog_line?(line, plugin_configuration = Danger::Changelog::PluginConfiguration.default)
+      def self.validates_as_changelog_line?(_line, _plugin_configuration = Danger::Changelog::PluginConfiguration.default)
         abort "You need to include a function for #{self} for validates_as_changelog_line?"
       end
     end

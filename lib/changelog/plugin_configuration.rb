@@ -11,7 +11,7 @@ module Danger
       end
 
       def self.default
-        PluginConfiguration.new()
+        PluginConfiguration.new
       end
 
       private

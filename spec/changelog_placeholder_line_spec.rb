@@ -2,11 +2,11 @@ require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog::ChangelogPlaceholderLine do
   context 'changelog line' do
-    let(:configuration) {
-      mocked_configuration = Danger::Changelog::PluginConfiguration.new()
+    let(:configuration) do
+      mocked_configuration = Danger::Changelog::PluginConfiguration.new
       allow(mocked_configuration).to receive(:placeholder_line) { "* Nothing yet.\n" }
       return mocked_configuration
-    }
+    end
 
     context 'when line equal to placeholder_line from configuration' do
       it 'validates as changelog line' do

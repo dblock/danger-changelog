@@ -108,7 +108,8 @@ describe Danger::Changelog do
                 expect(subject).to be false
                 expect(status_report[:errors]).to eq [
                   "One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.",
-                  "Please put back the `* Your contribution here.` line into #{filename}."]
+                  "Please put back the `* Your contribution here.` line into #{filename}."
+                ]
                 expect(status_report[:warnings]).to eq []
                 expect(status_report[:markdowns].map(&:message)).to eq ["```markdown\n* Nothing yet.\n```\n"]
               end
@@ -153,7 +154,7 @@ describe Danger::Changelog do
         end
 
         context 'when with custom configuration' do
-          let(:configuration) { { :placeholder_line => "* Nothing yet.\n" } }
+          let(:configuration) { { placeholder_line: "* Nothing yet.\n" } }
           subject do
             changelog.is_changelog_format_correct?(configuration)
           end
@@ -198,7 +199,8 @@ describe Danger::Changelog do
                 expect(subject).to be false
                 expect(status_report[:errors]).to eq [
                   "One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.",
-                  "Please put back the `* Nothing yet.` line into #{filename}."]
+                  "Please put back the `* Nothing yet.` line into #{filename}."
+                ]
                 expect(status_report[:warnings]).to eq []
                 expect(status_report[:markdowns].map(&:message)).to eq ["```markdown\n* Your contribution here.\n```\n"]
               end
@@ -210,7 +212,8 @@ describe Danger::Changelog do
                 expect(subject).to be false
                 expect(status_report[:errors]).to eq [
                   "One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.",
-                  "Please put back the `* Nothing yet.` line into #{filename}."]
+                  "Please put back the `* Nothing yet.` line into #{filename}."
+                ]
                 expect(status_report[:warnings]).to eq []
                 expect(status_report[:markdowns].map(&:message)).to eq [
                   "```markdown\nMissing star - [@dblock](https://github.com/dblock).\n```\n",

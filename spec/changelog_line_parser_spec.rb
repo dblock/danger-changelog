@@ -25,11 +25,11 @@ describe Danger::Changelog::ChangelogLineParser do
     end
 
     context 'changelog your contribution here line' do
-      let(:configuration) {
-        mocked_configuration = Danger::Changelog::PluginConfiguration.new()
+      let(:configuration) do
+        mocked_configuration = Danger::Changelog::PluginConfiguration.new
         allow(mocked_configuration).to receive(:placeholder_line) { "* Nothing yet.\n" }
         return mocked_configuration
-      }
+      end
 
       context 'when line equals to placeholder_line from configuration' do
         it 'returns ChangelogPlaceholderLine' do

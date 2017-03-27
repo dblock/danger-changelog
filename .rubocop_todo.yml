@@ -42,3 +42,8 @@ Style/PredicateName:
   Exclude:
     - 'spec/**/*'
     - 'lib/changelog/plugin.rb'
+
+# Offense count: 3
+Style/ModuleFunction:
+  Exclude:
+    - 'lib/changelog/config.rb'
