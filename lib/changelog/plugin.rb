@@ -65,8 +65,7 @@ MARKDOWN
     #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
     # @return  [boolean]
     def is_changelog_format_correct?(configuration = nil)
-      changelog_plugin_configuration = configuration.nil? ? Danger::Changelog::PluginConfiguration.default : Danger::Changelog::PluginConfiguration.new(configuration)
-      changelog_file = Danger::Changelog::ChangelogFile.new(filename, changelog_plugin_configuration)
+      changelog_file = Danger::Changelog::ChangelogFile.new(filename)
       if changelog_file.exists?
         changelog_file.bad_lines.each do |line|
           markdown <<-MARKDOWN
@@ -75,9 +74,9 @@ MARKDOWN
 MARKDOWN
         end
         puts "One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces."
-        puts "Please put back the `#{changelog_plugin_configuration.placeholder_line.chomp}` line into #{filename}."
+        puts "Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}."
         messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.", sticky: false) if changelog_file.bad_lines?
-        messaging.fail("Please put back the `#{changelog_plugin_configuration.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
+        messaging.fail("Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
         changelog_file.good?
       else
         messaging.fail("The #{filename} file does not exist.", sticky: false)
