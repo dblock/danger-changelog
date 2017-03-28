@@ -4,8 +4,7 @@ module Danger
     class ChangelogFile
       attr_reader :filename, :bad_lines, :exists
 
-      def initialize(filename = 'CHANGELOG.md', plugin_configuration = Danger::Changelog::PluginConfiguration.default)
-        @plugin_configuration = plugin_configuration
+      def initialize(filename = 'CHANGELOG.md')
         @filename = filename
         @exists = File.exist?(filename)
         parse if @exists
@@ -41,7 +40,7 @@ module Danger
         File.open(filename).each_line do |line|
           next if line.strip.empty?
 
-          changelog_line = ChangelogLineParser.parse(line, @plugin_configuration)
+          changelog_line = ChangelogLineParser.parse(line)
 
           if changelog_line.nil? || changelog_line.invalid?
             @bad_lines << line
