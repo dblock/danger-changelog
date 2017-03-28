@@ -4,4 +4,10 @@ AllCops:
   Exclude:
     - vendor/**/*
 
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+
 inherit_from: .rubocop_todo.yml
