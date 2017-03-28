@@ -8,7 +8,7 @@
 
 # Offense count: 1
 Metrics/AbcSize:
-  Max: 19
+  Max: 22
 
 # Offense count: 40
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes.

@@ -26,13 +26,10 @@ module Danger
     end
 
     # Run all checks.
-    # @param   [Hash] configuration
-    #          Configuration for the plugin, defaults to nil. Available options:
-    #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
     # @return [void]
-    def check(configuration = nil)
+    def check
       have_you_updated_changelog?
-      is_changelog_format_correct?(configuration)
+      is_changelog_format_correct?
     end
 
     # Has the CHANGELOG file been modified?
@@ -60,11 +57,8 @@ MARKDOWN
     end
 
     # Is the CHANGELOG.md format correct?
-    # @param   [Hash] configuration
-    #          Configuration for the plugin, defaults to nil. Available options:
-    #          placeholder_line: customization of the placeholder line in changelog. Default to "Your contribution here."
     # @return  [boolean]
-    def is_changelog_format_correct?(configuration = nil)
+    def is_changelog_format_correct?
       changelog_file = Danger::Changelog::ChangelogFile.new(filename)
       if changelog_file.exists?
         changelog_file.bad_lines.each do |line|
@@ -73,8 +67,6 @@ MARKDOWN
 #{line}```
 MARKDOWN
         end
-        puts "One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces."
-        puts "Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}."
         messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.", sticky: false) if changelog_file.bad_lines?
         messaging.fail("Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
         changelog_file.good?
