@@ -20,6 +20,15 @@ Add `changelog.check` to your Dangerfile. Make a pull request and see this plugi
 
 Methods and attributes from this plugin are available in your `Dangerfile` under the `changelog` namespace.
 
+### Configuration
+
+Following methods:
+* `changelog.check`
+* `changelog.is_changelog_format_correct?`
+
+Support configuration hash as a parameter to customize linting process. Below are supported configuration's keys:
+* `placeholder_line` - customize '* Your contribution here.' line.
+
 ### changelog.filename
 
 Set the CHANGELOG file name, defaults to `CHANGELOG.md`.

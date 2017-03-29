@@ -57,6 +57,7 @@ MARKDOWN
     end
 
     # Is the CHANGELOG.md format correct?
+    # @return  [boolean]
     def is_changelog_format_correct?
       changelog_file = Danger::Changelog::ChangelogFile.new(filename)
       if changelog_file.exists?
@@ -67,7 +68,7 @@ MARKDOWN
 MARKDOWN
         end
         messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.", sticky: false) if changelog_file.bad_lines?
-        messaging.fail("Please put back the `* Your contribution here.` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
+        messaging.fail("Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here?
         changelog_file.good?
       else
         messaging.fail("The #{filename} file does not exist.", sticky: false)

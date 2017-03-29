@@ -1,6 +1,10 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog do
+  after(:each) do
+    Danger::Changelog::Config.reset
+  end
+
   it 'is a Danger plugin' do
     expect(Danger::DangerChangelog.new(nil)).to be_a Danger::Plugin
   end
@@ -101,13 +105,47 @@ describe Danger::Changelog do
             expect(status_report[:markdowns]).to eq []
           end
 
-          context 'missing your contribution here' do
-            let(:filename) { File.expand_path('../fixtures/changelogs/missing_your_contribution_here.md', __FILE__) }
-            it 'complains' do
-              expect(subject).to be false
-              expect(status_report[:errors]).to eq ["Please put back the `* Your contribution here.` line into #{filename}."]
+          context 'customized' do
+            before(:each) do
+              Danger::Changelog.configure do |config|
+                config.placeholder_line = "* Nothing yet.\n"
+              end
+            end
+
+            let(:filename) { File.expand_path('../fixtures/changelogs/customized.md', __FILE__) }
+            it 'is ok' do
+              expect(subject).to be true
+              expect(status_report[:errors]).to eq []
               expect(status_report[:warnings]).to eq []
               expect(status_report[:markdowns]).to eq []
+            end
+          end
+
+          context 'missing your contribution here' do
+            let(:filename) { File.expand_path('../fixtures/changelogs/missing_your_contribution_here.md', __FILE__) }
+
+            context 'when placeholder line is customized' do
+              before(:each) do
+                Danger::Changelog.configure do |config|
+                  config.placeholder_line = "* Nothing yet.\n"
+                end
+              end
+
+              it 'complains' do
+                expect(subject).to be false
+                expect(status_report[:errors]).to eq ["Please put back the `* Nothing yet.` line into #{filename}."]
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns]).to eq []
+              end
+            end
+
+            context 'when placeholder line is default' do
+              it 'complains' do
+                expect(subject).to be false
+                expect(status_report[:errors]).to eq ["Please put back the `* Your contribution here.` line into #{filename}."]
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns]).to eq []
+              end
             end
           end
 

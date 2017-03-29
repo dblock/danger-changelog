@@ -1,57 +1,44 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog::ChangelogPlaceholderLine do
-  context 'changelog line' do
-    it 'validates as changelog line' do
-      expect(described_class.validates_as_changelog_line?("* Your contribution here.\n")).to be true
+  after(:each) do
+    Danger::Changelog::Config.reset
+  end
+
+  before(:each) do
+    Danger::Changelog.configure do |config|
+      config.placeholder_line = "* Nothing yet here.\n"
+    end
+  end
+
+  describe 'validates_as_changelog_line?' do
+    context 'when line is equal to placeholder_line from config' do
+      it 'validates as changelog line' do
+        expect(described_class.validates_as_changelog_line?("* Nothing yet here.\n")).to be true
+      end
     end
 
-    it 'doesnt validate as changelog line' do
-      expect(described_class.validates_as_changelog_line?('* Your contribution here.')).to be false
-      expect(described_class.validates_as_changelog_line?("* Your contribution here\n")).to be false
-      expect(described_class.validates_as_changelog_line?("* Put your contribution here.\n")).to be false
-      expect(described_class.validates_as_changelog_line?("Your contribution here.\n")).to be false
+    context 'when line is not equal to placeholder_line from config' do
+      it 'validates as changelog line' do
+        expect(described_class.validates_as_changelog_line?("* Put your contribution here.\n")).to be false
+      end
+    end
+  end
+
+  describe 'valid?' do
+    context 'when is equal to config placeholder line' do
+      subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Nothing yet here.\n") }
+
+      it 'is valid' do
+        expect(subject.valid?).to be true
+      end
     end
 
-    context 'changelog placeholder line' do
-      context 'when exactly expected string' do
-        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here.\n") }
+    context 'when is not equal to config placeholder line' do
+      subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your change here.\n") }
 
-        it 'is valid' do
-          expect(subject.valid?).to be true
-        end
-      end
-
-      context 'when without new line' do
-        subject { Danger::Changelog::ChangelogPlaceholderLine.new('* Your contribution here.') }
-
-        it 'is invalid' do
-          expect(subject.invalid?).to be true
-        end
-      end
-
-      context 'when no final period' do
-        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Your contribution here\n") }
-
-        it 'is invalid' do
-          expect(subject.invalid?).to be true
-        end
-      end
-
-      context 'when text doesnt match' do
-        subject { Danger::Changelog::ChangelogPlaceholderLine.new("* Put your contribution here.\n") }
-
-        it 'is invalid' do
-          expect(subject.invalid?).to be true
-        end
-      end
-
-      context 'when there is not star' do
-        subject { Danger::Changelog::ChangelogPlaceholderLine.new("Your contribution here.\n") }
-
-        it 'is invalid' do
-          expect(subject.invalid?).to be true
-        end
+      it 'is not valid' do
+        expect(subject.valid?).to be false
       end
     end
   end
