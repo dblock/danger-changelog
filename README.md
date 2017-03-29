@@ -22,12 +22,15 @@ Methods and attributes from this plugin are available in your `Dangerfile` under
 
 ### Configuration
 
-Following methods:
-* `changelog.check`
-* `changelog.is_changelog_format_correct?`
-
-Support configuration hash as a parameter to customize linting process. Below are supported configuration's keys:
+The plugin supports following configuration options:
 * `placeholder_line` - customize '* Your contribution here.' line.
+
+You can configure plugin using following code:
+```ruby
+Danger::Changelog.configure do |config|
+  config.placeholder_line = "Nothing yet."
+end
+```
 
 ### changelog.filename
 
