@@ -3,7 +3,8 @@
 ### 0.3.0 (Next)
 
 * Your contribution here.
-* [#20](https://github.com/dblock/danger-changelog/pull/21): Added support for custom '* Your contribution here.' line - [@antondomashnev](https://github.com/antondomashnev).
+* [#25](https://github.com/dblock/danger-changelog/pull/25): Add information how to configure the plugin in README.md - [@antondomashnev](https://github.com/antondomashnev).
+* [#24](https://github.com/dblock/danger-changelog/pull/24): Added support for custom '* Your contribution here.' line - [@antondomashnev](https://github.com/antondomashnev).
 
 ### 0.2.1 (12/04/2016)
 
