@@ -1,11 +1,7 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog::ChangelogPlaceholderLine do
-  after(:each) do
-    Danger::Changelog::Config.reset
-  end
-
-  before(:each) do
+  before do
     Danger::Changelog.configure do |config|
       config.placeholder_line = "* Nothing yet here.\n"
     end

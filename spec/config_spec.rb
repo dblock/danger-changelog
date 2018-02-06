@@ -1,14 +1,10 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Danger::Changelog::Config do
-  after(:each) do
-    described_class.reset
-  end
-
   describe 'configure' do
     describe 'placeholder_line' do
       context 'when without markdown star' do
-        before(:each) do
+        before do
           Danger::Changelog.configure do |config|
             config.placeholder_line = "Nothing yet.\n"
           end
@@ -20,7 +16,7 @@ describe Danger::Changelog::Config do
       end
 
       context 'when without trailing newline' do
-        before(:each) do
+        before do
           Danger::Changelog.configure do |config|
             config.placeholder_line = '* Nothing yet.'
           end
@@ -32,7 +28,7 @@ describe Danger::Changelog::Config do
       end
 
       context 'when valid' do
-        before(:each) do
+        before do
           Danger::Changelog.configure do |config|
             config.placeholder_line = "* Nothing yet.\n"
           end

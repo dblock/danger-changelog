@@ -13,6 +13,9 @@ RSpec.configure do |config|
   config.filter_gems_from_backtrace 'bundler'
   config.color = true
   config.tty = true
+  config.before do
+    Danger::Changelog::Config.reset
+  end
 end
 
 require 'danger_plugin'
