@@ -24,7 +24,7 @@ module Danger
       end
 
       def bad?
-        bad_lines? || !your_contribution_here?
+        bad_lines? || !(your_contribution_here? || !Danger::Changelog.config.placeholder_line?)
       end
 
       def good?

@@ -14,7 +14,7 @@ Add `danger-changelog` to your Gemfile.
 gem 'danger-changelog', '~> 0.1'
 ```
 
-Add `changelog.check` to your Dangerfile. Make a pull request and see this plugin in action.
+Add `changelog.check` to your `Dangerfile`. Make a pull request and see this plugin in action.
 
 ## Usage
 
@@ -22,15 +22,19 @@ Methods and attributes from this plugin are available in your `Dangerfile` under
 
 ### Configuration
 
-The plugin supports following configuration options:
-* `placeholder_line` - customize '* Your contribution here.' line.
+You can configure the plugin in `Dangerfile`.
 
-You can configure plugin using following code:
 ```ruby
 Danger::Changelog.configure do |config|
   config.placeholder_line = "Nothing yet."
 end
 ```
+
+The following options are supported.
+
+#### placeholder_line
+
+Customize the `* Your contribution here.` line. Set the value to `nil` to stop checking for one.
 
 ### changelog.filename
 

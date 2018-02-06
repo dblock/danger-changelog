@@ -143,6 +143,21 @@ describe Danger::Changelog do
                 expect(status_report[:markdowns]).to eq []
               end
             end
+
+            context 'when placeholder line is nil' do
+              before do
+                Danger::Changelog.configure do |config|
+                  config.placeholder_line = nil
+                end
+              end
+
+              it 'is ok' do
+                expect(subject).to be true
+                expect(status_report[:errors]).to eq []
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns]).to eq []
+              end
+            end
           end
 
           context 'minimal example' do
@@ -152,6 +167,23 @@ describe Danger::Changelog do
               expect(status_report[:errors]).to eq []
               expect(status_report[:warnings]).to eq []
               expect(status_report[:markdowns]).to eq []
+            end
+
+            context 'when placeholder line is nil' do
+              before do
+                Danger::Changelog.configure do |config|
+                  config.placeholder_line = nil
+                end
+              end
+
+              it 'complains' do
+                expect(subject).to be false
+                expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces."]
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns].map(&:message)).to eq [
+                  "```markdown\n* Your contribution here.\n```\n"
+                ]
+              end
             end
           end
 
