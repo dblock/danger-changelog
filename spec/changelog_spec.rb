@@ -41,7 +41,7 @@ describe Danger::Changelog do
           it 'complains when no CHANGELOG can be found' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq []
-            expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code, please update #{filename}."]
+            expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update #{filename}."]
             expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
           end
         end

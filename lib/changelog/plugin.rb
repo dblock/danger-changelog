@@ -51,7 +51,7 @@ Here's an example of a #{filename} entry:
 #{Danger::Changelog::ChangelogEntryLine.example(github)}
 ```
 MARKDOWN
-        warn "Unless you're refactoring existing code, please update #{filename}.", sticky: false
+        warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
         false
       end
     end
