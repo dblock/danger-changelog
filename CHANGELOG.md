@@ -1,12 +1,11 @@
 ## Changelog
 
-### 0.3.0 (Next)
+### 0.3.0 (5/17/2018)
 
 * [#25](https://github.com/dblock/danger-changelog/pull/25): Add information how to configure the plugin in README.md - [@antondomashnev](https://github.com/antondomashnev).
 * [#24](https://github.com/dblock/danger-changelog/pull/24): Added support for custom '* Your contribution here.' line - [@antondomashnev](https://github.com/antondomashnev).
 * [#31](https://github.com/dblock/danger-changelog/pull/31): Stop checking for placeholder line when `Danger::Changelog.config.placeholder_line` is set to `nil` - [@dblock](https://github.com/dblock).
 * [#28](https://github.com/dblock/danger-changelog/issues/28): Improve wording suggesting that CHANGELOG should be updated unless one is improving documentation - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.2.1 (12/04/2016)
 

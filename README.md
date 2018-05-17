@@ -11,7 +11,7 @@ It can make sure, for example, that changes are attributed properly, and that th
 Add `danger-changelog` to your Gemfile.
 
 ```
-gem 'danger-changelog', '~> 0.1'
+gem 'danger-changelog', '~> 0.3.0'
 ```
 
 Add `changelog.check` to your `Dangerfile`. Make a pull request and see this plugin in action.
