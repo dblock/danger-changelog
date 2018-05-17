@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.3.1 (Next)
+
+* Your contribution here.
+
 ### 0.3.0 (5/17/2018)
 
 * [#25](https://github.com/dblock/danger-changelog/pull/25): Add information how to configure the plugin in README.md - [@antondomashnev](https://github.com/antondomashnev).
