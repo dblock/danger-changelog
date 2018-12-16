@@ -42,6 +42,8 @@ module Danger
 
           changelog_line = ChangelogLineParser.parse(line)
 
+          # puts "#{line.strip}: #{changelog_line.invalid?} (#{changelog_line})"
+
           if changelog_line.nil? || changelog_line.invalid?
             @bad_lines << line
             next

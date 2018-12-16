@@ -8,6 +8,7 @@ module Danger
 
       def self.validates_as_changelog_line?(line)
         return true if line == Danger::Changelog.config.placeholder_line
+
         false
       end
     end

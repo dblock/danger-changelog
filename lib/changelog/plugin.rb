@@ -50,7 +50,7 @@ Here's an example of a #{filename} entry:
 ```markdown
 #{Danger::Changelog::ChangelogEntryLine.example(github)}
 ```
-MARKDOWN
+        MARKDOWN
         warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
         false
       end
@@ -65,9 +65,9 @@ MARKDOWN
           markdown <<-MARKDOWN
 ```markdown
 #{line}```
-MARKDOWN
+          MARKDOWN
         end
-        messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces.", sticky: false) if changelog_file.bad_lines?
+        messaging.fail("One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods, spaces and date formats.", sticky: false) if changelog_file.bad_lines?
         messaging.fail("Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here? || !Danger::Changelog.config.placeholder_line?
         changelog_file.good?
       else

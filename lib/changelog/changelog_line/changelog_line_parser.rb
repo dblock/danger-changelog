@@ -12,6 +12,7 @@ module Danger
           changelog_line.validates_as_changelog_line?(line)
         end
         return nil unless changelog_line_class
+
         changelog_line_class.new(line)
       end
 

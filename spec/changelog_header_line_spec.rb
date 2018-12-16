@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog::ChangelogHeaderLine do
   context 'changelog line' do
@@ -7,6 +7,7 @@ describe Danger::Changelog::ChangelogHeaderLine do
       expect(described_class.validates_as_changelog_line?('## Version 1.0.1')).to be true
       expect(described_class.validates_as_changelog_line?('### Lollypop')).to be true
       expect(described_class.validates_as_changelog_line?('#### Four hashes is too much')).to be true
+      expect(described_class.validates_as_changelog_line?('# 1.0.1 (1/2/3)')).to be true
     end
 
     it 'doesnt validate as changelog line' do
@@ -26,6 +27,30 @@ describe Danger::Changelog::ChangelogHeaderLine do
 
       it 'is valid' do
         expect(subject.valid?).to be true
+      end
+    end
+
+    context 'with a Next date' do
+      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (Next)') }
+
+      it 'is valid' do
+        expect(subject.valid?).to be true
+      end
+    end
+
+    context 'with a date in ISO 8601 format' do
+      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (2018/1/2)') }
+
+      it 'is valid' do
+        expect(subject.valid?).to be true
+      end
+    end
+
+    context 'with a date not in ISO 8601 format' do
+      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (1/2/2018)') }
+
+      it 'is valid' do
+        expect(subject.valid?).to be false
       end
     end
 

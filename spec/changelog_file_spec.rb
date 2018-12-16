@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog::ChangelogFile do
   let(:filename) { 'CHANGELOG.md' }
@@ -6,7 +6,7 @@ describe Danger::Changelog::ChangelogFile do
     Danger::Changelog::ChangelogFile.new(filename)
   end
   context 'minimal example' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/minimal.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/minimal.md', __dir__) }
     it 'exists?' do
       expect(subject.exists?).to be true
     end
@@ -22,7 +22,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'missing your contribution here' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/missing_your_contribution_here.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/missing_your_contribution_here.md', __dir__) }
     it 'is valid' do
       expect(subject.bad_lines?).to be false
     end
@@ -41,7 +41,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'with bad lines' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/with_bad_lines.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_lines.md', __dir__) }
     it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
@@ -56,6 +56,20 @@ describe Danger::Changelog::ChangelogFile do
     end
     it 'has your contribution here' do
       expect(subject.your_contribution_here?).to be true
+    end
+  end
+  context 'with bad dates' do
+    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_dates.md', __dir__) }
+    it 'is invalid' do
+      expect(subject.bad_lines?).to be true
+    end
+    it 'reports all bad dates' do
+      expect(subject.bad_lines).to eq [
+        "### Not ISO 8601 Year (1/2/2018)\n",
+        "### Not Valid Month (2018/13/1)\n",
+        "### Missing Day (2018/13)\n",
+        "### Too Many Parts (2018/1/1/3)\n"
+      ]
     end
   end
 end
