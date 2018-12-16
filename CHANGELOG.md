@@ -3,6 +3,7 @@
 ### 0.4.0 (Next)
 
 * [#35](https://github.com/dblock/danger-changelog/pull/35): Check that dates in headers are ISO8601 - [@dblock](https://github.com/dblock).
+* [#36](https://github.com/dblock/danger-changelog/pull/36): Check the format of the version number - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.3.0 (2018/5/17)

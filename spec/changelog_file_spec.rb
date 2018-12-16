@@ -65,10 +65,23 @@ describe Danger::Changelog::ChangelogFile do
     end
     it 'reports all bad dates' do
       expect(subject.bad_lines).to eq [
-        "### Not ISO 8601 Year (1/2/2018)\n",
-        "### Not Valid Month (2018/13/1)\n",
-        "### Missing Day (2018/13)\n",
-        "### Too Many Parts (2018/1/1/3)\n"
+        "### 1.2.3 (1/2/2018)\n",
+        "### 1.2.3 (2018/13/1)\n",
+        "### 1.2.3 (2018/13)\n",
+        "### 1.2.3 (2018/1/1/3)\n"
+      ]
+    end
+  end
+  context 'with bad semver' do
+    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_semver.md', __dir__) }
+    it 'is invalid' do
+      expect(subject.bad_lines?).to be true
+    end
+    it 'reports all bad dates' do
+      expect(subject.bad_lines).to eq [
+        "### 0 (2018/1/1)\n",
+        "### 0. (2018/1/1)\n",
+        "### 0.1. (2018/1/1)\n"
       ]
     end
   end
