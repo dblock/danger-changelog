@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.4.1 (Next)
+
+* Your contribution here.
+
 ### 0.4.0 (2018/12/16)
 
 * [#35](https://github.com/dblock/danger-changelog/pull/35): Check that dates in headers are ISO8601 - [@dblock](https://github.com/dblock).
