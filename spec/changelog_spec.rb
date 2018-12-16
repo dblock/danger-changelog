@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog do
   it 'is a Danger plugin' do
@@ -6,7 +6,7 @@ describe Danger::Changelog do
   end
 
   describe 'with Dangerfile' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/minimal.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/minimal.md', __dir__) }
     let(:dangerfile) { testing_dangerfile }
     let(:changelog) do
       dangerfile.changelog.filename = filename
@@ -108,7 +108,7 @@ describe Danger::Changelog do
               end
             end
 
-            let(:filename) { File.expand_path('../fixtures/changelogs/customized.md', __FILE__) }
+            let(:filename) { File.expand_path('fixtures/changelogs/customized.md', __dir__) }
             it 'is ok' do
               expect(subject).to be true
               expect(status_report[:errors]).to eq []
@@ -118,7 +118,7 @@ describe Danger::Changelog do
           end
 
           context 'missing your contribution here' do
-            let(:filename) { File.expand_path('../fixtures/changelogs/missing_your_contribution_here.md', __FILE__) }
+            let(:filename) { File.expand_path('fixtures/changelogs/missing_your_contribution_here.md', __dir__) }
 
             context 'when placeholder line is customized' do
               before do
@@ -161,7 +161,7 @@ describe Danger::Changelog do
           end
 
           context 'minimal example' do
-            let(:filename) { File.expand_path('../fixtures/changelogs/minimal.md', __FILE__) }
+            let(:filename) { File.expand_path('fixtures/changelogs/minimal.md', __dir__) }
             it 'is ok' do
               expect(subject).to be true
               expect(status_report[:errors]).to eq []
@@ -188,7 +188,7 @@ describe Danger::Changelog do
           end
 
           context 'with bad lines' do
-            let(:filename) { File.expand_path('../fixtures/changelogs/with_bad_lines.md', __FILE__) }
+            let(:filename) { File.expand_path('fixtures/changelogs/with_bad_lines.md', __dir__) }
             it 'complains' do
               expect(subject).to be false
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to periods and spaces."]

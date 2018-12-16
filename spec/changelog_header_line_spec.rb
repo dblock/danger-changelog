@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog::ChangelogHeaderLine do
   context 'changelog line' do

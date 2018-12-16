@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog::ChangelogFile do
   let(:filename) { 'CHANGELOG.md' }
@@ -6,7 +6,7 @@ describe Danger::Changelog::ChangelogFile do
     Danger::Changelog::ChangelogFile.new(filename)
   end
   context 'minimal example' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/minimal.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/minimal.md', __dir__) }
     it 'exists?' do
       expect(subject.exists?).to be true
     end
@@ -22,7 +22,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'missing your contribution here' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/missing_your_contribution_here.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/missing_your_contribution_here.md', __dir__) }
     it 'is valid' do
       expect(subject.bad_lines?).to be false
     end
@@ -41,7 +41,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'with bad lines' do
-    let(:filename) { File.expand_path('../fixtures/changelogs/with_bad_lines.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_lines.md', __dir__) }
     it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end

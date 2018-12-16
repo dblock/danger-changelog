@@ -8,6 +8,7 @@ module Danger
 
       def self.validates_as_changelog_line?(line)
         return true if line =~ /^\#{1,4}\s.+/
+
         false
       end
     end

@@ -7,6 +7,7 @@ module Danger
       def valid?
         return true if line =~ %r{^\*\s[\`[:upper:]].*[^.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
         return true if line =~ %r{^\*\s\[\#\d+\]\(https:\/\/github\.com\/.*\d+\)\: [\`[:upper:]].*[^.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
+
         false
       end
 
@@ -34,24 +35,28 @@ module Danger
       # checks whether line starts with *
       def self.starts_with_star?(line)
         return true if line =~ /^\*\s/
+
         false
       end
 
       # checks whether line contains a MARKDOWN  link to a PR
       def self.with_pr_link?(line)
         return true if line =~ %r{\[\#\d+\]\(http[s]?:\/\/github\.com\/.*\d+[\/]?\)}
+
         false
       end
 
       # checks whether line contains a capitalized Text, treated as a description
       def self.with_changelog_description?(line)
         return true if line =~ /[\`[:upper:]].*/
+
         false
       end
 
       # checks whether line contains a MARKDOWN  link to an author
       def self.with_author_link?(line)
         return true if line =~ %r{\[\@[\w\d\-\_]+\]\(http[s]?:\/\/github\.com\/.*[\w\d\-\_]+[\/]?\)}
+
         false
       end
     end
