@@ -1,7 +1,7 @@
 # danger-changelog
 
 A plugin for [danger.systems](http://danger.systems) that obsessive-compulsively lints your project’s `CHANGELOG.md`.
-It can make sure, for example, that changes are attributed properly, have a date in the ISO8601 format, and that they’re always terminated with a period.
+It can make sure, for example, that changes are attributed properly, have a valid version number, a date in the ISO8601 format, and that they’re always terminated with a period.
 
 [![Gem Version](https://badge.fury.io/rb/danger-changelog.svg)](https://badge.fury.io/rb/danger-changelog)
 [![Build Status](https://travis-ci.org/dblock/danger-changelog.svg?branch=master)](https://travis-ci.org/dblock/danger-changelog)

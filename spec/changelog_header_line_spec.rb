@@ -55,7 +55,7 @@ describe Danger::Changelog::ChangelogHeaderLine do
     end
 
     context 'when two hash symbols' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('## Version 1.0.1') }
+      subject { Danger::Changelog::ChangelogHeaderLine.new('## 1.0.1') }
 
       it 'is valid' do
         expect(subject.valid?).to be true
@@ -123,6 +123,22 @@ describe Danger::Changelog::ChangelogHeaderLine do
 
       it 'is invalid' do
         expect(subject.invalid?).to be true
+      end
+    end
+
+    context 'with a string as semver' do
+      subject { Danger::Changelog::ChangelogHeaderLine.new('# Invalid (Next)') }
+
+      it 'is invalid' do
+        expect(subject.valid?).to be false
+      end
+    end
+
+    context 'with an invalid semver' do
+      subject { Danger::Changelog::ChangelogHeaderLine.new('# 0.1.') }
+
+      it 'is invalid' do
+        expect(subject.valid?).to be false
       end
     end
   end
