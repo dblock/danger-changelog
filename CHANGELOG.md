@@ -2,6 +2,8 @@
 
 ### 0.4.1 (Next)
 
+* [#37](https://github.com/dblock/danger-changelog/issues/37): Allow for parenthesis and brackets around versions and dates - [@dblock](https://github.com/dblock).
+* [#38](https://github.com/dblock/danger-changelog/pull/38): Check for imbalanced parenthesis and brackets - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.4.0 (2018/12/16)

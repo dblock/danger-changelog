@@ -188,7 +188,7 @@ describe Danger::Changelog do
           end
 
           context 'with bad lines' do
-            let(:filename) { File.expand_path('fixtures/changelogs/with_bad_lines.md', __dir__) }
+            let(:filename) { File.expand_path('fixtures/changelogs/lines.md', __dir__) }
             it 'complains' do
               expect(subject).to be false
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
@@ -198,7 +198,9 @@ describe Danger::Changelog do
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n```\n",
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n```\n",
                 "```markdown\n# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n```\n"
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ( - [@dblock](https://github.com/dblock).\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ] - [@dblock](https://github.com/dblock).\n```\n"
               ]
             end
           end
