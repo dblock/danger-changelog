@@ -12,7 +12,7 @@ module Danger
       def valid?
         stripped_line = line.strip
 
-        m = stripped_line.match(/^#{HASHES}\s[\w\s\:]*$/) # title
+        m = stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}[\w\s\:]*#{CLOSE_PARENS}$/) # title
         m ||= stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}#{SEMVER}#{CLOSE_PARENS}$/) # semver only
         m ||= stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}#{SEMVER}#{CLOSE_PARENS}[\s\-]+#{OPEN_PARENS}(#{ISO8601_DATE}|\w*)#{CLOSE_PARENS}$/) # semver and iso 8601 date or next version description
 

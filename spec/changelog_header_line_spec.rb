@@ -73,4 +73,21 @@ describe Danger::Changelog::ChangelogHeaderLine do
   context 'with an invalid semver' do
     it_behaves_like 'invalid changelog header line', '# 0.1.'
   end
+
+  context 'with a colon' do
+    it_behaves_like 'valid changelog header line', '### Changed:'
+  end
+
+  context 'in brackets' do
+    it_behaves_like 'valid changelog header line', '### [Unreleased]'
+  end
+
+  context 'in parenthesis' do
+    it_behaves_like 'valid changelog header line', '### (Unreleased)'
+    it_behaves_like 'invalid changelog header line', '### (Unreleased'
+    it_behaves_like 'invalid changelog header line', '### Unreleased)'
+    it_behaves_like 'invalid changelog header line', '### [Unreleased'
+    it_behaves_like 'invalid changelog header line', '### (Unreleased]'
+    it_behaves_like 'invalid changelog header line', '### Unreleased]'
+  end
 end
