@@ -41,7 +41,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'with bad lines' do
-    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_lines.md', __dir__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/lines.md', __dir__) }
     it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
@@ -51,7 +51,9 @@ describe Danger::Changelog::ChangelogFile do
         "* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n",
         "* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n",
         "# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\n",
-        "* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n"
+        "* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n",
+        "* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ( - [@dblock](https://github.com/dblock).\n",
+        "* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ] - [@dblock](https://github.com/dblock).\n"
       ]
     end
     it 'has your contribution here' do
@@ -59,7 +61,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'with bad dates' do
-    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_dates.md', __dir__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/dates.md', __dir__) }
     it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
@@ -73,7 +75,7 @@ describe Danger::Changelog::ChangelogFile do
     end
   end
   context 'with bad semver' do
-    let(:filename) { File.expand_path('fixtures/changelogs/with_bad_semver.md', __dir__) }
+    let(:filename) { File.expand_path('fixtures/changelogs/semver.md', __dir__) }
     it 'is invalid' do
       expect(subject.bad_lines?).to be true
     end
@@ -82,6 +84,23 @@ describe Danger::Changelog::ChangelogFile do
         "### 0 (2018/1/1)\n",
         "### 0. (2018/1/1)\n",
         "### 0.1. (2018/1/1)\n"
+      ]
+    end
+  end
+  context 'with imbalanced parenthesis' do
+    let(:filename) { File.expand_path('fixtures/changelogs/imbalanced.md', __dir__) }
+    it 'is invalid' do
+      expect(subject.bad_lines?).to be true
+    end
+    it 'reports all bad lines' do
+      expect(subject.bad_lines).to eq [
+        "### 0.0.0)\n",
+        "### (0.0.1\n",
+        "### 1.2.3 (2018/1/1\n",
+        "### 0.1.0 2018/1/1)\n",
+        "### 0 ((2018/1/1)\n",
+        "### 0. [2018/1/1)\n",
+        "### 0.1. (2018/1/1)]\n"
       ]
     end
   end
