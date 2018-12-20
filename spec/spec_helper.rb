@@ -39,3 +39,9 @@ def testing_dangerfile
   env = Danger::EnvironmentManager.new(testing_env)
   Danger::Dangerfile.new(env, testing_ui)
 end
+
+require 'active_support'
+
+Dir[File.join(File.dirname(__FILE__), 'support', '**/*.rb')].each do |file|
+  require file
+end

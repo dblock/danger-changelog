@@ -1,145 +1,76 @@
 require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Changelog::ChangelogHeaderLine do
-  context 'changelog line' do
-    it 'validates as changelog line' do
-      expect(described_class.validates_as_changelog_line?('# 1.0.1')).to be true
-      expect(described_class.validates_as_changelog_line?('## Version 1.0.1')).to be true
-      expect(described_class.validates_as_changelog_line?('### Lollypop')).to be true
-      expect(described_class.validates_as_changelog_line?('#### Four hashes is too much')).to be true
-      expect(described_class.validates_as_changelog_line?('# 1.0.1 (1/2/3)')).to be true
-    end
+  it_behaves_like 'validates as changelog header line', '# 1.0.1'
+  it_behaves_like 'validates as changelog header line', '## Version 1.0.1'
+  it_behaves_like 'validates as changelog header line', '### three hashes'
+  it_behaves_like 'validates as changelog header line', '#### Four hashes is too much'
+  it_behaves_like 'does not validate as changelog header line', 'something else'
 
-    it 'doesnt validate as changelog line' do
-      expect(described_class.validates_as_changelog_line?('* Star is invalid.')).to be false
-      expect(described_class.validates_as_changelog_line?('It requires a hash symbol')).to be false
-      expect(described_class.validates_as_changelog_line?('1.1.1')).to be false
-      expect(described_class.validates_as_changelog_line?('Version 2.0.1')).to be false
-      expect(described_class.validates_as_changelog_line?('#')).to be false
-      expect(described_class.validates_as_changelog_line?('## ')).to be false
-      expect(described_class.validates_as_changelog_line?('##### I can not validate five')).to be false
-    end
+  it_behaves_like 'valid changelog header line', '# 1.0.1'
+  it_behaves_like 'valid changelog header line', '### Lollypop'
+
+  it_behaves_like 'invalid changelog header line', '# 1.0.1 (1/2/3)'
+  it_behaves_like 'invalid changelog header line', '* Star is invalid.'
+  it_behaves_like 'invalid changelog header line', '* Star is invalid.'
+  it_behaves_like 'invalid changelog header line', 'It requires a hash symbol'
+  it_behaves_like 'invalid changelog header line', '1.1.1'
+  it_behaves_like 'invalid changelog header line', 'Version 2.0.1'
+  it_behaves_like 'invalid changelog header line', '#'
+  it_behaves_like 'invalid changelog header line', '## '
+  it_behaves_like 'invalid changelog header line', '##### I can not validate five'
+
+  it_behaves_like 'valid changelog header line', '# 1.0.1 (Next)'
+
+  context 'ISO 8601 format date' do
+    it_behaves_like 'valid changelog header line', '# 1.0.1 (2018/1/2)'
   end
 
-  context 'changelog header line' do
-    context 'when one hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1') }
+  context 'date not in ISO 8601 format' do
+    it_behaves_like 'invalid changelog header line', '# 1.0.1 (1/2/2018)'
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
+  context 'two hash symbols' do
+    it_behaves_like 'valid changelog header line', '## 1.0.1'
+  end
 
-    context 'with a Next date' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (Next)') }
+  context 'three hash symbols' do
+    it_behaves_like 'valid changelog header line', '### Lollypop'
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
+  context 'four hash symbols' do
+    it_behaves_like 'valid changelog header line', '#### Four hashes is too much'
+  end
 
-    context 'with a date in ISO 8601 format' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (2018/1/2)') }
+  context 'when no hash symbol' do
+    it_behaves_like 'invalid changelog header line', '* Star is invalid.'
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
+  context 'when star instead of hash symbol' do
+    it_behaves_like 'invalid changelog header line', '* Star is invalid.'
+  end
 
-    context 'with a date not in ISO 8601 format' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# 1.0.1 (1/2/2018)') }
+  context 'when no hash symbol' do
+    it_behaves_like 'invalid changelog header line', 'It requires hash symbol.'
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be false
-      end
-    end
+  context 'when hash symbol without space' do
+    it_behaves_like 'invalid changelog header line', '###Lollypop'
+  end
 
-    context 'when two hash symbols' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('## 1.0.1') }
+  context 'when hash symbol without header title' do
+    it_behaves_like 'invalid changelog header line', '### '
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
+  context 'when five hash symbols' do
+    it_behaves_like 'invalid changelog header line', '##### Tooooo much'
+  end
 
-    context 'when three hash symbols' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('### Lollypop') }
+  context 'with a string as semver' do
+    it_behaves_like 'invalid changelog header line', '# Invalid (Next)'
+  end
 
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
-
-    context 'when four hash symbols' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('#### Four hashes is too much') }
-
-      it 'is valid' do
-        expect(subject.valid?).to be true
-      end
-    end
-
-    context 'when no hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is invalid.') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'when star instead of hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('* Star is invalid.') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'when no hash symbol' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('It requires hash symbol.') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'when hash symbol without space' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('###Lollypop') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'when hash symbol without header title' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('### ') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'when five hash symbols' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('##### Tooooo much') }
-
-      it 'is invalid' do
-        expect(subject.invalid?).to be true
-      end
-    end
-
-    context 'with a string as semver' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# Invalid (Next)') }
-
-      it 'is invalid' do
-        expect(subject.valid?).to be false
-      end
-    end
-
-    context 'with an invalid semver' do
-      subject { Danger::Changelog::ChangelogHeaderLine.new('# 0.1.') }
-
-      it 'is invalid' do
-        expect(subject.valid?).to be false
-      end
-    end
+  context 'with an invalid semver' do
+    it_behaves_like 'invalid changelog header line', '# 0.1.'
   end
 end
