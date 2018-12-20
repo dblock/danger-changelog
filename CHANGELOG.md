@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.4.2 (Next)
+
+* Your contribution here.
+
 ### 0.4.1 (2018/12/20)
 
 * [#37](https://github.com/dblock/danger-changelog/issues/37): Allow for parenthesis and brackets around versions and dates - [@dblock](https://github.com/dblock).
