@@ -1,9 +1,8 @@
 ## Changelog
 
-### 0.4.2 (Next)
+### 0.4.2 (2018/12/21)
 
 * [#37](https://github.com/dblock/danger-changelog/issues/37): Allow for parenthesis and brackets around headers - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.4.1 (2018/12/20)
 
