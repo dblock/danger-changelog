@@ -178,7 +178,7 @@ describe Danger::Changelog do
 
               it 'complains' do
                 expect(subject).to be false
-                expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
+                expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
                 expect(status_report[:warnings]).to eq []
                 expect(status_report[:markdowns].map(&:message)).to eq [
                   "```markdown\n* Your contribution here.\n```\n"
@@ -191,7 +191,7 @@ describe Danger::Changelog do
             let(:filename) { File.expand_path('fixtures/changelogs/lines.md', __dir__) }
             it 'complains' do
               expect(subject).to be false
-              expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the expected format. Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
+              expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
               expect(status_report[:warnings]).to eq []
               expect(status_report[:markdowns].map(&:message)).to eq [
                 "```markdown\nMissing star - [@dblock](https://github.com/dblock).\n```\n",
