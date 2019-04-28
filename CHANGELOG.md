@@ -3,6 +3,7 @@
 ### 0.4.3 (Next)
 
 * Your contribution here.
+* [#41](https://github.com/dblock/danger-changelog/pull/41): Document what's a correctly-formatted CHANGELOG - [@ivoanjo](https://github.com/ivoanjo).
 
 ### 0.4.2 (2018/12/21)
 
