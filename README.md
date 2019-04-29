@@ -144,7 +144,7 @@ By design, `danger-changelog` is quite strict with what it allows as a valid cha
 * Missing a dash here ➡️ [@ivoanjo](https://github.com/ivoanjo).
 ```
 
-❌ An entry must end with a colon
+❌ An entry must end with a period
 
 ```markdown
 * Not valid - [@ivoanjo](https://github.com/ivoanjo)
