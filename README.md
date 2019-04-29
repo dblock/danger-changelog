@@ -114,7 +114,7 @@ By design, `danger-changelog` is quite strict with what it allows as a valid cha
 
 ```markdown
 * not valid - [@ivoanjo](https://github.com/ivoanjo).
-* Ñot valid - [@ivoanjo](https://github.com/ivoanjo).
+* いいえ - [@ivoanjo](https://github.com/ivoanjo).
 * ❌ - [@ivoanjo](https://github.com/ivoanjo).
 * [#1](https://github.com/dblock/danger-changelog/pull/1): not valid - [@dblock](https://github.com/dblock).
 ```
