@@ -26,10 +26,9 @@ module Danger
     end
 
     # Run all checks.
-    # @return [void]
+    # @return [Boolean] true when the check passes
     def check
-      have_you_updated_changelog?
-      is_changelog_format_correct?
+      have_you_updated_changelog? && is_changelog_format_correct?
     end
 
     # Has the CHANGELOG file been modified?
