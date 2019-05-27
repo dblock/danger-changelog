@@ -77,7 +77,7 @@ describe Danger::Changelog do
 
       context 'is_changelog_format_correct?' do
         subject do
-          changelog.is_changelog_format_correct?
+          changelog.is_changelog_format_correct?(Danger::Changelog::Parsers.default_format)
         end
 
         context 'without a CHANGELOG file' do
