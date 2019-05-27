@@ -4,6 +4,7 @@
 
 * Your contribution here.
 * [#41](https://github.com/dblock/danger-changelog/pull/41): Document what's a correctly-formatted CHANGELOG - [@ivoanjo](https://github.com/ivoanjo).
+* [#44](https://github.com/dblock/danger-changelog/pull/44): Add support for the [Keep a Changelog](https://keepachangelog.com) format for the change log - [@michaelherold](https://github.com/michaelherold).
 
 ### 0.4.2 (2018/12/21)
 

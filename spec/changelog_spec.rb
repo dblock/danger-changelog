@@ -208,4 +208,60 @@ describe Danger::Changelog do
       end
     end
   end
+
+  describe 'with the Keep a Changelog format' do
+    let(:filename) { File.expand_path('fixtures/changelogs/keep_a_changelog.md', __dir__) }
+    let(:dangerfile) { testing_dangerfile }
+    let(:changelog) do
+      dangerfile.changelog.filename = filename
+      dangerfile.changelog
+    end
+    let(:status_report) { changelog.status_report }
+
+    describe 'in a PR' do
+      before do
+        changelog.env.request_source.pr_json = {
+          'number' => 123,
+          'title' => 'being dangerous',
+          'html_url' => 'https://github.com/dblock/danger-changelog/pull/123',
+          'user' => {
+            'login' => 'dblock'
+          }
+        }
+      end
+
+      context '#check(:keep_a_changelog)' do
+        subject { changelog.check(:keep_a_changelog) }
+
+        context 'without CHANGELOG changes' do
+          before do
+            allow(changelog.git).to receive(:modified_files).and_return([])
+            allow(changelog.git).to receive(:added_files).and_return([])
+          end
+
+          it 'complains when no CHANGELOG can be found' do
+            expect(subject).to be false
+            expect(status_report[:errors]).to eq []
+            expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update #{filename}."]
+            expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+          end
+        end
+
+        context 'with CHANGELOG changes' do
+          before do
+            allow(changelog.git).to receive(:modified_files).and_return([filename])
+            allow(changelog.git).to receive(:added_files).and_return([])
+          end
+
+          it 'has no complaints' do
+            subject
+            # expect(subject).to be true
+            expect(status_report[:errors]).to eq []
+            expect(status_report[:warnings]).to eq []
+            expect(status_report[:markdowns]).to eq []
+          end
+        end
+      end
+    end
+  end
 end
