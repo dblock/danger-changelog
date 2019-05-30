@@ -2,59 +2,51 @@ module Danger
   module Changelog
     # A CHANGELOG.md file reader.
     class ChangelogFile
-      attr_reader :filename, :bad_lines, :exists
+      attr_reader :filename, :bad_lines, :exists, :global_failures
 
-      def initialize(filename = 'CHANGELOG.md')
+      def initialize(filename = 'CHANGELOG.md', parser: Parsers.lookup(Parsers.default_format))
         @filename = filename
         @exists = File.exist?(filename)
-        parse if @exists
+        @bad_lines = []
+        @global_failures = []
+        @parser = parser
+
+        parser.add_listener(self)
+      end
+
+      def add_bad_line(line)
+        @bad_lines << line
+      end
+
+      def add_global_failure(message)
+        @global_failures << message
+      end
+
+      def parse
+        return unless exists?
+
+        @parser.parse(filename)
       end
 
       # Any bad_lines?
       def bad_lines?
-        !!bad_lines && bad_lines.any?
+        bad_lines.any?
+      end
+
+      def global_failures?
+        global_failures.any?
       end
 
       def exists?
         !!@exists
       end
 
-      def your_contribution_here?
-        !!@your_contribution_here
-      end
-
       def bad?
-        bad_lines? || !(your_contribution_here? || !Danger::Changelog.config.placeholder_line?)
+        bad_lines? || global_failures?
       end
 
       def good?
         !bad?
-      end
-
-      private
-
-      # Parse CHANGELOG file.
-      def parse
-        @your_contribution_here = false
-        @bad_lines = []
-        File.open(filename).each_line do |line|
-          next if line.strip.empty?
-
-          changelog_line = ChangelogLineParser.parse(line)
-
-          # puts "#{line.strip}: #{changelog_line.invalid?} (#{changelog_line})"
-
-          if changelog_line.nil? || changelog_line.invalid?
-            @bad_lines << line
-            next
-          end
-
-          # notice your contribution here
-          if changelog_line.is_a?(ChangelogPlaceholderLine)
-            @your_contribution_here = true
-            next
-          end
-        end
       end
     end
   end

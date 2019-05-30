@@ -26,10 +26,10 @@ module Danger
     end
 
     # Run all checks.
-    # @return [void]
-    def check
-      have_you_updated_changelog?
-      is_changelog_format_correct?
+    # @param format [Symbol] the format to check against
+    # @return [Boolean] true when the check passes
+    def check(format = Danger::Changelog::Parsers.default_format)
+      have_you_updated_changelog? && is_changelog_format_correct?(format)
     end
 
     # Has the CHANGELOG file been modified?
@@ -58,17 +58,24 @@ Here's an example of a #{filename} entry:
 
     # Is the CHANGELOG.md format correct?
     # @return  [boolean]
-    def is_changelog_format_correct?
-      changelog_file = Danger::Changelog::ChangelogFile.new(filename)
+    def is_changelog_format_correct?(format)
+      parser = Danger::Changelog::Parsers.lookup(format)
+      changelog_file = Danger::Changelog::ChangelogFile.new(filename, parser: parser)
+
       if changelog_file.exists?
+        changelog_file.parse
         changelog_file.bad_lines.each do |line|
           markdown <<-MARKDOWN
 ```markdown
 #{line}```
           MARKDOWN
         end
-        messaging.fail("One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats.", sticky: false) if changelog_file.bad_lines?
-        messaging.fail("Please put back the `#{Danger::Changelog.config.placeholder_line.chomp}` line into #{filename}.", sticky: false) unless changelog_file.your_contribution_here? || !Danger::Changelog.config.placeholder_line?
+        messaging.fail(parser.bad_line_message(filename), sticky: false) if changelog_file.bad_lines?
+
+        changelog_file.global_failures.each do |failure|
+          messaging.fail(failure, sticy: false)
+        end
+
         changelog_file.good?
       else
         messaging.fail("The #{filename} file does not exist.", sticky: false)
