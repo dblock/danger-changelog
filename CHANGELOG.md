@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.5.1 (Next)
+
+* Your contribution here.
+
 ### 0.5.0 (2019/05/31)
 
 * [#41](https://github.com/dblock/danger-changelog/pull/41): Document what's a correctly-formatted CHANGELOG - [@ivoanjo](https://github.com/ivoanjo).
