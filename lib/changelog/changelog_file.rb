@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Danger
   module Changelog
     # A CHANGELOG.md file reader.
@@ -38,7 +40,7 @@ module Danger
       end
 
       def exists?
-        !!@exists
+        @exists
       end
 
       def bad?

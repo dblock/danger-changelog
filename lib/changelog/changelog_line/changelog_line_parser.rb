@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'changelog/changelog_line/changelog_entry_line'
 require 'changelog/changelog_line/changelog_header_line'
 require 'changelog/changelog_line/changelog_placeholder_line'
@@ -16,12 +18,11 @@ module Danger
         changelog_line_class.new(line)
       end
 
-      private_class_method
-
       def self.available_changelog_lines
         # Order is important
         [ChangelogPlaceholderLine, ChangelogEntryLine, ChangelogHeaderLine]
       end
+      private_class_method :available_changelog_lines
     end
   end
 end

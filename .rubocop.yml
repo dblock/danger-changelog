@@ -1,9 +1,17 @@
 AllCops:
   Exclude:
     - vendor/**/*
+  TargetRubyVersion: 2.3
 
 Naming/MethodName:
   Enabled: false
+
+Naming/PredicateName:
+  Enabled: true
+  NameWhitelist:
+    - is_a?
+    - have_you_updated_changelog?
+    - is_changelog_format_correct?
 
 Style/Documentation:
   Enabled: false

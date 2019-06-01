@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 module Danger
   module Changelog
     module Config
-      extend self
+      module_function
 
-      attr_accessor :placeholder_line
+      class << self
+        attr_reader :placeholder_line
+      end
 
       def placeholder_line=(value)
         if value

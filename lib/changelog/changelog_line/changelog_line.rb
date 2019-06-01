@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Danger
   module Changelog
     # An abstract CHANGELOG.md line.
@@ -30,7 +32,7 @@ module Danger
       # https://stackoverflow.com/questions/25979364/ruby-regex-for-matching-brackets
       def balanced?(line_with_parens)
         line_with_parens = line_with_parens.dup
-        line_with_parens.gsub!(PAIRED, ''.freeze) while line_with_parens =~ PAIRED
+        line_with_parens.gsub!(PAIRED, '') while line_with_parens =~ PAIRED
         line_with_parens !~ DELIMITER
       end
     end

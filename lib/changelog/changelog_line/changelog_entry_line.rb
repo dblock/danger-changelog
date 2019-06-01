@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'changelog/changelog_line/changelog_line'
 
 module Danger

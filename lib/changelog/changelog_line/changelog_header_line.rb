@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Danger
   module Changelog
     # A CHANGELOG.md line represents the version header.
