@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.6.1 (Next)
+
+* Your contribution here.
+
 ### 0.6.0 (2019/07/28)
 
 * [#47](https://github.com/dblock/danger-changelog/pull/47): Configure `Config#placeholder_line` at plugin level - [@dblock](https://github.com/dblock).
