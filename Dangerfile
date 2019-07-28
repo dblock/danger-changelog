@@ -1,3 +1,3 @@
 # danger.systems
 
-changelog.check
+changelog.check!

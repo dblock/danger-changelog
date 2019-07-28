@@ -3,7 +3,16 @@ module Danger
     module Config
       extend self
 
-      attr_accessor :placeholder_line
+      ATTRIBUTES = %i[
+        placeholder_line
+        filename
+      ].freeze
+
+      ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
+
+      DELEGATORS = ATTRIBUTES + ACCESSORS
+
+      attr_accessor(*Config::ATTRIBUTES)
 
       def placeholder_line=(value)
         if value
@@ -22,6 +31,7 @@ module Danger
 
       def reset
         self.placeholder_line = "* Your contribution here.\n"
+        self.filename = 'CHANGELOG.md'
       end
 
       reset
@@ -29,6 +39,7 @@ module Danger
 
     class << self
       def configure
+        warn '[DEPRECATION] `configure` is deprecated. Please directly configure the Danger plugin via `changelog.xyz=` instead.'
         block_given? ? yield(Config) : Config
       end
 

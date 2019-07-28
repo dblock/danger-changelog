@@ -3,9 +3,7 @@ require File.expand_path('spec_helper', __dir__)
 describe Danger::Changelog::ChangelogPlaceholderLine do
   context 'with a custom placeholder line' do
     before do
-      Danger::Changelog.configure do |config|
-        config.placeholder_line = "* Nothing yet here.\n"
-      end
+      Danger::Changelog.config.placeholder_line = "* Nothing yet here.\n"
     end
 
     context 'when line is equal to placeholder_line from config' do
@@ -21,9 +19,7 @@ describe Danger::Changelog::ChangelogPlaceholderLine do
 
   context 'with a blank placeholder line' do
     before do
-      Danger::Changelog.configure do |config|
-        config.placeholder_line = nil
-      end
+      Danger::Changelog.config.placeholder_line = nil
     end
 
     context 'when line is not blank' do

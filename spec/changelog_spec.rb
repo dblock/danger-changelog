@@ -14,6 +14,12 @@ describe Danger::Changelog do
     end
     let(:status_report) { changelog.status_report }
 
+    describe 'config' do
+      it 'placeholder_line' do
+        expect(changelog.placeholder_line).to eq "* Your contribution here.\n"
+      end
+    end
+
     describe 'in a PR' do
       before do
         # typical PR JSON looks like https://raw.githubusercontent.com/danger/danger/bffc246a11dac883d76fc6636319bd6c2acd58a3/spec/fixtures/pr_response.json
@@ -103,9 +109,7 @@ describe Danger::Changelog do
 
           context 'customized' do
             before do
-              Danger::Changelog.configure do |config|
-                config.placeholder_line = "* Nothing yet.\n"
-              end
+              changelog.placeholder_line = "* Nothing yet.\n"
             end
 
             let(:filename) { File.expand_path('fixtures/changelogs/customized.md', __dir__) }
@@ -122,9 +126,7 @@ describe Danger::Changelog do
 
             context 'when placeholder line is customized' do
               before do
-                Danger::Changelog.configure do |config|
-                  config.placeholder_line = "* Nothing yet.\n"
-                end
+                changelog.placeholder_line = "* Nothing yet.\n"
               end
 
               it 'complains' do
@@ -146,9 +148,7 @@ describe Danger::Changelog do
 
             context 'when placeholder line is nil' do
               before do
-                Danger::Changelog.configure do |config|
-                  config.placeholder_line = nil
-                end
+                changelog.placeholder_line = nil
               end
 
               it 'is ok' do
@@ -171,9 +171,7 @@ describe Danger::Changelog do
 
             context 'when placeholder line is nil' do
               before do
-                Danger::Changelog.configure do |config|
-                  config.placeholder_line = nil
-                end
+                changelog.placeholder_line = nil
               end
 
               it 'complains' do
@@ -231,7 +229,7 @@ describe Danger::Changelog do
       end
 
       context '#check(:keep_a_changelog)' do
-        subject { changelog.check(:keep_a_changelog) }
+        subject { changelog.check!(:keep_a_changelog) }
 
         context 'without CHANGELOG changes' do
           before do
