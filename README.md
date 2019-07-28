@@ -15,7 +15,7 @@ By design, `danger-changelog` is quite strict with what it allows as a valid cha
 Add `danger-changelog` to your Gemfile.
 
 ```
-gem 'danger-changelog', '~> 0.3.0'
+gem 'danger-changelog', '~> 0.6.0'
 ```
 
 Call `changelog.check!` from your `Dangerfile`. Make a pull request and see this plugin in action.
