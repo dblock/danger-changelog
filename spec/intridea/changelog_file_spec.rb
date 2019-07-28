@@ -1,14 +1,13 @@
-require File.expand_path('spec_helper', __dir__)
+require 'spec_helper'
 
 describe Danger::Changelog::ChangelogFile do
-  let(:filename) { 'CHANGELOG.md' }
   subject do
     Danger::Changelog::ChangelogFile.new(filename).tap(&:parse)
   end
 
   describe 'with the default format checker' do
     context 'minimal example' do
-      let(:filename) { File.expand_path('fixtures/changelogs/minimal.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/minimal.md', __dir__) }
       it 'exists?' do
         expect(subject.exists?).to be true
       end
@@ -24,7 +23,7 @@ describe Danger::Changelog::ChangelogFile do
       end
     end
     context 'missing your contribution here' do
-      let(:filename) { File.expand_path('fixtures/changelogs/missing_your_contribution_here.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/missing_your_contribution_here.md', __dir__) }
       it 'is valid' do
         expect(subject.bad_lines?).to be false
       end
@@ -43,7 +42,7 @@ describe Danger::Changelog::ChangelogFile do
       end
     end
     context 'with bad lines' do
-      let(:filename) { File.expand_path('fixtures/changelogs/lines.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/lines.md', __dir__) }
       it 'is invalid' do
         expect(subject.bad_lines?).to be true
       end
@@ -63,7 +62,7 @@ describe Danger::Changelog::ChangelogFile do
       end
     end
     context 'with bad dates' do
-      let(:filename) { File.expand_path('fixtures/changelogs/dates.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/dates.md', __dir__) }
       it 'is invalid' do
         expect(subject.bad_lines?).to be true
       end
@@ -77,7 +76,7 @@ describe Danger::Changelog::ChangelogFile do
       end
     end
     context 'with bad semver' do
-      let(:filename) { File.expand_path('fixtures/changelogs/semver.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/semver.md', __dir__) }
       it 'is invalid' do
         expect(subject.bad_lines?).to be true
       end
@@ -90,7 +89,7 @@ describe Danger::Changelog::ChangelogFile do
       end
     end
     context 'with imbalanced parenthesis' do
-      let(:filename) { File.expand_path('fixtures/changelogs/imbalanced.md', __dir__) }
+      let(:filename) { File.expand_path('fixtures/imbalanced.md', __dir__) }
       it 'is invalid' do
         expect(subject.bad_lines?).to be true
       end

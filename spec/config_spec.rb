@@ -1,13 +1,21 @@
-require File.expand_path('spec_helper', __dir__)
+require 'spec_helper'
 
 describe Danger::Changelog::Config do
   describe 'placeholder_line' do
+    context 'an instance of a dangerfile' do
+      let(:dangerfile) { testing_dangerfile }
+      let(:changelog) { dangerfile.changelog }
+
+      it 'defaults placeholder_line' do
+        expect(changelog.placeholder_line).to eq "* Your contribution here.\n"
+      end
+    end
     context 'when without markdown star' do
       before do
         Danger::Changelog.config.placeholder_line = "Nothing yet.\n"
       end
 
-      it 'ads missing star and saves configuration' do
+      it 'adds missing star and saves configuration' do
         expect(Danger::Changelog.config.placeholder_line).to eq "* Nothing yet.\n"
       end
     end
@@ -17,7 +25,7 @@ describe Danger::Changelog::Config do
         Danger::Changelog.config.placeholder_line = '* Nothing yet.'
       end
 
-      it 'ads missing trailing newline and saves configuration' do
+      it 'adds missing trailing newline and saves configuration' do
         expect(Danger::Changelog.config.placeholder_line).to eq "* Nothing yet.\n"
       end
     end

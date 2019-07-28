@@ -1,4 +1,4 @@
-require File.expand_path('spec_helper', __dir__)
+require 'spec_helper'
 
 describe Danger::Changelog::ChangelogHeaderLine do
   it_behaves_like 'validates as changelog header line', '# 1.0.1'

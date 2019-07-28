@@ -1,4 +1,4 @@
-require File.expand_path('spec_helper', __dir__)
+require 'spec_helper'
 
 describe Danger::Changelog::ChangelogEntryLine do
   it_behaves_like 'validates as changelog entry line', '* Valid without PR link - [@dblock](https://github.com/dblock).'
