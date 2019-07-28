@@ -39,16 +39,62 @@ describe Danger::Changelog do
         end
 
         context 'without CHANGELOG changes' do
-          before do
-            allow(changelog.git).to receive(:modified_files).and_return([])
-            allow(changelog.git).to receive(:added_files).and_return([])
+          context 'when something was modified' do
+            before do
+              allow(changelog.git).to receive(:modified_files).and_return(['some-file.txt'])
+              allow(changelog.git).to receive(:added_files).and_return(['another-file.txt'])
+            end
+
+            it 'complains when no CHANGELOG can be found' do
+              expect(subject).to be false
+              expect(status_report[:errors]).to eq []
+              expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update #{filename}."]
+              expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+            end
           end
 
-          it 'complains when no CHANGELOG can be found' do
-            expect(subject).to be false
-            expect(status_report[:errors]).to eq []
-            expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update #{filename}."]
-            expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+          context 'with a README.md' do
+            before do
+              allow(changelog.git).to receive(:modified_files).and_return(['README.md'])
+              allow(changelog.git).to receive(:added_files).and_return([])
+            end
+            it 'has no complaints' do
+              expect(subject).to be true
+              expect(status_report[:errors]).to eq []
+              expect(status_report[:warnings]).to eq []
+              expect(status_report[:markdowns]).to eq []
+            end
+          end
+
+          context 'with files being ignored' do
+            context 'name' do
+              before do
+                changelog.ignore_files = ['WHATEVER.md']
+                allow(changelog.git).to receive(:modified_files).and_return(['WHATEVER.md'])
+                allow(changelog.git).to receive(:added_files).and_return([])
+              end
+
+              it 'has no complaints' do
+                expect(subject).to be true
+                expect(status_report[:errors]).to eq []
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns]).to eq []
+              end
+            end
+            context 'mixed' do
+              before do
+                changelog.ignore_files = ['WHATEVER.md', /\.txt$/]
+                allow(changelog.git).to receive(:modified_files).and_return(['WHATEVER.md'])
+                allow(changelog.git).to receive(:added_files).and_return(['one.txt', 'two.txt'])
+              end
+
+              it 'has no complaints' do
+                expect(subject).to be true
+                expect(status_report[:errors]).to eq []
+                expect(status_report[:warnings]).to eq []
+                expect(status_report[:markdowns]).to eq []
+              end
+            end
           end
         end
 
@@ -212,6 +258,7 @@ describe Danger::Changelog do
     let(:filename) { File.expand_path('fixtures/changelogs/keep_a_changelog.md', __dir__) }
     let(:dangerfile) { testing_dangerfile }
     let(:changelog) do
+      dangerfile.changelog.format = :keep_a_changelog
       dangerfile.changelog.filename = filename
       dangerfile.changelog
     end
@@ -229,16 +276,15 @@ describe Danger::Changelog do
         }
       end
 
-      context '#check(:keep_a_changelog)' do
+      context '#check!' do
         subject do
-          changelog.format = :keep_a_changelog
           changelog.check!
         end
 
         context 'without CHANGELOG changes' do
           before do
-            allow(changelog.git).to receive(:modified_files).and_return([])
-            allow(changelog.git).to receive(:added_files).and_return([])
+            allow(changelog.git).to receive(:modified_files).and_return(['some-file.txt'])
+            allow(changelog.git).to receive(:added_files).and_return(['some-file.txt'])
           end
 
           it 'complains when no CHANGELOG can be found' do
@@ -256,8 +302,7 @@ describe Danger::Changelog do
           end
 
           it 'has no complaints' do
-            subject
-            # expect(subject).to be true
+            expect(subject).to be true
             expect(status_report[:errors]).to eq []
             expect(status_report[:warnings]).to eq []
             expect(status_report[:markdowns]).to eq []

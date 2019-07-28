@@ -42,21 +42,27 @@ module Danger
       git.modified_files.include?(filename) || git.added_files.include?(filename)
     end
 
+    # Are any files CHANGELOG cares about modified?
+    # @return [boolean]
+    def file_changes?
+      all_files = git.modified_files + git.added_files
+      Danger::Changelog::Config.ignore_files.each do |f|
+        all_files.reject! { |modified_file| f.is_a?(Regexp) ? f.match?(modified_file) : f == modified_file }
+        break if all_files.empty?
+      end
+      all_files.any?
+    end
+
     # Have you updated CHANGELOG.md?
     # @return [boolean]
     def have_you_updated_changelog?
       if changelog_changes?
         true
-      else
-        markdown <<-MARKDOWN
-Here's an example of a #{filename} entry:
-
-```markdown
-#{Danger::Changelog::ChangelogEntryLine.example(github)}
-```
-        MARKDOWN
-        warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
+      elsif file_changes?
+        warn_update_changelog
         false
+      else
+        true
       end
     end
 
@@ -85,6 +91,19 @@ Here's an example of a #{filename} entry:
         messaging.fail("The #{filename} file does not exist.", sticky: false)
         false
       end
+    end
+
+    private
+
+    def warn_update_changelog
+      markdown <<-MARKDOWN
+Here's an example of a #{filename} entry:
+
+```markdown
+#{Danger::Changelog::ChangelogEntryLine.example(github)}
+```
+      MARKDOWN
+      warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
     end
   end
 end
