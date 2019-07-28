@@ -32,7 +32,7 @@ describe Danger::Changelog::Config do
       end
     end
   end
-  describe 'config' do
+  describe 'format' do
     it 'default' do
       expect(Danger::Changelog.config.format).to eq :intridea
     end
@@ -56,6 +56,27 @@ describe Danger::Changelog::Config do
         it 'creates parser' do
           expect(Danger::Changelog.config.parser).to be_a parser
         end
+      end
+    end
+  end
+  describe 'ignore_files' do
+    it 'default' do
+      expect(Danger::Changelog.config.ignore_files).to eq(['README.md'])
+    end
+    context 'with a file name' do
+      before do
+        Danger::Changelog.config.ignore_files = 'WHATEVER.md'
+      end
+      it 'transforms it into an array' do
+        expect(Danger::Changelog.config.ignore_files).to eq(['WHATEVER.md'])
+      end
+    end
+    context 'with multiple names' do
+      before do
+        Danger::Changelog.config.ignore_files = ['WHATEVER.md', /\*.md$/]
+      end
+      it 'transforms it into an array' do
+        expect(Danger::Changelog.config.ignore_files).to eq(['WHATEVER.md', /\*.md$/])
       end
     end
   end

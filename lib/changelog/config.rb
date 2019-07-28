@@ -7,6 +7,7 @@ module Danger
         placeholder_line
         filename
         format
+        ignore_files
       ].freeze
 
       ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
@@ -36,6 +37,10 @@ module Danger
         !@placeholder_line.nil?
       end
 
+      def ignore_files=(value)
+        @ignore_files = Array(value)
+      end
+
       def parser
         Danger::Changelog::Parsers.lookup(format)
       end
@@ -44,6 +49,7 @@ module Danger
         self.placeholder_line = "* Your contribution here.\n"
         self.filename = 'CHANGELOG.md'
         self.format = Danger::Changelog::Parsers.default_format
+        self.ignore_files = ['README.md']
       end
 
       reset

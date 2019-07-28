@@ -54,6 +54,16 @@ Customize the `* Your contribution here.` line. Set the value to `nil` to stop c
 changelog.placeholder_line = "* Your change here.\n"
 ```
 
+### changelog.ignore_files
+
+Ignore additions and changes with a certain name or expression, default is to ignore `README.md` changes.
+
+For example, ignore `UPGRADING.md` and all `.txt` files.
+
+```ruby
+changelog.ignore_files = ['README.md', 'UPGRADING.md', /\.txt$/]
+```
+
 ## Checks
 
 Invoke check methods.
