@@ -4,7 +4,7 @@
 
 * [#47](https://github.com/dblock/danger-changelog/pull/47): Configure `Config#placeholder_line` at plugin level - [@dblock](https://github.com/dblock).
 * [#47](https://github.com/dblock/danger-changelog/pull/47): Deprecate `Danger::Changelog.configure` - [@dblock](https://github.com/dblock).
-* [#47](https://github.com/dblock/danger-changelog/pull/47): Deprecate `check` in favor of `check!` - [@dblock](https://github.com/dblock).
+* [#48](https://github.com/dblock/danger-changelog/pull/48): Deprecate `check` in favor of `check!` and configure `format` separately - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.5.0 (2019/05/31)

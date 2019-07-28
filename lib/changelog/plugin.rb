@@ -22,18 +22,18 @@ module Danger
     def_delegators Danger::Changelog.config, *Danger::Changelog::Config::DELEGATORS
 
     # Run all checks.
-    # @param format [Symbol] the format to check against
     # @return [Boolean] true when the check passes
-    def check!(format = Danger::Changelog::Parsers.default_format)
-      have_you_updated_changelog? && is_changelog_format_correct?(format)
+    def check!
+      have_you_updated_changelog? && is_changelog_format_correct?
     end
 
     # Run all checks.
     # @param format [Symbol] the format to check against
     # @return [Boolean] true when the check passes
-    def check(format = Danger::Changelog::Parsers.default_format)
-      warn '[DEPRECATION] `check` is deprecated. Please use `check!` instead.'
-      check!(format)
+    def check(parser = Danger::Changelog::Config.format)
+      warn '[DEPRECATION] `check` is deprecated. Set format with `.format` and use `check!` instead.'
+      config.format = parser
+      check!
     end
 
     # Has the CHANGELOG file been modified?
@@ -62,8 +62,8 @@ Here's an example of a #{filename} entry:
 
     # Is the CHANGELOG.md format correct?
     # @return  [boolean]
-    def is_changelog_format_correct?(format)
-      parser = Danger::Changelog::Parsers.lookup(format)
+    def is_changelog_format_correct?
+      parser = Danger::Changelog::Config.parser
       changelog_file = Danger::Changelog::ChangelogFile.new(filename, parser: parser)
 
       if changelog_file.exists?

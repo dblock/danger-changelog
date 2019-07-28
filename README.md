@@ -8,12 +8,7 @@ It can make sure, for example, that changes are attributed properly, have a vali
 
 ## What's a correctly formatted CHANGELOG file?
 
-By design, `danger-changelog` is quite strict with what it allows as a valid changelog file, using the [Intridea style](doc/intridea.md).
-
-The following styles are supported.
-
-* [Intridea](doc/intridea.md) (default)
-* [Keep a Changelog](doc/keep_a_changelog.md)
+By design, `danger-changelog` is quite strict with what it allows as a valid changelog file, using the [Intridea style](doc/intridea.md), [used by this library itself](CHANGELOG.md). It also supports the [Keep a Changelog](doc/keep_a_changelog.md) format.
 
 ## Installation
 
@@ -23,15 +18,11 @@ Add `danger-changelog` to your Gemfile.
 gem 'danger-changelog', '~> 0.3.0'
 ```
 
-Add `changelog.check!` to your `Dangerfile`. Make a pull request and see this plugin in action.
+Call `changelog.check!` from your `Dangerfile`. Make a pull request and see this plugin in action.
 
 ## Usage
 
-Methods and attributes from this plugin are available in your `Dangerfile` under the `changelog` namespace. The minimal usage is to invoke `changelog.check!`.
-
-```ruby
-changelog.check!
-```
+Methods and attributes from this plugin are available in your `Dangerfile` under the `changelog` namespace.
 
 ## Configuration
 
@@ -41,15 +32,35 @@ The following options and checks are supported.
 
 Set the CHANGELOG file name, defaults to `CHANGELOG.md`.
 
+```ruby
+changelog.filename = 'CHANGES.md'
+```
+
+### changelog.format
+
+Set the format of the CHANGELOG file. 
+
+```ruby
+changelog.format = :keep_a_changelog
+```
+
+Available formats are [Intridea](doc/intridea.md) (default) and [Keep a Changelog](doc/keep_a_changelog.md).
+
 ### changelog.placeholder_line
 
 Customize the `* Your contribution here.` line. Set the value to `nil` to stop checking for one.
 
+```ruby
+changelog.placeholder_line = "* Your change here.\n"
+```
+
+## Checks
+
+Invoke check methods.
+
 ### changelog.check!
 
-Run all checks with defaults.
-
-You can pass a different format to this method, such as `changelog.check!(:keep_a_changelog)`.
+Run all checks with defaults, including `have_you_updated_changelog?` and `is_changelog_format_correct?`.
 
 #### changelog.have_you_updated_changelog?
 
