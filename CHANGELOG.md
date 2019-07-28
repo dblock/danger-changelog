@@ -2,6 +2,7 @@
 
 ### 0.6.1 (Next)
 
+* [#50](https://github.com/dblock/danger-changelog/pull/50): Added TOC to README - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.6.0 (2019/07/28)
