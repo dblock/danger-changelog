@@ -1,10 +1,27 @@
-# danger-changelog
+# Danger-Changelog
 
 A plugin for [danger.systems](http://danger.systems) that obsessive-compulsively lints your project’s `CHANGELOG.md`.
 It can make sure, for example, that changes are attributed properly, have a valid version number, a date in the ISO8601 format, balanced parenthesis and brackets, and that they’re always terminated with a period.
 
 [![Gem Version](https://badge.fury.io/rb/danger-changelog.svg)](https://badge.fury.io/rb/danger-changelog)
 [![Build Status](https://travis-ci.org/dblock/danger-changelog.svg?branch=master)](https://travis-ci.org/dblock/danger-changelog)
+
+# Table of Contents
+
+- [What’s a correctly formatted CHANGELOG file?](#whats-a-correctly-formatted-changelog-file)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+  - [changelog.filename](#changelogfilename)
+  - [changelog.format](#changelogformat)
+  - [changelog.placeholder_line](#changelogplaceholder_line)
+  - [changelog.ignore_files](#changelogignore_files)
+- [Checks](#checks)
+  - [changelog.check!](#changelogcheck)
+    - [changelog.have_you_updated_changelog?](#changeloghave_you_updated_changelog)
+    - [changelog.is_changelog_format_correct?](#changelogis_changelog_format_correct)
+- [Contributing](#contributing)
+- [Copyright](#copyright)
 
 ## What's a correctly formatted CHANGELOG file?
 
