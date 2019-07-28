@@ -107,6 +107,6 @@ See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Copyright
 
-Copyright (c) Daniel Doubrovkine, 2016
+Copyright (c) Daniel Doubrovkine, 2016-2019
 
 MIT License, see [LICENSE](LICENSE.txt) for details.
