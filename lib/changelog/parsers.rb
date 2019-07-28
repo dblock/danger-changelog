@@ -5,14 +5,22 @@ require 'changelog/parsers/keep_a_changelog'
 module Danger
   module Changelog
     module Parsers
-      def self.default_format
-        :intridea
-      end
+      FORMATS = { intridea: IntrideaFormat, keep_a_changelog: KeepAChangelog }.freeze
 
-      def self.lookup(format)
-        { intridea: IntrideaFormat, keep_a_changelog: KeepAChangelog }
-          .fetch(format, IntrideaFormat)
-          .new
+      class << self
+        def default_format
+          :intridea
+        end
+
+        def valid?(format)
+          FORMATS.keys.map(&:to_s).include?(format.to_s)
+        end
+
+        def lookup(format)
+          FORMATS
+            .fetch(format, IntrideaFormat)
+            .new
+        end
       end
     end
   end

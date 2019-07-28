@@ -6,6 +6,7 @@ module Danger
       ATTRIBUTES = %i[
         placeholder_line
         filename
+        format
       ].freeze
 
       ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
@@ -25,13 +26,24 @@ module Danger
         end
       end
 
+      def format=(value)
+        raise ArgumentError, "Invalid format: #{value}" unless Danger::Changelog::Parsers.valid?(value)
+
+        @format = value
+      end
+
       def placeholder_line?
         !@placeholder_line.nil?
+      end
+
+      def parser
+        Danger::Changelog::Parsers.lookup(format)
       end
 
       def reset
         self.placeholder_line = "* Your contribution here.\n"
         self.filename = 'CHANGELOG.md'
+        self.format = Danger::Changelog::Parsers.default_format
       end
 
       reset

@@ -83,7 +83,8 @@ describe Danger::Changelog do
 
       context 'is_changelog_format_correct?' do
         subject do
-          changelog.is_changelog_format_correct?(Danger::Changelog::Parsers.default_format)
+          changelog.format = Danger::Changelog::Parsers.default_format
+          changelog.is_changelog_format_correct?
         end
 
         context 'without a CHANGELOG file' do
@@ -229,7 +230,10 @@ describe Danger::Changelog do
       end
 
       context '#check(:keep_a_changelog)' do
-        subject { changelog.check!(:keep_a_changelog) }
+        subject do
+          changelog.format = :keep_a_changelog
+          changelog.check!
+        end
 
         context 'without CHANGELOG changes' do
           before do
