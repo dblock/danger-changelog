@@ -5,31 +5,35 @@ module Danger
   #
   # @example Run all checks on the default CHANGELOG.md.
   #
-  #          changelog.check
+  #          changelog.check!
   #
   # @example Customize the CHANGELOG file name and remind the requester to update it when necessary.
   #
   #          changelog.filename = 'CHANGES.md'
+  #          changelog.placeholder_line = "* Your contribution here.\n"
   #          changelog.have_you_updated_changelog?
   #
   # @see  dblock/danger-changelog
   # @tags changelog
 
   class DangerChangelog < Plugin
-    # The changelog file name, defaults to `CHANGELOG.md`.
-    # @return   [String]
-    attr_accessor :filename
+    extend Forwardable
 
-    def initialize(dangerfile)
-      @filename = 'CHANGELOG.md'
-      super
+    def_delegators Danger::Changelog.config, *Danger::Changelog::Config::DELEGATORS
+
+    # Run all checks.
+    # @param format [Symbol] the format to check against
+    # @return [Boolean] true when the check passes
+    def check!(format = Danger::Changelog::Parsers.default_format)
+      have_you_updated_changelog? && is_changelog_format_correct?(format)
     end
 
     # Run all checks.
     # @param format [Symbol] the format to check against
     # @return [Boolean] true when the check passes
     def check(format = Danger::Changelog::Parsers.default_format)
-      have_you_updated_changelog? && is_changelog_format_correct?(format)
+      warn '[DEPRECATION] `check` is deprecated. Please use `check!` instead.'
+      check!(format)
     end
 
     # Has the CHANGELOG file been modified?
