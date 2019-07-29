@@ -75,9 +75,9 @@ module Danger
       if changelog_file.exists?
         changelog_file.parse
         changelog_file.bad_lines.each do |line|
-          markdown <<-MARKDOWN
-```markdown
-#{line}```
+          markdown <<~MARKDOWN
+            ```markdown
+            #{line}```
           MARKDOWN
         end
         messaging.fail(parser.bad_line_message(filename), sticky: false) if changelog_file.bad_lines?
@@ -96,12 +96,12 @@ module Danger
     private
 
     def warn_update_changelog
-      markdown <<-MARKDOWN
-Here's an example of a #{filename} entry:
+      markdown <<~MARKDOWN
+        Here's an example of a #{filename} entry:
 
-```markdown
-#{Danger::Changelog::ChangelogEntryLine.example(github)}
-```
+        ```markdown
+        #{Danger::Changelog::ChangelogEntryLine.example(github)}
+        ```
       MARKDOWN
       warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
     end

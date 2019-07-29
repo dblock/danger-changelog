@@ -17,4 +17,11 @@ Metrics/LineLength:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Naming/PredicateName:
+  Enabled: true
+  NameWhitelist:
+    - is_a?
+    - have_you_updated_changelog?
+    - is_changelog_format_correct?
+
 inherit_from: .rubocop_todo.yml

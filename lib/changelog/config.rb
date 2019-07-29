@@ -1,7 +1,7 @@
 module Danger
   module Changelog
     module Config
-      extend self
+      module_function
 
       ATTRIBUTES = %i[
         placeholder_line
@@ -14,7 +14,9 @@ module Danger
 
       DELEGATORS = ATTRIBUTES + ACCESSORS
 
-      attr_accessor(*Config::ATTRIBUTES)
+      class << self
+        attr_accessor(*Config::ATTRIBUTES)
+      end
 
       def placeholder_line=(value)
         if value

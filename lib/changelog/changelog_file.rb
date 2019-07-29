@@ -38,7 +38,7 @@ module Danger
       end
 
       def exists?
-        !!@exists
+        @exists
       end
 
       def bad?
