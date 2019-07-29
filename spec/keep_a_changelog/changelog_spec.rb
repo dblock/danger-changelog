@@ -45,7 +45,7 @@ describe Danger::Changelog do
           it 'complains' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq [
-              "One of the lines below found in /Users/dblock/source/danger/danger-changelog/spec/keep_a_changelog/fixtures/missing_a_version_header.md doesn't match the [expected format](https://keepachangelog.com).",
+              "One of the lines below found in #{filename} doesn't match the [expected format](https://keepachangelog.com).",
               'The changelog is missing the version header for the Keep A Changelog format. See <https://keepachangelog.com> to see the format of the header'
             ]
             expect(status_report[:warnings]).to eq []
