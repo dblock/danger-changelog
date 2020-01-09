@@ -83,7 +83,7 @@ module Danger
         messaging.fail(parser.bad_line_message(filename), sticky: false) if changelog_file.bad_lines?
 
         changelog_file.global_failures.each do |failure|
-          messaging.fail(failure, sticy: false)
+          messaging.fail(failure, sticky: false)
         end
 
         changelog_file.good?
