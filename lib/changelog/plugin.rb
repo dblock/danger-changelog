@@ -77,7 +77,8 @@ module Danger
         changelog_file.bad_lines.each do |line|
           markdown <<~MARKDOWN
             ```markdown
-            #{line}```
+            #{line.map(&:strip).join("\n")}
+            ```
           MARKDOWN
         end
         messaging.fail(parser.bad_line_message(filename), sticky: false) if changelog_file.bad_lines?

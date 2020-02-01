@@ -120,7 +120,7 @@ describe Danger::Changelog do
                 expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
                 expect(status_report[:warnings]).to eq []
                 expect(status_report[:markdowns].map(&:message)).to eq [
-                  "```markdown\n* Your contribution here.\n```\n"
+                  "```markdown\n* Your contribution here.\ndoes not include a pull request link, does not include an author link\n```\n"
                 ]
               end
             end
@@ -133,13 +133,13 @@ describe Danger::Changelog do
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
               expect(status_report[:warnings]).to eq []
               expect(status_report[:markdowns].map(&:message)).to eq [
-                "```markdown\nMissing star - [@dblock](https://github.com/dblock).\n```\n",
+                "```markdown\nMissing star - [@dblock](https://github.com/dblock).\ndoes not start with a star, does not include a pull request link\n```\n",
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n```\n",
-                "```markdown\n# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ( - [@dblock](https://github.com/dblock).\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ] - [@dblock](https://github.com/dblock).\n```\n"
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\nis missing a period at the end of the line\n```\n",
+                "```markdown\n# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\ndoes not start with a star\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\nhas an extra period or comma at the end of the description\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ( - [@dblock](https://github.com/dblock).\ntoo many parenthesis\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Unbalanced ] - [@dblock](https://github.com/dblock).\ntoo many parenthesis\n```\n"
               ]
             end
           end

@@ -2,6 +2,7 @@
 
 ### 0.6.1 (Next)
 
+* [#33](https://github.com/dblock/danger-changelog/issues/33): Attempt to point out known problems in Intridea format - [@dblock](https://github.com/dblock).
 * [#50](https://github.com/dblock/danger-changelog/pull/50): Added TOC to README - [@dblock](https://github.com/dblock).
 * Your contribution here.
 

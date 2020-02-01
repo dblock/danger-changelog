@@ -5,9 +5,24 @@ module Danger
     # A CHANGELOG.md line represents the change entry.
     class ChangelogEntryLine < ChangelogLine
       def valid?
-        return false unless balanced?(line)
+        return validation_result.valid? if validation_result
+
+        @validation_result = Parsers::ValidationResult.new
+
+        validation_result.error! 'too many parenthesis' unless balanced?(line)
+        return false if validation_result.invalid?
+
         return true if line =~ %r{^\*\s[\`[:upper:]].*[^.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
         return true if line =~ %r{^\*\s\[\#\d+\]\(https:\/\/github\.com\/.*\d+\)\: [\`[:upper:]].*[^.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
+
+        validation_result.error! 'does not start with a star' unless ChangelogEntryLine.starts_with_star?(line)
+        validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
+        validation_result.error! 'does not have a description' unless ChangelogEntryLine.with_changelog_description?(line)
+        validation_result.error! 'does not include an author link' unless ChangelogEntryLine.with_author_link?(line)
+        validation_result.error! 'is missing a period at the end of the line' unless ChangelogEntryLine.ends_with_period?(line)
+        validation_result.error! 'has an extra period or comma at the end of the description' if
+          line =~ %r{^\*\s[\`[:upper:]].*[.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$} ||
+          line =~ %r{^\*\s\[\#\d+\]\(https:\/\/github\.com\/.*\d+\)\: [\`[:upper:]].*[.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$}
 
         false
       end
@@ -36,6 +51,13 @@ module Danger
       # checks whether line starts with *
       def self.starts_with_star?(line)
         return true if line =~ /^\*\s/
+
+        false
+      end
+
+      # checks whether line ends with a period
+      def self.ends_with_period?(line)
+        return true if line =~ /\.$/
 
         false
       end
