@@ -61,6 +61,17 @@ describe Danger::Changelog::ChangelogFile do
         expect(subject.global_failures?).to be false
       end
     end
+    context 'with a line that has an extra trailing space' do
+      let(:filename) { File.expand_path('fixtures/extra_trailing_space.md', __dir__) }
+      it 'is invalid' do
+        expect(subject.bad_lines?).to be true
+      end
+      it 'reports all bad lines' do
+        expect(subject.bad_lines).to eq [
+          ["* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra trailing space - [@dblock](https://github.com/dblock). \n", 'has an extra trailing space, is missing a period at the end of the line']
+        ]
+      end
+    end
     context 'with bad dates' do
       let(:filename) { File.expand_path('fixtures/dates.md', __dir__) }
       it 'is invalid' do

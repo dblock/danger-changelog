@@ -19,6 +19,7 @@ module Danger
         validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
         validation_result.error! 'does not have a description' unless ChangelogEntryLine.with_changelog_description?(line)
         validation_result.error! 'does not include an author link' unless ChangelogEntryLine.with_author_link?(line)
+        validation_result.error! 'has an extra trailing space' if ChangelogEntryLine.ends_with_space?(line)
         validation_result.error! 'is missing a period at the end of the line' unless ChangelogEntryLine.ends_with_period?(line)
         validation_result.error! 'has an extra period or comma at the end of the description' if
           line =~ %r{^\*\s[\`[:upper:]].*[.,] \- \[\@[\w\d\-\_]+\]\(https:\/\/github\.com\/.*[\w\d\-\_]+\).$} ||
@@ -55,9 +56,16 @@ module Danger
         false
       end
 
+      # checks whether line ends with a space
+      def self.ends_with_space?(line)
+        return true if line =~ /[[:blank:]]\n$/
+
+        false
+      end
+
       # checks whether line ends with a period
       def self.ends_with_period?(line)
-        return true if line =~ /\.$/
+        return true if line =~ /\.\n$/
 
         false
       end
