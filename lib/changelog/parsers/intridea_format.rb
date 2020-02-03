@@ -18,7 +18,8 @@ module Danger
             changelog_line = ChangelogLineParser.parse(line)
 
             if changelog_line.nil? || changelog_line.invalid?
-              notify_of_bad_line line
+              detail = changelog_line.validation_result.to_s if changelog_line.validation_result&.invalid?
+              notify_of_bad_line line, detail
               next
             end
 

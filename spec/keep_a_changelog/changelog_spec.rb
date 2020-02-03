@@ -50,7 +50,7 @@ describe Danger::Changelog do
             ]
             expect(status_report[:warnings]).to eq []
             expect(status_report[:markdowns].map(&:message)).to eq [
-              "```markdown\nAll notable changes to this project will be documented in this file.```\n"
+              "```markdown\nAll notable changes to this project will be documented in this file.\n```\n"
             ]
           end
         end

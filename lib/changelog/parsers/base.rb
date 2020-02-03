@@ -14,8 +14,8 @@ module Danger
 
         private
 
-        def notify_of_bad_line(message)
-          listeners.each { |changelog| changelog.add_bad_line(message) }
+        def notify_of_bad_line(message, detail = nil)
+          listeners.each { |changelog| changelog.add_bad_line(message, detail) }
         end
 
         def notify_of_global_failure(message)

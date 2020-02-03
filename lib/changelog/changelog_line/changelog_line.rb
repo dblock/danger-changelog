@@ -7,9 +7,11 @@ module Danger
       DELIMITER = /[(){}\[\]]/.freeze
 
       attr_accessor :line
+      attr_accessor :validation_result
 
       def initialize(line)
         self.line = line
+        self.validation_result = nil
       end
 
       # Match the line with the validation rules

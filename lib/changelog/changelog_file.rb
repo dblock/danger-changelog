@@ -14,8 +14,10 @@ module Danger
         parser.add_listener(self)
       end
 
-      def add_bad_line(line)
-        @bad_lines << line
+      def add_bad_line(line, detail = nil)
+        return unless line || detail
+
+        @bad_lines << [line, detail].compact
       end
 
       def add_global_failure(message)
