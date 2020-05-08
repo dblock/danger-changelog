@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.6.2 (Next)
+
+* Your contribution here.
+
 ### 0.6.1 (2020/05/08)
 
 * [#33](https://github.com/dblock/danger-changelog/issues/33): Attempt to point out known problems in Intridea format - [@dblock](https://github.com/dblock).
