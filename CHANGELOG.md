@@ -1,11 +1,10 @@
 ## Changelog
 
-### 0.6.1 (Next)
+### 0.6.1 (2020/05/08)
 
 * [#33](https://github.com/dblock/danger-changelog/issues/33): Attempt to point out known problems in Intridea format - [@dblock](https://github.com/dblock).
 * [#51](https://github.com/dblock/danger-changelog/pull/51): Allow markdown links in keep-a-changelog lines - [@dblock](https://github.com/dblock).
 * [#50](https://github.com/dblock/danger-changelog/pull/50): Added TOC to README - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.6.0 (2019/07/28)
 
