@@ -16,7 +16,7 @@ module Danger
             notify_of_global_failure(
               'The changelog is missing the version header for the Keep A ' \
               'Changelog format. See <https://keepachangelog.com> to see ' \
-              'the format of the header'
+              'the format of the header.'
             )
           end
 
@@ -42,7 +42,7 @@ module Danger
           lines.each do |line|
             line = line.chomp
 
-            if /##?[^#]/.match?(line)
+            if /^##?[^#]/.match?(line)
               blocks << block.dup unless block.empty?
               block.clear
             end

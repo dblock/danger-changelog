@@ -40,17 +40,41 @@ describe Danger::Changelog do
           end
         end
 
+        context 'with lines containing links' do
+          let(:filename) { File.expand_path('fixtures/lines_with_links.md', __dir__) }
+          it 'is valid' do
+            expect(subject).to be true
+            expect(status_report[:errors]).to eq []
+            expect(status_report[:warnings]).to eq []
+            expect(status_report[:markdowns]).to eq []
+          end
+        end
+
         context 'missing a version header' do
           let(:filename) { File.expand_path('fixtures/missing_a_version_header.md', __dir__) }
           it 'complains' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq [
               "One of the lines below found in #{filename} doesn't match the [expected format](https://keepachangelog.com).",
-              'The changelog is missing the version header for the Keep A Changelog format. See <https://keepachangelog.com> to see the format of the header'
+              'The changelog is missing the version header for the Keep A Changelog format. See <https://keepachangelog.com> to see the format of the header.'
             ]
             expect(status_report[:warnings]).to eq []
             expect(status_report[:markdowns].map(&:message)).to eq [
               "```markdown\nAll notable changes to this project will be documented in this file.\n```\n"
+            ]
+          end
+        end
+
+        context 'invalid line' do
+          let(:filename) { File.expand_path('fixtures/invalid_line.md', __dir__) }
+          it 'complains' do
+            expect(subject).to be false
+            expect(status_report[:errors]).to eq [
+              "One of the lines below found in #{filename} doesn't match the [expected format](https://keepachangelog.com)."
+            ]
+            expect(status_report[:warnings]).to eq []
+            expect(status_report[:markdowns].map(&:message)).to eq [
+              "```markdown\nInvalid line by [@tylerfortune8](https://github.com/tylerfortune8).\n```\n"
             ]
           end
         end
