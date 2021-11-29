@@ -3,6 +3,7 @@
 ### 0.6.2 (Next)
 
 * Your contribution here.
+* [#60](https://github.com/dblock/danger-changelog/pull/60): Accept utc formatted dates - [@Blackjacx](https://github.com/Blackjacx).
 
 ### 0.6.1 (2020/05/08)
 
