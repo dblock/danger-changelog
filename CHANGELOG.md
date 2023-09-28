@@ -3,6 +3,7 @@
 ### 0.6.2 (Next)
 
 * Your contribution here.
+* [#61](https://github.com/dblock/danger-changelog/pull/61): Add support for ISO date & time - [@mathroule](https://github.com/mathroule).
 
 ### 0.6.1 (2020/05/08)
 
