@@ -11,7 +11,7 @@ bundle install
 rake
 ```
 
-Check that the last build succeeded in [Travis CI](https://travis-ci.org/dblock/danger-changelog) for all supported platforms.
+Check that the last build succeeded in [GitHub Actions](https://github.com/dblock/danger-changelog/actions) for all supported platforms.
 
 Increment the version, modify [lib/changelog/gem_version.rb](lib/changelog/gem_version.rb).
 
