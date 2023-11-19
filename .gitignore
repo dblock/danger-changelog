@@ -3,3 +3,4 @@ pkg
 .idea/
 Gemfile.lock
 .yardoc
+vendor/bundle
