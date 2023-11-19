@@ -4,7 +4,7 @@ A plugin for [danger.systems](http://danger.systems) that obsessive-compulsively
 It can make sure, for example, that changes are attributed properly, have a valid version number, a date in the ISO8601 format, balanced parenthesis and brackets, and that they’re always terminated with a period.
 
 [![Gem Version](https://badge.fury.io/rb/danger-changelog.svg)](https://badge.fury.io/rb/danger-changelog)
-[![Build Status](https://travis-ci.org/dblock/danger-changelog.svg?branch=master)](https://travis-ci.org/dblock/danger-changelog)
+[![Build Status](https://github.com/dblock/danger-changelog/actions/workflows/test.yml/badge.svg?branch=master&event=push)](https://github.com/dblock/danger-changelog/actions/workflows/test.yml)
 
 # Table of Contents
 
