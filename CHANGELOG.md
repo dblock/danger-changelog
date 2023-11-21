@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.7.1 (Next)
+
+* Your contribution here.
+
 ### 0.7.0 (2023/11/21)
 
 * [#62](https://github.com/dblock/danger-changelog/pull/62): Migrate CI from Travis to GitHub Actions - [@mathroule](https://github.com/mathroule).
