@@ -1,8 +1,8 @@
 ## Changelog
 
-### 0.6.2 (Next)
+### 0.7.0 (2023/11/21)
 
-* Your contribution here.
+* [#62](https://github.com/dblock/danger-changelog/pull/62): Migrate CI from Travis to GitHub Actions - [@mathroule](https://github.com/mathroule).
 * [#61](https://github.com/dblock/danger-changelog/pull/61): Add support for ISO date & time - [@mathroule](https://github.com/mathroule).
 
 ### 0.6.1 (2020/05/08)
