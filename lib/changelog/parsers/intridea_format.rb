@@ -4,9 +4,9 @@ module Danger
       class IntrideaFormat < Base
         def bad_line_message(filename)
           "One of the lines below found in #{filename} doesn't match the " \
-          '[expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). ' \
-          'Please make it look like the other lines, pay attention to version ' \
-          'numbers, periods, spaces and date formats.'
+            '[expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). ' \
+            'Please make it look like the other lines, pay attention to version ' \
+            'numbers, periods, spaces and date formats.'
         end
 
         def parse(filename)

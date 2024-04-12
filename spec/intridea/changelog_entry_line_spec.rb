@@ -92,6 +92,7 @@ describe Danger::Changelog::ChangelogEntryLine do
 
     context 'no transformation required' do
       let(:pr_title) { 'Test' }
+
       it 'uses title as is' do
         expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
       end
@@ -99,6 +100,7 @@ describe Danger::Changelog::ChangelogEntryLine do
 
     context 'with lowercase title' do
       let(:pr_title) { 'test' }
+
       it 'capitalizes it' do
         expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
       end
@@ -106,6 +108,7 @@ describe Danger::Changelog::ChangelogEntryLine do
 
     context 'with a trailing period' do
       let(:pr_title) { 'Test.' }
+
       it 'removes it' do
         expect(described_class.example(github)).to eq '* [#123](https://github.com/dblock/danger-changelog/pull/123): Test - [@dblock](https://github.com/dblock).'
       end

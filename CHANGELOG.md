@@ -3,6 +3,7 @@
 ### 0.7.1 (Next)
 
 * [#63](https://github.com/dblock/danger-changelog/pull/63): Fix: report on lines that start with a - and cannot be parsed - [@dblock](https://github.com/dblock).
+* [#64](https://github.com/dblock/danger-changelog/pull/64): Upgraded to RuboCop 1.63.1 - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.7.0 (2023/11/21)

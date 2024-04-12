@@ -24,8 +24,7 @@ describe Danger::Changelog do
 
       context 'without CHANGELOG changes' do
         before do
-          allow(changelog.git).to receive(:modified_files).and_return(['some-file.txt'])
-          allow(changelog.git).to receive(:added_files).and_return(['some-file.txt'])
+          allow(changelog.git).to receive_messages(modified_files: ['some-file.txt'], added_files: ['some-file.txt'])
         end
 
         it 'complains when no CHANGELOG can be found' do
@@ -38,8 +37,7 @@ describe Danger::Changelog do
 
       context 'with CHANGELOG changes' do
         before do
-          allow(changelog.git).to receive(:modified_files).and_return([changelog.filename])
-          allow(changelog.git).to receive(:added_files).and_return([])
+          allow(changelog.git).to receive_messages(modified_files: [changelog.filename], added_files: [])
         end
 
         it 'has no complaints' do
@@ -59,8 +57,7 @@ describe Danger::Changelog do
       context 'without CHANGELOG changes' do
         context 'when something was modified' do
           before do
-            allow(changelog.git).to receive(:modified_files).and_return(['some-file.txt'])
-            allow(changelog.git).to receive(:added_files).and_return(['another-file.txt'])
+            allow(changelog.git).to receive_messages(modified_files: ['some-file.txt'], added_files: ['another-file.txt'])
           end
 
           it 'complains when no CHANGELOG can be found' do
@@ -73,9 +70,9 @@ describe Danger::Changelog do
 
         context 'with a README.md' do
           before do
-            allow(changelog.git).to receive(:modified_files).and_return(['README.md'])
-            allow(changelog.git).to receive(:added_files).and_return([])
+            allow(changelog.git).to receive_messages(modified_files: ['README.md'], added_files: [])
           end
+
           it 'has no complaints' do
             expect(subject).to be true
             expect(status_report[:errors]).to eq []
@@ -88,8 +85,7 @@ describe Danger::Changelog do
           context 'name' do
             before do
               changelog.ignore_files = ['WHATEVER.md']
-              allow(changelog.git).to receive(:modified_files).and_return(['WHATEVER.md'])
-              allow(changelog.git).to receive(:added_files).and_return([])
+              allow(changelog.git).to receive_messages(modified_files: ['WHATEVER.md'], added_files: [])
             end
 
             it 'has no complaints' do
@@ -99,11 +95,11 @@ describe Danger::Changelog do
               expect(status_report[:markdowns]).to eq []
             end
           end
+
           context 'mixed' do
             before do
               changelog.ignore_files = ['WHATEVER.md', /\.txt$/]
-              allow(changelog.git).to receive(:modified_files).and_return(['WHATEVER.md'])
-              allow(changelog.git).to receive(:added_files).and_return(['one.txt', 'two.txt'])
+              allow(changelog.git).to receive_messages(modified_files: ['WHATEVER.md'], added_files: ['one.txt', 'two.txt'])
             end
 
             it 'has no complaints' do
@@ -118,8 +114,7 @@ describe Danger::Changelog do
 
       context 'with a new CHANGELOG' do
         before do
-          allow(changelog.git).to receive(:modified_files).and_return([])
-          allow(changelog.git).to receive(:added_files).and_return([changelog.filename])
+          allow(changelog.git).to receive_messages(modified_files: [], added_files: [changelog.filename])
         end
 
         it 'has no complaints' do
@@ -132,8 +127,7 @@ describe Danger::Changelog do
 
       context 'with CHANGELOG changes' do
         before do
-          allow(changelog.git).to receive(:modified_files).and_return([changelog.filename])
-          allow(changelog.git).to receive(:added_files).and_return([])
+          allow(changelog.git).to receive_messages(modified_files: [changelog.filename], added_files: [])
         end
 
         it 'has no complaints' do

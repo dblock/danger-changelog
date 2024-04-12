@@ -4,14 +4,14 @@ module Danger
       class KeepAChangelog < Base
         def bad_line_message(filename)
           "One of the lines below found in #{filename} doesn't match the " \
-          '[expected format](https://keepachangelog.com).'
+            '[expected format](https://keepachangelog.com).'
         end
 
         def parse(filename)
           blocks = parse_into_blocks(File.open(filename).each_line)
 
           if contains_header_block?(blocks.first)
-            blocks = blocks[1..-1]
+            blocks = blocks[1..]
           else
             notify_of_global_failure(
               'The changelog is missing the version header for the Keep A ' \
@@ -61,9 +61,9 @@ module Danger
           return false unless block
           return false unless block.first == '# Changelog'
 
-          regex = %r{All notable changes to this project will be documented in this file. The format is based on \[Keep a Changelog\]\(https://keepachangelog.com/en/\d\.\d\.\d/\), and this project adheres to \[Semantic Versioning\]\(https:\/\/semver.org\/spec\/v2.0.0.html\).}
+          regex = %r{All notable changes to this project will be documented in this file. The format is based on \[Keep a Changelog\]\(https://keepachangelog.com/en/\d\.\d\.\d/\), and this project adheres to \[Semantic Versioning\]\(https://semver.org/spec/v2.0.0.html\).}
 
-          block_content = block[1..-1].join(' ')
+          block_content = block[1..].join(' ')
 
           regex.match?(block_content)
         end
@@ -73,7 +73,7 @@ module Danger
         end
 
         def markdown_list_item_or_continuation?(line)
-          /^(?:[\*-]\s|  )/.match?(line)
+          /^(?:[*-]\s|  )/.match?(line)
         end
       end
     end

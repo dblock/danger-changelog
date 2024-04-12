@@ -10,7 +10,7 @@ module Danger
         ignore_files
       ].freeze
 
-      ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
+      ACCESSORS = ATTRIBUTES.map { |name| :"#{name}=" }
 
       DELEGATORS = ATTRIBUTES + ACCESSORS
 
