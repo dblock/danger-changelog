@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.7.2 (Next)
+
+* Your contribution here.
+
 ### 0.7.1 (2024/04/12)
 
 * [#63](https://github.com/dblock/danger-changelog/pull/63): Fix: report on lines that start with a - and cannot be parsed - [@dblock](https://github.com/dblock).
