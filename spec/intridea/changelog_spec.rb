@@ -143,6 +143,20 @@ describe Danger::Changelog do
               ]
             end
           end
+
+          context 'with a contribution line starting with a -' do
+            let(:filename) { File.expand_path('fixtures/validation_result.md', __dir__) }
+            it 'cannot be parsed' do
+              expect(subject).to be false
+              expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
+              expect(status_report[:warnings]).to eq []
+              expect(status_report[:markdowns].map(&:message)).to eq [
+                "```markdown\n- [#67](https://github.com/dblock/danger-changelog/pull/67): Various build updates - [@bob](https://github.com/bob).\ndoes not start with a star\n```\n",
+                "```markdown\n- [#68](https://github.com/dblock/danger-changelog/pull/68): Properly render `example` - [@janet](https://github.com/janet).\ndoes not start with a star\n```\n",
+                "```markdown\n- Your contribution here.\ncannot be parsed\n```\n"
+              ]
+            end
+          end
         end
       end
     end
