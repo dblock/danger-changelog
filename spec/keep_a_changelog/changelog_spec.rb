@@ -26,12 +26,12 @@ describe Danger::Changelog do
 
       context 'with CHANGELOG changes' do
         before do
-          allow(changelog.git).to receive(:modified_files).and_return([filename])
-          allow(changelog.git).to receive(:added_files).and_return([])
+          allow(changelog.git).to receive_messages(modified_files: [filename], added_files: [])
         end
 
         context 'valid file' do
           let(:filename) { File.expand_path('fixtures/complete.md', __dir__) }
+
           it 'has no complaints' do
             expect(subject).to be true
             expect(status_report[:errors]).to eq []
@@ -42,6 +42,7 @@ describe Danger::Changelog do
 
         context 'with lines containing links' do
           let(:filename) { File.expand_path('fixtures/lines_with_links.md', __dir__) }
+
           it 'is valid' do
             expect(subject).to be true
             expect(status_report[:errors]).to eq []
@@ -52,6 +53,7 @@ describe Danger::Changelog do
 
         context 'missing a version header' do
           let(:filename) { File.expand_path('fixtures/missing_a_version_header.md', __dir__) }
+
           it 'complains' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq [
@@ -67,6 +69,7 @@ describe Danger::Changelog do
 
         context 'invalid line' do
           let(:filename) { File.expand_path('fixtures/invalid_line.md', __dir__) }
+
           it 'complains' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq [

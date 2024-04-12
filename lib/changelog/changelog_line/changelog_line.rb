@@ -6,8 +6,7 @@ module Danger
       PAIRED = /\(#{NON_DELIMITERS}\)|\{#{NON_DELIMITERS}\}|\[#{NON_DELIMITERS}\]/.freeze
       DELIMITER = /[(){}\[\]]/.freeze
 
-      attr_accessor :line
-      attr_accessor :validation_result
+      attr_accessor :line, :validation_result
 
       def initialize(line)
         self.line = line

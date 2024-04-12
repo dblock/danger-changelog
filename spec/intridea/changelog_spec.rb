@@ -27,6 +27,7 @@ describe Danger::Changelog do
 
         context 'without a CHANGELOG file' do
           let(:filename) { 'does-not-exist' }
+
           it 'complains' do
             expect(subject).to be false
             expect(status_report[:errors]).to eq ['The does-not-exist file does not exist.']
@@ -37,8 +38,7 @@ describe Danger::Changelog do
           let(:filename) { File.expand_path('fixtures/minimal.md', __dir__) }
 
           before do
-            allow(changelog.git).to receive(:modified_files).and_return([filename])
-            allow(changelog.git).to receive(:added_files).and_return([])
+            allow(changelog.git).to receive_messages(modified_files: [filename], added_files: [])
           end
 
           it 'has no complaints' do
@@ -54,6 +54,7 @@ describe Danger::Changelog do
             end
 
             let(:filename) { File.expand_path('fixtures/customized.md', __dir__) }
+
             it 'is ok' do
               expect(subject).to be true
               expect(status_report[:errors]).to eq []
@@ -103,6 +104,7 @@ describe Danger::Changelog do
 
           context 'minimal example' do
             let(:filename) { File.expand_path('fixtures/minimal.md', __dir__) }
+
             it 'is ok' do
               expect(subject).to be true
               expect(status_report[:errors]).to eq []
@@ -128,6 +130,7 @@ describe Danger::Changelog do
 
           context 'with bad lines' do
             let(:filename) { File.expand_path('fixtures/lines.md', __dir__) }
+
             it 'complains' do
               expect(subject).to be false
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]
@@ -146,6 +149,7 @@ describe Danger::Changelog do
 
           context 'with a contribution line starting with a -' do
             let(:filename) { File.expand_path('fixtures/validation_result.md', __dir__) }
+
             it 'cannot be parsed' do
               expect(subject).to be false
               expect(status_report[:errors]).to eq ["One of the lines below found in #{filename} doesn't match the [expected format](https://github.com/dblock/danger-changelog/blob/master/README.md#whats-a-correctly-formatted-changelog-file). Please make it look like the other lines, pay attention to version numbers, periods, spaces and date formats."]

@@ -10,8 +10,10 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.7'
   gem 'listen', '3.0.7'
   gem 'pry'
-  gem 'rake', '~> 10.0'
+  gem 'rake', '~> 13.2.1'
   gem 'rspec', '~> 3.4'
-  gem 'rubocop', '~> 0.73.0'
+  gem 'rubocop', '~> 1.63.1'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
   gem 'yard', '~> 0.9.11'
 end

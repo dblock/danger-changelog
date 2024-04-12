@@ -28,7 +28,7 @@ module Danger
     end
 
     # Run all checks.
-    # @param format [Symbol] the format to check against
+    # @param parser [Symbol] the parser to check with
     # @return [Boolean] true when the check passes
     def check(parser = Danger::Changelog::Config.format)
       warn '[DEPRECATION] `check` is deprecated. Set format with `.format` and use `check!` instead.'
