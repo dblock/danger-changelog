@@ -10,7 +10,7 @@ describe Danger::Changelog::PRMetadata do
     end
 
     context 'when github has no pr_json' do
-      let(:github) { double(pr_json: nil) }
+      let(:github) { instance_double(Danger::DangerfileGitHubPlugin, pr_json: nil) }
 
       it 'returns nil' do
         expect(described_class.from_github_plugin(github)).to be_nil
@@ -18,20 +18,21 @@ describe Danger::Changelog::PRMetadata do
     end
 
     context 'when github has pr_json' do
+      subject(:metadata) { described_class.from_github_plugin(github) }
+
       let(:github) do
-        double(
+        instance_double(
+          Danger::DangerfileGitHubPlugin,
           pr_json: { 'number' => 123, 'html_url' => 'https://github.com/org/repo/pull/123' },
           pr_title: 'Add feature',
           pr_author: 'dblock'
         )
       end
 
-      subject { described_class.from_github_plugin(github) }
-
       it 'creates metadata from github plugin' do
-        expect(subject.pr_json).to eq('number' => 123, 'html_url' => 'https://github.com/org/repo/pull/123')
-        expect(subject.pr_title).to eq 'Add feature'
-        expect(subject.pr_author).to eq 'dblock'
+        expect(metadata.pr_json).to eq('number' => 123, 'html_url' => 'https://github.com/org/repo/pull/123')
+        expect(metadata.pr_title).to eq 'Add feature'
+        expect(metadata.pr_author).to eq 'dblock'
       end
     end
   end
@@ -50,6 +51,8 @@ describe Danger::Changelog::PRMetadata do
     end
 
     context 'when file contains pull_request event' do
+      subject(:metadata) { described_class.from_event_file(event_file.path) }
+
       let(:event_file) { Tempfile.new(['github_event', '.json']) }
       let(:event_data) do
         {
@@ -69,12 +72,10 @@ describe Danger::Changelog::PRMetadata do
 
       after { event_file.unlink }
 
-      subject { described_class.from_event_file(event_file.path) }
-
       it 'creates metadata from event file' do
-        expect(subject.pr_json).to eq event_data['pull_request']
-        expect(subject.pr_title).to eq 'Fix bug'
-        expect(subject.pr_author).to eq 'contributor'
+        expect(metadata.pr_json).to eq event_data['pull_request']
+        expect(metadata.pr_title).to eq 'Fix bug'
+        expect(metadata.pr_author).to eq 'contributor'
       end
     end
 
@@ -96,12 +97,12 @@ describe Danger::Changelog::PRMetadata do
   end
 
   describe '.fallback' do
-    subject { described_class.fallback }
+    subject(:metadata) { described_class.fallback }
 
     it 'returns metadata with example values' do
-      expect(subject.pr_json).to eq('number' => 123, 'html_url' => 'https://github.com/org/repo/pull/123')
-      expect(subject.pr_title).to eq 'Your contribution'
-      expect(subject.pr_author).to eq 'username'
+      expect(metadata.pr_json).to eq('number' => 123, 'html_url' => 'https://github.com/org/repo/pull/123')
+      expect(metadata.pr_title).to eq 'Your contribution'
+      expect(metadata.pr_author).to eq 'username'
     end
   end
 end

@@ -97,7 +97,7 @@ module Danger
     private
 
     def pr_metadata
-      Danger::Changelog::PRMetadata.from_event_file(ENV['GITHUB_EVENT_PATH']) ||
+      Danger::Changelog::PRMetadata.from_event_file(ENV.fetch('GITHUB_EVENT_PATH', nil)) ||
         Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
         Danger::Changelog::PRMetadata.fallback
     end
