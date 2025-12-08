@@ -31,7 +31,8 @@ describe Danger::Changelog do
           expect(subject).to be false
           expect(status_report[:errors]).to eq []
           expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update CHANGELOG.md."]
-          expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a CHANGELOG.md entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+          expect(status_report[:markdowns].map(&:message).first).to include("Here's an example of a CHANGELOG.md entry:")
+          expect(status_report[:markdowns].map(&:message).first).to match(%r{\* \[#\d+\]\(https://github\.com/.+/pull/\d+\): .+ - \[@.+\]\(https://github\.com/.+\)\.})
         end
       end
 
@@ -64,7 +65,8 @@ describe Danger::Changelog do
             expect(subject).to be false
             expect(status_report[:errors]).to eq []
             expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update #{changelog.filename}."]
-            expect(status_report[:markdowns].map(&:message)).to eq ["Here's an example of a #{changelog.filename} entry:\n\n```markdown\n* [#123](https://github.com/dblock/danger-changelog/pull/123): Being dangerous - [@dblock](https://github.com/dblock).\n```\n"]
+            expect(status_report[:markdowns].map(&:message).first).to include("Here's an example of a #{changelog.filename} entry:")
+            expect(status_report[:markdowns].map(&:message).first).to match(%r{\* \[#\d+\]\(https://github\.com/.+/pull/\d+\): .+ - \[@.+\]\(https://github\.com/.+\)\.})
           end
         end
 

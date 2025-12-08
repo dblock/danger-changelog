@@ -96,12 +96,27 @@ module Danger
 
     private
 
+    def pr_metadata
+      Danger::Changelog::PRMetadata.from_event_file(ENV['GITHUB_EVENT_PATH']) ||
+        Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
+        Danger::Changelog::PRMetadata.fallback
+    end
+
+    def github_plugin
+      github
+    rescue NoMethodError
+      # github plugin is not available in dry_run mode (LocalOnly request source)
+      nil
+    end
+
     def warn_update_changelog
+      example = Danger::Changelog::ChangelogEntryLine.example(pr_metadata)
+
       markdown <<~MARKDOWN
         Here's an example of a #{filename} entry:
 
         ```markdown
-        #{Danger::Changelog::ChangelogEntryLine.example(github)}
+        #{example}
         ```
       MARKDOWN
       warn "Unless you're refactoring existing code or improving documentation, please update #{filename}.", sticky: false
