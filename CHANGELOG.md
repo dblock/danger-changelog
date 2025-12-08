@@ -3,6 +3,7 @@
 ### 0.7.2 (Next)
 
 * Your contribution here.
+* [#65](https://github.com/dblock/danger-changelog/pull/65): Add support for running changelog checks without GitHub API token - [@numbata](https://github.com/numbata).
 
 ### 0.7.1 (2024/04/12)
 
