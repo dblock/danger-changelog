@@ -51,22 +51,6 @@ RSpec/ContextWording:
 RSpec/ExampleLength:
   Max: 12
 
-# Offense count: 10
-# Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
-# Include: **/*_spec*rb*, **/spec/**/*
-RSpec/FilePath:
-  Exclude:
-    - 'spec/changelog_spec.rb'
-    - 'spec/config_spec.rb'
-    - 'spec/intridea/changelog_entry_line_spec.rb'
-    - 'spec/intridea/changelog_file_spec.rb'
-    - 'spec/intridea/changelog_header_line_spec.rb'
-    - 'spec/intridea/changelog_line_parser_spec.rb'
-    - 'spec/intridea/changelog_placeholder_line_spec.rb'
-    - 'spec/intridea/changelog_spec.rb'
-    - 'spec/keep_a_changelog/changelog_spec.rb'
-    - 'spec/plugin_spec.rb'
-
 # Offense count: 25
 RSpec/MultipleExpectations:
   Max: 8
@@ -103,7 +87,7 @@ RSpec/RepeatedIncludeExample:
     - 'spec/intridea/changelog_entry_line_spec.rb'
     - 'spec/intridea/changelog_header_line_spec.rb'
 
-# Offense count: 10
+# Offense count: 11
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, IgnoreMetadata.
 # Include: **/*_spec.rb
 RSpec/SpecFilePathFormat:
@@ -119,6 +103,7 @@ RSpec/SpecFilePathFormat:
     - 'spec/intridea/changelog_spec.rb'
     - 'spec/keep_a_changelog/changelog_spec.rb'
     - 'spec/plugin_spec.rb'
+    - 'spec/pr_metadata_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
