@@ -17,7 +17,15 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
       - name: Run Danger
-        run: |
-          # the personal token is public, this is ok, base64 encode to avoid tripping Github
-          TOKEN=$(echo -n Z2hwX0xNQ3VmanBFeTBvYkZVTWh6NVNqVFFBOEUxU25abzBqRUVuaAo= | base64 --decode)
-          DANGER_GITHUB_API_TOKEN=$TOKEN bundle exec danger --verbose
+        run: bundle exec danger dry_run --verbose
+        env:
+          DANGER_REPORT_PATH: danger_report.json
+        continue-on-error: true
+      - name: Upload Danger Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: danger-report
+          path: danger_report.json
+          retention-days: 1
+          if-no-files-found: ignore
