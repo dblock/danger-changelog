@@ -21,6 +21,7 @@ jobs:
           fetch-depth: 1
       - name: Download Danger Report
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: danger-report
           run-id: ${{ github.event.workflow_run.id }}
