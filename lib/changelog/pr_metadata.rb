@@ -17,7 +17,7 @@ module Danger
       end
 
       # Attempt to fetch PR metadata from the GitHub plugin.
-      # Returns nil if the GitHub API is unavailable (e.g., invalid token, network issues).
+      # Returns nil if GitHub API access fails for any reason (authentication, rate limiting, network errors, etc).
       # This allows the fallback chain to proceed to other sources like GITHUB_EVENT_PATH.
       def self.from_github_plugin(github = nil)
         return nil unless github
@@ -31,8 +31,8 @@ module Danger
             pr_title: github.pr_title,
             pr_author: github.pr_author
           )
-        rescue Octokit::Unauthorized
-          warn "[Changelog::PRMetadata] GitHub authentication failed (Octokit::Unauthorized). Falling back to other PR metadata sources."
+        rescue Octokit::Error => e
+          warn "[Changelog::PRMetadata] GitHub API request failed (#{e.class}: #{e.message}). Falling back to other PR metadata sources."
           nil
         end
       end
