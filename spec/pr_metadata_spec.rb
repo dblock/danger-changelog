@@ -35,6 +35,24 @@ describe Danger::Changelog::PRMetadata do
         expect(metadata.pr_author).to eq 'dblock'
       end
     end
+
+    context 'when github plugin raises Octokit::Error' do
+      let(:github) do
+        instance_double(Danger::DangerfileGitHubPlugin)
+      end
+
+      [Octokit::Unauthorized, Octokit::TooManyRequests, Octokit::Forbidden].each do |error_class|
+        context "with #{error_class}" do
+          before do
+            allow(github).to receive(:pr_json).and_raise(error_class.new)
+          end
+
+          it 'returns nil to allow fallback' do
+            expect(described_class.from_github_plugin(github)).to be_nil
+          end
+        end
+      end
+    end
   end
 
   describe '.from_event_file' do

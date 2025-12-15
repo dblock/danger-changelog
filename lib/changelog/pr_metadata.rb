@@ -16,14 +16,25 @@ module Danger
         @pr_author = pr_author
       end
 
+      # Attempt to fetch PR metadata from the GitHub plugin.
+      # Returns nil if GitHub API access fails for any reason (authentication, rate limiting, network errors, etc).
+      # This allows the fallback chain to proceed to other sources like GITHUB_EVENT_PATH.
       def self.from_github_plugin(github = nil)
-        return nil unless github&.pr_json
+        return nil unless github
 
-        new(
-          pr_json: github.pr_json,
-          pr_title: github.pr_title,
-          pr_author: github.pr_author
-        )
+        begin
+          pr_json = github.pr_json
+          return nil unless pr_json
+
+          new(
+            pr_json: pr_json,
+            pr_title: github.pr_title,
+            pr_author: github.pr_author
+          )
+        rescue Octokit::Error => e
+          warn "[Changelog::PRMetadata] GitHub API request failed (#{e.class}: #{e.message}). Falling back to other PR metadata sources."
+          nil
+        end
       end
 
       def self.from_event_file(path)
