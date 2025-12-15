@@ -27,4 +27,6 @@ jobs:
       - name: Post or Update PR Comment
         uses: actions/github-script@v7
         with:
-          script-file: .github/scripts/post-danger-comment.js
+          script: |
+            const script = require('./.github/scripts/post-danger-comment.js');
+            await script({ github, context });
