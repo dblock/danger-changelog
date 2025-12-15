@@ -2,6 +2,8 @@ const fs = require('fs');
 const core = require('@actions/core');
 
 module.exports = async ({ github, context }) => {
+  const hasItems = (arr) => Array.isArray(arr) && arr.length > 0;
+
   let report;
   try {
     report = JSON.parse(fs.readFileSync('danger_report.json', 'utf8'));
@@ -17,27 +19,32 @@ module.exports = async ({ github, context }) => {
 
   let body = '## Danger Report\n\n';
 
-  if (report.errors && report.errors.length > 0) {
+  if (hasItems(report.errors)) {
     body += '### ❌ Errors\n';
     report.errors.forEach(e => body += `- ${e}\n`);
     body += '\n';
   }
 
-  if (report.warnings && report.warnings.length > 0) {
+  if (hasItems(report.warnings)) {
     body += '### ⚠️ Warnings\n';
     report.warnings.forEach(w => body += `- ${w}\n`);
     body += '\n';
   }
 
-  if (report.messages && report.messages.length > 0) {
+  if (hasItems(report.messages)) {
     body += '### ℹ️ Messages\n';
     report.messages.forEach(m => body += `- ${m}\n`);
     body += '\n';
   }
 
-  if ((!report.errors || report.errors.length === 0) &&
-      (!report.warnings || report.warnings.length === 0) &&
-      (!report.messages || report.messages.length === 0)) {
+  if (hasItems(report.markdowns)) {
+    report.markdowns.forEach(md => body += `${md}\n\n`);
+  }
+
+  if (!hasItems(report.errors) &&
+      !hasItems(report.warnings) &&
+      !hasItems(report.messages) &&
+      !hasItems(report.markdowns)) {
     body += '✅ All checks passed!';
   }
 
