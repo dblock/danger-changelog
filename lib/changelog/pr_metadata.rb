@@ -32,6 +32,7 @@ module Danger
             pr_author: github.pr_author
           )
         rescue Octokit::Unauthorized
+          warn "[Changelog::PRMetadata] GitHub authentication failed (Octokit::Unauthorized). Falling back to other PR metadata sources."
           nil
         end
       end
