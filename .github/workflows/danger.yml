@@ -17,6 +17,8 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
       - name: Run Danger
+        # Note: We use 'dry_run' mode intentionally as part of a two-workflow pattern.
+        # The actual commenting on GitHub is handled by the danger-comment.yml workflow.
         run: bundle exec danger dry_run --verbose
         env:
           DANGER_REPORT_PATH: danger_report.json
