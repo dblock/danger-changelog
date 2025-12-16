@@ -25,9 +25,11 @@ jobs:
         with:
           name: danger-report
           run-id: ${{ github.event.workflow_run.id }}
+          repository: ${{ github.event.workflow_run.repository.full_name }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Post or Update PR Comment
         uses: actions/github-script@v7
         with:
           script: |
             const script = require('./.github/scripts/post-danger-comment.js');
-            await script({ github, context });
+            await script({ github, context, core });

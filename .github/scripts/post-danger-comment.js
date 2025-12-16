@@ -1,7 +1,6 @@
 const fs = require('fs');
-const core = require('@actions/core');
 
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const hasItems = (arr) => Array.isArray(arr) && arr.length > 0;
 
   let report;
