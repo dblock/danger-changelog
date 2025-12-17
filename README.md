@@ -55,7 +55,7 @@ changelog.filename = 'CHANGES.md'
 
 ### changelog.format
 
-Set the format of the CHANGELOG file. 
+Set the format of the CHANGELOG file.
 
 ```ruby
 changelog.format = :keep_a_changelog
