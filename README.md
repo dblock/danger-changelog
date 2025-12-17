@@ -37,10 +37,6 @@ gem 'danger-changelog', '~> 0.6.0'
 
 Call `changelog.check!` from your `Dangerfile`. Make a pull request and see this plugin in action.
 
-## Test
-
-Test test
-
 ## Usage
 
 Methods and attributes from this plugin are available in your `Dangerfile` under the `changelog` namespace.
