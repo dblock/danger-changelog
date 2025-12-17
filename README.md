@@ -8,7 +8,7 @@ It can make sure, for example, that changes are attributed properly, have a vali
 
 # Table of Contents
 
-- [What's a correctly formatted CHANGELOG file?](#whats-a-correctly-formatted-changelog-file)
+- [What’s a correctly formatted CHANGELOG file?](#whats-a-correctly-formatted-changelog-file)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -55,7 +55,7 @@ changelog.filename = 'CHANGES.md'
 
 ### changelog.format
 
-Set the format of the CHANGELOG file. 
+Set the format of the CHANGELOG file.
 
 ```ruby
 changelog.format = :keep_a_changelog
