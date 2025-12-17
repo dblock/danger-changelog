@@ -3,7 +3,6 @@ on:
   workflow_run:
     workflows: [Danger]
     types: [completed]
-  workflow_call:
 
 jobs:
   comment:

@@ -2,7 +2,6 @@ name: Danger
 on:
   pull_request:
     types: [ opened, reopened, edited, synchronize ]
-  workflow_call:
 
 jobs:
   danger:
