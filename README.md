@@ -8,7 +8,7 @@ It can make sure, for example, that changes are attributed properly, have a vali
 
 # Table of Contents
 
-- [What’s a correctly formatted CHANGELOG file?](#whats-a-correctly-formatted-changelog-file)
+- [What's a correctly formatted CHANGELOG file?](#whats-a-correctly-formatted-changelog-file)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
