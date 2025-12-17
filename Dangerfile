@@ -4,3 +4,4 @@
 danger.import_dangerfile(gem: 'ruby-grape-danger')
 
 changelog.check!
+toc.check!
