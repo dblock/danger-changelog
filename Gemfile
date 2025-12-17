@@ -6,7 +6,6 @@ group :development, :test do
   gem 'activesupport'
   gem 'bundler'
   gem 'danger-toc', '~> 0.2.0'
-  gem 'ruby-grape-danger', github: 'numbata/ruby-grape-danger', branch: 'report-workflows'
   gem 'guard', '~> 2.14'
   gem 'guard-rspec', '~> 4.7'
   gem 'listen', '3.0.7'
@@ -16,5 +15,6 @@ group :development, :test do
   gem 'rubocop', '~> 1.63.1'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
+  gem 'ruby-grape-danger', github: 'numbata/ruby-grape-danger', branch: 'report-workflows'
   gem 'yard', '~> 0.9.11'
 end
