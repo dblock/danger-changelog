@@ -2,9 +2,8 @@ name: Danger
 on:
   pull_request:
     types: [ opened, reopened, edited, synchronize ]
-  workflow_call:
 
 jobs:
   danger:
-    uses: ruby-grape/danger/.github/workflows/danger-run.yml@report-workflows
+    uses: ruby-grape/danger/.github/workflows/danger-run.yml@master
     secrets: inherit

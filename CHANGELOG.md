@@ -3,6 +3,7 @@
 ### 0.7.2 (Next)
 
 * Your contribution here.
+* [#70](https://github.com/dblock/danger-changelog/pull/70): Workflow postreview improvments - [@numbata](https://github.com/numbata).
 * [#68](https://github.com/dblock/danger-changelog/pull/68): Fix Danger comment workflow artifact download and script core injection - [@numbata](https://github.com/numbata).
 * [#66](https://github.com/dblock/danger-changelog/pull/66): Update danger workflow with tokenless execution and two-workflow pattern - [@numbata](https://github.com/numbata).
 * [#65](https://github.com/dblock/danger-changelog/pull/65): Add support for running changelog checks without GitHub API token - [@numbata](https://github.com/numbata).

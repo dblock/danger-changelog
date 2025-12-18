@@ -3,9 +3,8 @@ on:
   workflow_run:
     workflows: [Danger]
     types: [completed]
-  workflow_call:
 
 jobs:
   comment:
-    uses: ruby-grape/danger/.github/workflows/danger-comment.yml@report-workflows
+    uses: ruby-grape/danger/.github/workflows/danger-comment.yml@master
     secrets: inherit
