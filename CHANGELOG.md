@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.8.1 (Next)
+
+* Your contribution here.
+
 ### 0.8.0 (2025/12/18)
 
 * [#70](https://github.com/dblock/danger-changelog/pull/70): Workflow postreview improvments - [@numbata](https://github.com/numbata).
