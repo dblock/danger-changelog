@@ -1,4 +1,6 @@
-# danger.systems
+# frozen_string_literal: true
 
-# Import ruby-grape-danger for automatic danger report export
-danger.import_dangerfile(gem: 'ruby-grape-danger')
+danger.import_dangerfile(gem: 'danger-pr-comment')
+
+changelog.check!
+toc.check!

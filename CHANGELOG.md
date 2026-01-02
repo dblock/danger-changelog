@@ -2,6 +2,7 @@
 
 ### 0.8.1 (Next)
 
+* [#71](https://github.com/dblock/danger-changelog/pull/71): Migrate to danger-pr-comment workflow pattern - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.8.0 (2025/12/18)
