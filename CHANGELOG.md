@@ -1,9 +1,12 @@
 ## Changelog
 
-### 0.9.0 (Next)
+### 0.9.1 (Next)
+
+* Your contribution here.
+
+### 0.9.0 (2026/10/14)
 
 * [#72](https://github.com/dblock/danger-changelog/pull/72): Accept bot author links with a `[bot]` suffix without changing their attribution - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.8.0 (2025/12/18)
 
