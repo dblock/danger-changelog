@@ -6,6 +6,15 @@ describe Danger::Changelog::ChangelogFile do
   end
 
   describe 'with the default format checker' do
+    context 'with bot authors' do
+      let(:filename) { File.expand_path('fixtures/bot_authors.md', __dir__) }
+
+      it 'accepts bot entries in a complete changelog' do
+        expect(subject.bad_lines).to eq []
+        expect(subject.global_failures?).to be false
+      end
+    end
+
     context 'minimal example' do
       let(:filename) { File.expand_path('fixtures/minimal.md', __dir__) }
 

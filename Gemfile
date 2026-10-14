@@ -16,5 +16,6 @@ group :development, :test do
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
   gem 'ruby-grape-danger'
+  gem 'tsort'
   gem 'yard', '~> 0.9.11'
 end
