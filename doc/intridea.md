@@ -99,8 +99,11 @@ The Intridea style changelog was pioneered on the Hashie project. It has many el
 ```markdown
 * Entry without a PR link - [@ivoanjo](https://github.com/ivoanjo).
 * [#1](https://github.com/dblock/danger-changelog/pull/1): Entry with a PR link - [@dblock](https://github.com/dblock).
+* [#2](https://github.com/dblock/danger-changelog/pull/2): Update dependencies - [@github-actions[bot]](https://github.com/apps/github-actions).
 * Yes, this is a weird entry, but it's still valid! Also Beyoncé is welcome here, as is 松本 行弘 and our nice emojis 👍 - [@ivoanjo](https://github.com/ivoanjo).
 ```
+
+Bot author names may end in a literal `[bot]` suffix, such as `github-actions[bot]` or `dependabot[bot]`. Keep the suffix in the attribution; links to GitHub app pages and bot profiles are supported.
 
 ❌ Entry descriptions need to start with an uppercase A-Z letter
 

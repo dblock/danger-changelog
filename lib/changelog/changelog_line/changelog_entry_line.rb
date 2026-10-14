@@ -4,6 +4,9 @@ module Danger
   module Changelog
     # A CHANGELOG.md line represents the change entry.
     class ChangelogEntryLine < ChangelogLine
+      AUTHOR_NAME = /[\w-]+(?:\[bot\])?/.freeze
+      AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}.freeze
+
       def valid?
         return validation_result.valid? if validation_result
 
@@ -12,8 +15,8 @@ module Danger
         validation_result.error! 'too many parenthesis' unless balanced?(line)
         return false if validation_result.invalid?
 
-        return true if line =~ %r{^\*\s[`[:upper:]].*[^.,] - \[@[\w\d\-_]+\]\(https://github\.com/.*[\w\d\-_]+\).$}
-        return true if line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[^.,] - \[@[\w\d\-_]+\]\(https://github\.com/.*[\w\d\-_]+\).$}
+        return true if line =~ /^\*\s[`[:upper:]].*[^.,] - #{AUTHOR_LINK}.$/
+        return true if line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[^.,] - #{AUTHOR_LINK}.$}
 
         validation_result.error! 'does not start with a star' unless ChangelogEntryLine.starts_with_star?(line)
         validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
@@ -22,8 +25,8 @@ module Danger
         validation_result.error! 'has an extra trailing space' if ChangelogEntryLine.ends_with_space?(line)
         validation_result.error! 'is missing a period at the end of the line' unless ChangelogEntryLine.ends_with_period?(line)
         validation_result.error! 'has an extra period or comma at the end of the description' if
-          line =~ %r{^\*\s[`[:upper:]].*[.,] - \[@[\w\d\-_]+\]\(https://github\.com/.*[\w\d\-_]+\).$} ||
-          line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[.,] - \[@[\w\d\-_]+\]\(https://github\.com/.*[\w\d\-_]+\).$}
+          line =~ /^\*\s[`[:upper:]].*[.,] - #{AUTHOR_LINK}.$/ ||
+          line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[.,] - #{AUTHOR_LINK}.$}
 
         false
       end
@@ -86,7 +89,7 @@ module Danger
 
       # checks whether line contains a MARKDOWN  link to an author
       def self.with_author_link?(line)
-        return true if line =~ %r{\[@[\w\d\-_]+\]\(https?://github\.com/.*[\w\d\-_]+/?\)}
+        return true if line =~ %r{\[@#{AUTHOR_NAME}\]\(https?://github\.com/.*#{AUTHOR_NAME}/?\)}
 
         false
       end
