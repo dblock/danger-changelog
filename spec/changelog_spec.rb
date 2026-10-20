@@ -31,7 +31,7 @@ describe Danger::Changelog do
           expect(subject).to be false
           expect(status_report[:errors]).to eq []
           expect(status_report[:warnings]).to eq ["Unless you're refactoring existing code or improving documentation, please update CHANGELOG.md."]
-          expect(status_report[:markdowns].map(&:message).first).to include("Here's an example of a CHANGELOG.md entry:")
+          expect(status_report[:markdowns].map(&:message).first).to start_with("### Suggested changelog entry\n\n")
           expect(status_report[:markdowns].map(&:message).first).to match(%r{\* \[#\d+\]\(https://github\.com/.+/pull/\d+\): .+ - \[@.+\]\(https://github\.com/.+\)\.})
         end
       end

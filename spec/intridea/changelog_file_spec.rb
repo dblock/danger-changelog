@@ -71,7 +71,7 @@ describe Danger::Changelog::ChangelogFile do
       it 'reports all bad lines' do
         expect(subject.bad_lines).to eq [
           ["Missing star - [@dblock](https://github.com/dblock).\n", 'does not start with a star, does not include a pull request link'],
-          ["* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n"],
+          ["* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n", 'is missing a colon after the pull request link'],
           ["* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\n", 'is missing a period at the end of the line'],
           ["# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\n", 'does not start with a star'],
           ["* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\n", 'has an extra period or comma at the end of the description'],

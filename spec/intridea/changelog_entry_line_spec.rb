@@ -35,6 +35,12 @@ describe Danger::Changelog::ChangelogEntryLine do
 
     context 'when not a colon' do
       it_behaves_like 'invalid changelog entry line', '* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).'
+
+      it 'explains the missing colon even when a later link has one' do
+        entry = described_class.new("* [#1](https://github.com/dblock/danger-changelog/pull/1) See [details](https://example.com): Fix - [@dblock](https://github.com/dblock).\n")
+        expect(entry.valid?).to be false
+        expect(entry.validation_result.errors).to include('is missing a colon after the pull request link')
+      end
     end
 
     context 'when no dash' do

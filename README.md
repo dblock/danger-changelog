@@ -15,6 +15,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.format](#changelogformat)
   - [changelog.placeholder_line](#changelogplaceholder_line)
   - [changelog.ignore_files](#changelogignore_files)
+  - [Conditional reminders](#conditional-reminders)
 - [Checks](#checks)
   - [changelog.check!](#changelogcheck)
     - [changelog.have_you_updated_changelog?](#changeloghave_you_updated_changelog)
@@ -79,6 +80,33 @@ For example, ignore `UPGRADING.md` and all `.txt` files.
 ```ruby
 changelog.ignore_files = ['README.md', 'UPGRADING.md', /\.txt$/]
 ```
+
+### Conditional reminders
+
+By default, only `README.md` is ignored. To skip reminders when all added or modified files are documentation at the repository root, use an anchored pattern. Subdirectory files still require a changelog update.
+
+```ruby
+changelog.ignore_files = [/\A[^\/]+\.md\z/]
+changelog.check!
+```
+
+For code-only reminders, use Danger's changed files directly. Keep format validation unconditional, so an edited changelog is checked even when no code changes:
+
+```ruby
+changed_files = git.modified_files + git.added_files + git.deleted_files
+changelog.have_you_updated_changelog? if changed_files.any? { |file| file.start_with?('lib/') }
+changelog.is_changelog_format_correct?
+```
+
+Other policies can use the same separate checks, such as reminding only for changes larger than 50 lines unless the pull request is marked trivial:
+
+```ruby
+declared_trivial = github.pr_labels.include?('trivial')
+changelog.have_you_updated_changelog? if git.lines_of_code > 50 && !declared_trivial
+changelog.is_changelog_format_correct?
+```
+
+The label example uses the GitHub plugin; adapt the condition to your provider. Do not also call `check!` in these conditional examples, because it would run the reminder unconditionally.
 
 ## Checks
 
