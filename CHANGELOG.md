@@ -2,6 +2,7 @@
 
 ### 0.10.0 (Next)
 
+* [#82](https://github.com/dblock/danger-changelog/pull/82): Add opt-in intent-word checks with a configurable dictionary, consistent forms within each verb family, and full-file or added-only validation - [@dblock](https://github.com/dblock).
 * [#83](https://github.com/dblock/danger-changelog/pull/83): Add global and per-check only_added scope for format diagnostics while keeping full-file validation as the default and file-wide requirements unconditional - [@dblock](https://github.com/dblock).
 * [#81](https://github.com/dblock/danger-changelog/pull/81): Require added changelog entries to belong to an unreleased section by default, with global and per-check heading overrides and opt-out - [@dblock](https://github.com/dblock).
 * [#80](https://github.com/dblock/danger-changelog/pull/80): Keep invalid-line reports fenced correctly when changelog text contains backticks and verify consecutive Keep a Changelog error rendering - [@dblock](https://github.com/dblock).

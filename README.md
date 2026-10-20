@@ -18,6 +18,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.strict_semver](#changelogstrict_semver)
   - [changelog.unreleased_heading](#changelogunreleased_heading)
   - [changelog.only_added](#changelogonly_added)
+  - [changelog.check_intent and changelog.intent_words](#changelogcheck_intent-and-changelogintent_words)
   - [Conditional reminders](#conditional-reminders)
 - [Checks](#checks)
   - [changelog.check!](#changelogcheck)
@@ -127,7 +128,7 @@ Call `changelog.entries_in_unreleased_section?(unreleased_heading: /\(Next\)/)` 
 
 ### changelog.only_added
 
-Format validation checks the entire file by default (`only_added: false`). Set `only_added: true` globally or per check to report line-level format problems only on added lines in Danger's diff. Edited historical entries count as additions. Headers, punctuation, capitalization, attribution, and reference diagnostics follow this scope; reference definitions elsewhere in the file remain available for resolution.
+Format validation and enabled intent validation check the entire file by default (`only_added: false`). Set `only_added: true` globally or per check to report line-level format problems and compare intent words only on added lines in Danger's diff. Edited historical entries count as additions. Headers, punctuation, capitalization, attribution, and reference diagnostics follow this scope; reference definitions elsewhere in the file remain available for resolution.
 
 ```ruby
 changelog.only_added = true
@@ -138,6 +139,21 @@ changelog.is_changelog_format_correct?(only_added: false)
 Missing files, required placeholders, and Keep a Changelog preamble requirements always apply to the whole file. Missing diff data is an explicit failure when added-only checking is requested for a changed changelog. An unchanged file has no added-line diagnostics but still receives global checks.
 
 Release-section placement always checks additions only, regardless of `only_added`; checking released history against an unreleased section would incorrectly reject existing releases. Use `unreleased_heading: nil` to disable placement validation.
+
+### changelog.check_intent and changelog.intent_words
+
+Opt into a finite dictionary of intent words and consistent wording within each verb family with `check_intent: true`. This rule is disabled by default and works with both formats. Once enabled, it checks the entire file by default, skipping the configured placeholder and fenced code examples. Set `only_added: true` to compare only added entries, excluding unchanged history. Missing diff data is an error only when added-only checking is requested for a changed changelog.
+
+```ruby
+changelog.check_intent = true
+changelog.check!
+changelog.check!(check_intent: true, intent_words: %w[Add Fix Remove])
+changelog.intent_correct?(check_intent: true)
+```
+
+The default verb families are **Add, Allow, Change, Clarify, Deprecate, Disable, Document, Enable, Fix, Improve, Optimize, Refactor, Remove, Rename, Replace, Revert, Simplify, Support, Update, Upgrade**, including their past, third-person present, and gerund forms (for example, `Add`, `Added`, `Adds`, `Adding`; `Fix`, `Fixed`, `Fixes`, `Fixing`). Any form is acceptable on its own, but mixing forms within a family fails: `Add` with `Added` fails, while repeated `Added` entries pass. Each family is independent, so `Added` with `Fix` passes. Diagnostics ask later entries to match the first form used among the checked entries and include its line number. Unknown words show the allowed dictionary.
+
+`intent_words` replaces the entire dictionary and must be a nonempty array of single words. Custom words are accepted exactly as listed, without automatic inflection; known forms still belong to their built-in verb family for consistency checks. Matching is case-sensitive, supports Unicode letters, and checks the first word after an optional PR reference or inline link. Setting a dictionary alone does not enable the rule. Projects with non-English prose, emoji-first entries, or inline-code-first descriptions should leave it disabled or adopt a compatible custom word list. Existing format validation remains independent; a custom dictionary does not relax capitalization rules.
 
 ### Conditional reminders
 
@@ -168,11 +184,11 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, `unreleased_heading`, and `only_added`. Each uses only the relevant settings.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, `unreleased_heading`, `only_added`, `check_intent`, and `intent_words`. Each uses only the relevant settings.
 
 ### changelog.check!
 
-Run all checks with defaults, including `have_you_updated_changelog?`, `is_changelog_format_correct?`, and `entries_in_unreleased_section?`.
+Run all checks with defaults, including `have_you_updated_changelog?`, `is_changelog_format_correct?`, and `entries_in_unreleased_section?`. When enabled, intent validation runs after those checks pass.
 
 ```ruby
 changelog.check!(filename: 'CHANGES.md', placeholder_line: nil)
