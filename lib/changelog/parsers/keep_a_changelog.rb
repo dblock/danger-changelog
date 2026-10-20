@@ -8,7 +8,7 @@ module Danger
         end
 
         def parse(filename)
-          blocks = parse_into_blocks(File.open(filename).each_line)
+          blocks = parse_into_blocks(File.foreach(filename))
 
           if contains_header_block?(blocks.first)
             blocks = blocks[1..]

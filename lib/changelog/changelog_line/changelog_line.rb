@@ -2,9 +2,9 @@ module Danger
   module Changelog
     # An abstract CHANGELOG.md line.
     class ChangelogLine
-      NON_DELIMITERS = /[^(){}\[\]]*/.freeze
-      PAIRED = /\(#{NON_DELIMITERS}\)|\{#{NON_DELIMITERS}\}|\[#{NON_DELIMITERS}\]/.freeze
-      DELIMITER = /[(){}\[\]]/.freeze
+      NON_DELIMITERS = /[^(){}\[\]]*/
+      PAIRED = /\(#{NON_DELIMITERS}\)|\{#{NON_DELIMITERS}\}|\[#{NON_DELIMITERS}\]/
+      DELIMITER = /[(){}\[\]]/
 
       attr_accessor :line, :validation_result
 
