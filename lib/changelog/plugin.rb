@@ -113,6 +113,8 @@ module Danger
       example = Danger::Changelog::ChangelogEntryLine.example(pr_metadata)
 
       markdown <<~MARKDOWN
+        ### Suggested changelog entry
+
         Here's an example of a #{filename} entry:
 
         ```markdown

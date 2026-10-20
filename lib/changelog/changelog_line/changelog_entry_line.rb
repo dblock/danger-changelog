@@ -6,6 +6,7 @@ module Danger
     class ChangelogEntryLine < ChangelogLine
       AUTHOR_NAME = /[\w-]+(?:\[bot\])?/
       AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}
+      PR_LINK = %r{\[\#\d+\]\(https?://github\.com/.*?\d+/?\)}
 
       def valid?
         return validation_result.valid? if validation_result
@@ -20,6 +21,7 @@ module Danger
 
         validation_result.error! 'does not start with a star' unless ChangelogEntryLine.starts_with_star?(line)
         validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
+        validation_result.error! 'is missing a colon after the pull request link' if ChangelogEntryLine.with_pr_link?(line) && !/#{PR_LINK}:/.match?(line)
         validation_result.error! 'does not have a description' unless ChangelogEntryLine.with_changelog_description?(line)
         validation_result.error! 'does not include an author link' unless ChangelogEntryLine.with_author_link?(line)
         validation_result.error! 'has an extra trailing space' if ChangelogEntryLine.ends_with_space?(line)
@@ -75,7 +77,7 @@ module Danger
 
       # checks whether line contains a MARKDOWN  link to a PR
       def self.with_pr_link?(line)
-        return true if line =~ %r{\[\#\d+\]\(https?://github\.com/.*\d+/?\)}
+        return true if PR_LINK.match?(line)
 
         false
       end

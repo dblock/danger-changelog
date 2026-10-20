@@ -137,7 +137,7 @@ describe Danger::Changelog do
               expect(status_report[:warnings]).to eq []
               expect(status_report[:markdowns].map(&:message)).to eq [
                 "```markdown\nMissing star - [@dblock](https://github.com/dblock).\ndoes not start with a star, does not include a pull request link\n```\n",
-                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\n```\n",
+                "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1) - Not a colon - [@dblock](https://github.com/dblock).\nis missing a colon after the pull request link\n```\n",
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): No final period - [@dblock](https://github.com/dblock)\nis missing a period at the end of the line\n```\n",
                 "```markdown\n# [#1](https://github.com/dblock/danger-changelog/pull/1): Hash instead of star - [@dblock](https://github.com/dblock).\ndoes not start with a star\n```\n",
                 "```markdown\n* [#1](https://github.com/dblock/danger-changelog/pull/1): Extra period. - [@dblock](https://github.com/dblock).\nhas an extra period or comma at the end of the description\n```\n",
