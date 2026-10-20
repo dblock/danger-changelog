@@ -2,11 +2,12 @@ module Danger
   module Changelog
     module Parsers
       class Base
-        def initialize(listeners = [])
+        def initialize(listeners = [], config: Danger::Changelog.config.with)
           @listeners = listeners
+          @config = config
         end
 
-        attr_reader :listeners
+        attr_reader :listeners, :config
 
         def add_listener(changelog)
           listeners << changelog

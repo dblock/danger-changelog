@@ -19,57 +19,82 @@ module Danger
   class DangerChangelog < Plugin
     extend Forwardable
 
-    def_delegators Danger::Changelog.config, *Danger::Changelog::Config::DELEGATORS
+    def_delegators 'Danger::Changelog.config', *Danger::Changelog::Config::DELEGATORS
 
     # Run all checks.
+    # @param [Hash] options per-check overrides for global settings
     # @return [Boolean] true when the check passes
-    def check!
-      have_you_updated_changelog? && is_changelog_format_correct?
+    def check!(**options)
+      config = Danger::Changelog.config.with(**options)
+      updated_changelog?(config) && correct_changelog_format?(config)
     end
 
     # Run all checks.
-    # @param parser [Symbol] the parser to check with
+    # @param [Symbol, String] parser the parser to check with
+    # @param [Hash] options per-check overrides for global settings
     # @return [Boolean] true when the check passes
-    def check(parser = Danger::Changelog::Config.format)
+    def check(parser = Danger::Changelog.config.format, **options)
       warn '[DEPRECATION] `check` is deprecated. Set format with `.format` and use `check!` instead.'
-      config.format = parser
-      check!
+      check!(format: parser, **options)
     end
 
     # Has the CHANGELOG file been modified?
+    # @param [Hash] options per-check overrides for global settings
     # @return [boolean]
-    def changelog_changes?
-      git.modified_files.include?(filename) || git.added_files.include?(filename)
+    def changelog_changes?(**options)
+      changed_changelog?(Danger::Changelog.config.with(**options))
     end
 
     # Are any files CHANGELOG cares about modified?
+    # @param [Hash] options per-check overrides for global settings
     # @return [boolean]
-    def file_changes?
+    def file_changes?(**options)
+      changed_files?(Danger::Changelog.config.with(**options))
+    end
+
+    # Have you updated CHANGELOG.md?
+    # @param [Hash] options per-check overrides for global settings
+    # @return [boolean]
+    def have_you_updated_changelog?(**options)
+      updated_changelog?(Danger::Changelog.config.with(**options))
+    end
+
+    # Is the CHANGELOG.md format correct?
+    # @param [Hash] options per-check overrides for global settings
+    # @return [boolean]
+    def is_changelog_format_correct?(**options)
+      correct_changelog_format?(Danger::Changelog.config.with(**options))
+    end
+
+    private
+
+    def changed_changelog?(config)
+      git.modified_files.include?(config.filename) || git.added_files.include?(config.filename)
+    end
+
+    def changed_files?(config)
       all_files = git.modified_files + git.added_files
-      Danger::Changelog::Config.ignore_files.each do |f|
+      config.ignore_files.each do |f|
         all_files.reject! { |modified_file| f.is_a?(Regexp) ? f.match?(modified_file) : f == modified_file }
         break if all_files.empty?
       end
       all_files.any?
     end
 
-    # Have you updated CHANGELOG.md?
-    # @return [boolean]
-    def have_you_updated_changelog?
-      if changelog_changes?
+    def updated_changelog?(config)
+      if changed_changelog?(config)
         true
-      elsif file_changes?
-        warn_update_changelog
+      elsif changed_files?(config)
+        warn_update_changelog(config.filename)
         false
       else
         true
       end
     end
 
-    # Is the CHANGELOG.md format correct?
-    # @return  [boolean]
-    def is_changelog_format_correct?
-      parser = Danger::Changelog::Config.parser
+    def correct_changelog_format?(config)
+      filename = config.filename
+      parser = config.parser
       changelog_file = Danger::Changelog::ChangelogFile.new(filename, parser: parser)
 
       if changelog_file.exists?
@@ -94,8 +119,6 @@ module Danger
       end
     end
 
-    private
-
     def pr_metadata
       Danger::Changelog::PRMetadata.from_event_file(ENV.fetch('GITHUB_EVENT_PATH', nil)) ||
         Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
@@ -109,7 +132,7 @@ module Danger
       nil
     end
 
-    def warn_update_changelog
+    def warn_update_changelog(filename)
       example = Danger::Changelog::ChangelogEntryLine.example(pr_metadata)
 
       markdown <<~MARKDOWN

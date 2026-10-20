@@ -1,6 +1,36 @@
 require 'spec_helper'
 
 describe Danger::Changelog::Config do
+  it 'supports every declared option globally and in isolated snapshots' do
+    custom = { filename: 'CHANGES.md', format: :keep_a_changelog, placeholder_line: nil, ignore_files: [/\.md$/] }
+    global = described_class.new
+    custom.each { |name, value| global.public_send("#{name}=", value) }
+    expect(global.to_h).to eq(custom)
+    expect(global.with(**described_class::DEFAULTS).to_h).to eq(described_class::DEFAULTS)
+    expect(global.to_h).to eq(custom)
+  end
+
+  it 'copies mutable inputs and freezes a check snapshot' do
+    files = [+'guide.md']
+    config = described_class.new(ignore_files: files)
+    check = config.with
+    files.first.replace('changed.md')
+    config.ignore_files = []
+    expect(check.ignore_files).to eq(['guide.md'])
+    expect(check).to be_frozen
+    expect(check.ignore_files.first).to be_frozen
+  end
+
+  it 'rejects invalid global assignments and per-check options consistently' do
+    config = described_class.new
+    described_class::ATTRIBUTES.each do |name|
+      expect { config.public_send("#{name}=", Object.new) }.to raise_error(ArgumentError)
+      expect { config.with(**{ name => Object.new }) }.to raise_error(ArgumentError)
+    end
+    expect { config.with(unknown: true) }.to raise_error(ArgumentError, /Unknown changelog options/)
+    expect(config.to_h).to eq(described_class::DEFAULTS)
+  end
+
   describe 'placeholder_line' do
     context 'an instance of a dangerfile' do
       let(:dangerfile) { testing_dangerfile }
@@ -53,6 +83,10 @@ describe Danger::Changelog::Config do
 
     it 'with a string' do
       expect { Danger::Changelog.config.format = 'intridea' }.not_to raise_error
+    end
+
+    it 'selects the requested parser for a string format' do
+      expect(described_class.new(format: 'keep_a_changelog').parser).to be_a(Danger::Changelog::Parsers::KeepAChangelog)
     end
 
     it 'with a symbol' do

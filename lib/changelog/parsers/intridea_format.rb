@@ -15,7 +15,7 @@ module Danger
           File.foreach(filename) do |line|
             next if line.strip.empty?
 
-            changelog_line = ChangelogLineParser.parse(line)
+            changelog_line = ChangelogLineParser.parse(line, config: config)
 
             if changelog_line.nil?
               notify_of_bad_line line, 'cannot be parsed'
@@ -34,8 +34,9 @@ module Danger
           end
 
           return if your_contribution_here
-          return unless Danger::Changelog.config.placeholder_line?
-          return unless (placeholder = Danger::Changelog.config.placeholder_line.chomp)
+          return unless config.placeholder_line?
+
+          placeholder = config.placeholder_line.chomp
 
           notify_of_global_failure "Please put back the `#{placeholder}` line into #{filename}."
         end

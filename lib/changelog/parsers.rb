@@ -17,10 +17,10 @@ module Danger
           FORMATS.keys.map(&:to_s).include?(format.to_s)
         end
 
-        def lookup(format)
+        def lookup(format, **options)
           FORMATS
-            .fetch(format, IntrideaFormat)
-            .new
+            .fetch(format.to_sym)
+            .new(**options)
         end
       end
     end

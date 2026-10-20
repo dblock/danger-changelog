@@ -7,8 +7,10 @@ module Danger
       DELIMITER = /[(){}\[\]]/
 
       attr_accessor :line, :validation_result
+      attr_reader :config
 
-      def initialize(line)
+      def initialize(line, config: Danger::Changelog.config.with)
+        @config = config
         self.line = line
         self.validation_result = nil
       end
