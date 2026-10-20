@@ -113,6 +113,22 @@ Bot author names may end in a literal `[bot]` suffix, such as `github-actions[bo
 * 🚀 Add a feature - [@ivoanjo](https://github.com/ivoanjo).
 ```
 
+✅ Pull request and author links may use Markdown references: full (`[@dblock][author]`), collapsed (`[@dblock][]`), or shortcut (`[@dblock]`)
+
+```markdown
+* [#1]: Fix an issue - [@dblock].
+* [#2][second-pr]: Add a feature - [@dblock][author].
+
+[#1]: https://github.com/dblock/danger-changelog/pull/1
+[second-pr]: https://github.com/dblock/danger-changelog/pull/2
+[@dblock]: https://github.com/dblock
+[author]: https://github.com/dblock
+```
+
+Definitions may appear before or after entries. Labels are case-insensitive and consecutive whitespace is collapsed; the first definition wins when a label is repeated. Angle-bracket destinations and optional titles are accepted, including an indented destination or title on the following line. Inline links and reference links can be mixed. Bot links can use a named reference such as `[@dependabot[bot]][bot]`.
+
+Undefined references are reported explicitly. Resolved destinations must satisfy the same GitHub URL rules as inline links. Reports show the original entry, not its expanded form. Reference expansion applies to PR and author links, not arbitrary references or inline-code examples inside the description.
+
 ❌ When a description starts with a cased letter, that letter must be uppercase
 
 ```markdown

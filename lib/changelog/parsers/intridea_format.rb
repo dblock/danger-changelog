@@ -1,3 +1,5 @@
+require 'changelog/markdown_references'
+
 module Danger
   module Changelog
     module Parsers
@@ -12,10 +14,17 @@ module Danger
         def parse(filename)
           your_contribution_here = false
 
-          File.foreach(filename) do |line|
+          references = MarkdownReferences.new(File.read(filename))
+          references.lines.each do |line|
             next if line.strip.empty?
 
-            changelog_line = ChangelogLineParser.parse(line, config: config)
+            expanded, errors = line == config.placeholder_line ? [line, []] : references.resolve(line)
+            unless errors.empty?
+              notify_of_bad_line line, errors.join(', ')
+              next
+            end
+
+            changelog_line = ChangelogLineParser.parse(expanded, config: config)
 
             if changelog_line.nil?
               notify_of_bad_line line, 'cannot be parsed'
