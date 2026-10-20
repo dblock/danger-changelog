@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tempfile'
 
 describe Danger::Changelog do
   subject(:changelog) { testing_dangerfile.changelog }
@@ -8,6 +9,20 @@ describe Danger::Changelog do
 
   before do
     allow(changelog.git).to receive_messages(modified_files: [intridea, keep_a_changelog], added_files: [])
+  end
+
+  %i[intridea keep_a_changelog].each do |format|
+    it "applies per-check version rules to #{format} without leaking defaults" do
+      source = File.read(keep_a_changelog).sub('## [Unreleased]', '## [2.0]')
+      source = "## 2.0 (Next)\n" if format == :intridea
+      Tempfile.create(['relaxed-version', '.md']) do |file|
+        file.write(source)
+        file.flush
+        options = { filename: file.path, format: format, placeholder_line: nil }
+        expect(changelog.is_changelog_format_correct?(**options, strict_semver: false)).to be true
+        expect(changelog.is_changelog_format_correct?(**options)).to be false
+      end
+    end
   end
 
   it 'uses per-check placeholders without leaking them to later checks' do
