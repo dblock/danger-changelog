@@ -21,6 +21,13 @@ describe Danger::Changelog::ChangelogEntryLine do
   it_behaves_like 'does not validate as changelog entry line', '[#1](https://github.com/dblock/danger-changelog/pull/1):  '
 
   context 'changelog entry line' do
+    context 'with GitLab links' do
+      it_behaves_like 'valid changelog entry line', '* [#1](https://gitlab.com/group/subgroup/project/-/merge_requests/1): Fix issue - [@contributor](https://gitlab.com/contributor).'
+      it_behaves_like 'valid changelog entry line', '* Fix issue - [@contributor](https://gitlab.com/contributor).'
+      it_behaves_like 'invalid changelog entry line', '* [#1](https://gitlab.com/group/project/-/merge_requests/1): Fix issue - [@contributor](http://gitlab.com/contributor).'
+      it_behaves_like 'invalid changelog entry line', '* [#1](https://gitlab.com/group/project/-/issues/1): Fix issue - [@contributor](https://gitlab.com/contributor).'
+    end
+
     context 'with Unicode descriptions' do
       ['日本語の変更', '修复问题', 'إصلاح المشكلة', 'תיקון שגיאה', 'แก้ไขข้อผิดพลาด', 'सुधार किया', '🚀 Add feature', '👩‍💻 Fix editor', '❌', 'ǅescription', 'Écriture corrigée', 'Исправлена ошибка'].each do |description|
         [nil, '[#1](https://github.com/dblock/danger-changelog/pull/1): '].each do |prefix|
@@ -183,7 +190,7 @@ describe Danger::Changelog::ChangelogEntryLine do
         it_behaves_like 'invalid changelog entry line', "* Update dependencies - #{author_link}"
         it_behaves_like 'invalid changelog entry line', "* Update dependencies - #{author_link}. \n"
         it_behaves_like 'invalid changelog entry line', "* Update dependencies - #{author_link.sub('https:', 'http:')}."
-        it_behaves_like 'invalid changelog entry line', "* Update dependencies - #{author_link.sub('github.com', 'gitlab.com')}."
+        it_behaves_like 'invalid changelog entry line', "* Update dependencies - #{author_link.sub('github.com', 'example.com')}."
       end
     end
 

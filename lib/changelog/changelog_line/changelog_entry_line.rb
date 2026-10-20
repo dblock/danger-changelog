@@ -5,8 +5,9 @@ module Danger
     # A CHANGELOG.md line represents the change entry.
     class ChangelogEntryLine < ChangelogLine
       AUTHOR_NAME = /[\w-]+(?:\[bot\])?/
-      AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}
-      PR_LINK = %r{\[\#\d+\]\(https?://github\.com/.*?\d+/?\)}
+      AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://(?:github\.com/.*#{AUTHOR_NAME}|gitlab\.com/#{AUTHOR_NAME})\)}
+      REQUEST_URL = %r{(?:github\.com/[^\s)]+?\d+|gitlab\.com/[^\s)]+/-/merge_requests/\d+)}
+      PR_LINK = %r{\[\#\d+\]\(https?://#{REQUEST_URL}/?\)}
       DESCRIPTION_START = /[`\p{Lu}\p{Lt}\p{Lo}\p{Lm}\p{So}]/
 
       def valid?
@@ -18,7 +19,7 @@ module Danger
         return false if validation_result.invalid?
 
         return true if line =~ /^\*\s#{DESCRIPTION_START}(?:.*[^.,])? - #{AUTHOR_LINK}.$/
-        return true if line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): #{DESCRIPTION_START}(?:.*[^.,])? - #{AUTHOR_LINK}.$}
+        return true if line =~ %r{^\*\s\[\#\d+\]\(https://#{REQUEST_URL}\): #{DESCRIPTION_START}(?:.*[^.,])? - #{AUTHOR_LINK}.$}
 
         validation_result.error! 'does not start with a star' unless ChangelogEntryLine.starts_with_star?(line)
         validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
@@ -29,7 +30,7 @@ module Danger
         validation_result.error! 'is missing a period at the end of the line' unless ChangelogEntryLine.ends_with_period?(line)
         validation_result.error! 'has an extra period or comma at the end of the description' if
           line =~ /^\*\s#{DESCRIPTION_START}.*[.,] - #{AUTHOR_LINK}.$/ ||
-          line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): #{DESCRIPTION_START}.*[.,] - #{AUTHOR_LINK}.$}
+          line =~ %r{^\*\s\[\#\d+\]\(https://#{REQUEST_URL}\): #{DESCRIPTION_START}.*[.,] - #{AUTHOR_LINK}.$}
 
         false
       end
@@ -51,7 +52,7 @@ module Danger
                          .sub(/[?.!,;]?$/, '')
                          .capitalize
         pr_author = github.pr_author
-        pr_author_url = "https://github.com/#{github.pr_author}"
+        pr_author_url = github.is_a?(PRMetadata) ? github.author_url : "https://github.com/#{github.pr_author}"
         "* [##{pr_number}](#{pr_url}): #{pr_title} - [@#{pr_author}](#{pr_author_url})."
       end
 
@@ -92,7 +93,7 @@ module Danger
 
       # checks whether line contains a MARKDOWN  link to an author
       def self.with_author_link?(line)
-        return true if line =~ %r{\[@#{AUTHOR_NAME}\]\(https?://github\.com/.*#{AUTHOR_NAME}/?\)}
+        return true if line =~ %r{\[@#{AUTHOR_NAME}\]\(https?://(?:github\.com/.*#{AUTHOR_NAME}|gitlab\.com/#{AUTHOR_NAME})/?\)}
 
         false
       end

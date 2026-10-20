@@ -122,13 +122,24 @@ module Danger
     def pr_metadata
       Danger::Changelog::PRMetadata.from_event_file(ENV.fetch('GITHUB_EVENT_PATH', nil)) ||
         Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
+        Danger::Changelog::PRMetadata.from_gitlab_plugin(gitlab_plugin) ||
         Danger::Changelog::PRMetadata.fallback
     end
 
     def github_plugin
       github
-    rescue NoMethodError
+    rescue NoMethodError => e
       # github plugin is not available in dry_run mode (LocalOnly request source)
+      raise unless e.name == :github
+
+      nil
+    end
+
+    def gitlab_plugin
+      gitlab
+    rescue NoMethodError => e
+      raise unless e.name == :gitlab
+
       nil
     end
 
