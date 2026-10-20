@@ -21,6 +21,24 @@ describe Danger::Changelog::ChangelogEntryLine do
   it_behaves_like 'does not validate as changelog entry line', '[#1](https://github.com/dblock/danger-changelog/pull/1):  '
 
   context 'changelog entry line' do
+    context 'with Unicode descriptions' do
+      ['日本語の変更', '修复问题', 'إصلاح المشكلة', 'תיקון שגיאה', 'แก้ไขข้อผิดพลาด', 'सुधार किया', '🚀 Add feature', '👩‍💻 Fix editor', '❌', 'ǅescription', 'Écriture corrigée', 'Исправлена ошибка'].each do |description|
+        [nil, '[#1](https://github.com/dblock/danger-changelog/pull/1): '].each do |prefix|
+          it_behaves_like 'valid changelog entry line', "* #{prefix}#{description} - [@dblock](https://github.com/dblock)."
+        end
+      end
+
+      ['lowercase change', 'écriture corrigée', 'исправлена ошибка'].each do |description|
+        it_behaves_like 'invalid changelog entry line', "* #{description} - [@dblock](https://github.com/dblock)."
+      end
+
+      it 'still reports punctuation problems for uncased descriptions' do
+        entry = described_class.new("* 修复问题. - [@dblock](https://github.com/dblock).\n")
+        expect(entry.valid?).to be false
+        expect(entry.validation_result.errors).to include('has an extra period or comma at the end of the description')
+      end
+    end
+
     context 'when without PR link' do
       it_behaves_like 'valid changelog entry line', '* Valid without PR link - [@antondomashnev](https://github.com/antondomashnev).'
     end

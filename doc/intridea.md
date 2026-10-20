@@ -105,12 +105,19 @@ The Intridea style changelog was pioneered on the Hashie project. It has many el
 
 Bot author names may end in a literal `[bot]` suffix, such as `github-actions[bot]` or `dependabot[bot]`. Keep the suffix in the attribution; links to GitHub app pages and bot profiles are supported.
 
-❌ Entry descriptions need to start with an uppercase A-Z letter
+✅ Entry descriptions can start with uppercase letters, uncased scripts (such as Japanese, Chinese, or Arabic), emoji, or inline code
+
+```markdown
+* 日本語の変更 - [@ivoanjo](https://github.com/ivoanjo).
+* 修复问题 - [@ivoanjo](https://github.com/ivoanjo).
+* 🚀 Add a feature - [@ivoanjo](https://github.com/ivoanjo).
+```
+
+❌ When a description starts with a cased letter, that letter must be uppercase
 
 ```markdown
 * not valid - [@ivoanjo](https://github.com/ivoanjo).
-* いいえ - [@ivoanjo](https://github.com/ivoanjo).
-* ❌ - [@ivoanjo](https://github.com/ivoanjo).
+* écriture en minuscule - [@ivoanjo](https://github.com/ivoanjo).
 * [#1](https://github.com/dblock/danger-changelog/pull/1): not valid - [@dblock](https://github.com/dblock).
 ```
 
