@@ -8,7 +8,7 @@ describe Danger::Changelog do
   let(:keep_a_changelog) { File.expand_path('../keep_a_changelog/fixtures/complete.md', __dir__) }
 
   before do
-    allow(changelog.git).to receive_messages(modified_files: [intridea, keep_a_changelog], added_files: [])
+    allow(changelog.git).to receive_messages(modified_files: [intridea, keep_a_changelog], added_files: [], diff_for_file: Struct.new(:patch).new(''))
   end
 
   %i[intridea keep_a_changelog].each do |format|
@@ -23,6 +23,45 @@ describe Danger::Changelog do
         expect(changelog.is_changelog_format_correct?(**options)).to be false
       end
     end
+  end
+
+  it 'checks release sections by default and permits explicit opt-out when diff data is unavailable' do
+    allow(changelog.git).to receive(:diff_for_file).with(intridea).and_return(nil)
+    expect(changelog.entries_in_unreleased_section?(filename: intridea)).to be false
+    expect(changelog.entries_in_unreleased_section?(filename: intridea, unreleased_heading: nil)).to be true
+    expect(changelog.status_report[:errors]).to include("Cannot inspect the diff for #{intridea}.")
+  end
+
+  it 'checks added entries through check! without changing defaults' do
+    Tempfile.create(['release-section', '.md']) do |file|
+      file.write("## 0.10.0 (Next)\n* Your contribution here.\n## 0.9.0\n* Historical - [@dblock](https://github.com/dblock).\n")
+      file.flush
+      diff = Struct.new(:patch).new("@@ -3 +3,2 @@\n ## 0.9.0\n+* Historical - [@dblock](https://github.com/dblock).\n")
+      allow(changelog.git).to receive_messages(modified_files: [file.path], diff_for_file: diff)
+      expect(changelog.check!(filename: file.path)).to be false
+      expect(changelog.check!(filename: file.path, unreleased_heading: nil)).to be true
+    end
+  end
+
+  { intridea: '## 0.10.0 (next)', keep_a_changelog: '## [unreleased]' }.each do |format, heading|
+    it "accepts added entries under the default #{format} heading" do
+      Tempfile.create(['release-section', '.md']) do |file|
+        file.write("#{heading}\n### Fixed\n* New change\n")
+        file.flush
+        diff = Struct.new(:patch).new("@@ -1,2 +1,3 @@\n #{heading}\n ### Fixed\n+* New change\n")
+        allow(changelog.git).to receive_messages(modified_files: [], added_files: [file.path], diff_for_file: diff)
+        expect(changelog.entries_in_unreleased_section?(filename: file.path, format: format)).to be true
+      end
+    end
+  end
+
+  it 'supports global opt-out and a per-check custom heading' do
+    changelog.unreleased_heading = nil
+    diff = Struct.new(:patch).new("@@ -1 +1,3 @@\n ### Changelog\n+\n+* Nothing yet.\n")
+    allow(changelog.git).to receive(:diff_for_file).and_return(diff)
+    expect(changelog.entries_in_unreleased_section?(filename: intridea)).to be true
+    expect(changelog.entries_in_unreleased_section?(filename: intridea, unreleased_heading: /^### Changelog$/)).to be true
+    expect(changelog.unreleased_heading).to be_nil
   end
 
   it 'uses per-check placeholders without leaking them to later checks' do

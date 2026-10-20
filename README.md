@@ -16,6 +16,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.placeholder_line](#changelogplaceholder_line)
   - [changelog.ignore_files](#changelogignore_files)
   - [changelog.strict_semver](#changelogstrict_semver)
+  - [changelog.unreleased_heading](#changelogunreleased_heading)
   - [Conditional reminders](#conditional-reminders)
 - [Checks](#checks)
   - [changelog.check!](#changelogcheck)
@@ -108,6 +109,21 @@ changelog.strict_semver = false
 changelog.check!(filename: 'CHANGES.md', strict_semver: false)
 ```
 
+### changelog.unreleased_heading
+
+By default, added list entries must belong to an unreleased section. The default heading pattern, `/(?:\(Next\)|\[Unreleased\])/i`, recognizes Intridea's `(Next)` and Keep a Changelog's `[Unreleased]`, case-insensitively. This global or per-check setting applies to both formats and is enforced by `check!` after its existing checks pass:
+
+```ruby
+changelog.unreleased_heading = /\(Next\)/
+changelog.check!
+changelog.check!(format: :keep_a_changelog, unreleased_heading: /\[Unreleased\]/i)
+changelog.check!(unreleased_heading: nil) # Allow intentional historical corrections.
+```
+
+Only added `*` or `-` list lines in Danger's changelog diff are checked. Nested category headings stay inside the release; the next heading at the same or shallower level ends it. Unchanged historical entries are ignored. Historical corrections appear as additions too; use `unreleased_heading: nil` for those PRs and release-preparation changes. Customize the pattern for your project's heading convention.
+
+Call `changelog.entries_in_unreleased_section?(unreleased_heading: /\(Next\)/)` to run this check separately. Missing diff data produces an explicit error rather than silently skipping the enabled check.
+
 ### Conditional reminders
 
 By default, only `README.md` is ignored. To skip reminders when all added or modified files are documentation at the repository root, use an anchored pattern. Subdirectory files still require a changelog update.
@@ -137,11 +153,11 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, and `strict_semver`. Each uses only the relevant settings.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, and `unreleased_heading`. Each uses only the relevant settings.
 
 ### changelog.check!
 
-Run all checks with defaults, including `have_you_updated_changelog?` and `is_changelog_format_correct?`.
+Run all checks with defaults, including `have_you_updated_changelog?`, `is_changelog_format_correct?`, and `entries_in_unreleased_section?`.
 
 ```ruby
 changelog.check!(filename: 'CHANGES.md', placeholder_line: nil)
