@@ -4,8 +4,8 @@ module Danger
   module Changelog
     # A CHANGELOG.md line represents the change entry.
     class ChangelogEntryLine < ChangelogLine
-      AUTHOR_NAME = /[\w-]+(?:\[bot\])?/.freeze
-      AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}.freeze
+      AUTHOR_NAME = /[\w-]+(?:\[bot\])?/
+      AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}
 
       def valid?
         return validation_result.valid? if validation_result

@@ -12,7 +12,7 @@ module Danger
         def parse(filename)
           your_contribution_here = false
 
-          File.open(filename).each_line do |line|
+          File.foreach(filename) do |line|
             next if line.strip.empty?
 
             changelog_line = ChangelogLineParser.parse(line)

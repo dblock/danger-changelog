@@ -1,7 +1,6 @@
 # Danger-Changelog
 
-A plugin for [danger.systems](http://danger.systems) that obsessive-compulsively lints your project’s `CHANGELOG.md`.
-It can make sure, for example, that changes are attributed properly, have a valid version number, a date in the ISO8601 format, balanced parenthesis and brackets, and that they’re always terminated with a period.
+A plugin for [danger.systems](https://danger.systems) that obsessive-compulsively lints your project’s `CHANGELOG.md`. It can make sure, for example, that changes are attributed properly, have a valid version number, a date in the ISO8601 format, balanced parenthesis and brackets, and that they’re always terminated with a period.
 
 [![Gem Version](https://badge.fury.io/rb/danger-changelog.svg)](https://badge.fury.io/rb/danger-changelog)
 [![Build Status](https://github.com/dblock/danger-changelog/actions/workflows/test.yml/badge.svg?branch=master&event=push)](https://github.com/dblock/danger-changelog/actions/workflows/test.yml)
@@ -29,10 +28,10 @@ By design, `danger-changelog` is quite strict with what it allows as a valid cha
 
 ## Installation
 
-Add `danger-changelog` to your Gemfile.
+Requires Ruby 3.1 or newer. Add `danger-changelog` to your Gemfile.
 
 ```
-gem 'danger-changelog', '~> 0.6.0'
+gem 'danger-changelog'
 ```
 
 Call `changelog.check!` from your `Dangerfile`. Make a pull request and see this plugin in action.

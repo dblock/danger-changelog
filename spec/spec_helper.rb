@@ -1,12 +1,13 @@
 require 'pathname'
 ROOT = Pathname.new(File.expand_path('..', __dir__))
-$LOAD_PATH.unshift("#{ROOT}lib".to_s)
-$LOAD_PATH.unshift("#{ROOT}spec".to_s)
+$LOAD_PATH.unshift("#{ROOT}lib")
+$LOAD_PATH.unshift("#{ROOT}spec")
 
 require 'bundler/setup'
 require 'pry'
 
 require 'rspec'
+require 'logger'
 require 'danger'
 
 RSpec.configure do |config|
@@ -42,6 +43,6 @@ end
 
 require 'active_support'
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**/*.rb')].sort.each do |file|
+Dir[File.join(File.dirname(__FILE__), 'support', '**/*.rb')].each do |file|
   require file
 end

@@ -19,5 +19,5 @@ end
 
 desc 'Ensure that the plugin passes `danger plugins lint`'
 task :spec_docs do
-  sh 'bundle exec danger plugins lint'
+  sh 'bundle exec ruby -rlogger -S danger plugins lint'
 end

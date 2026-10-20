@@ -1,67 +1,58 @@
 # Releasing Danger-Changelog
 
-There're no hard rules about when to release danger-changelog. Release bug fixes frequently, features not so frequently and breaking API changes rarely.
+This workflow follows [Danger-Toc](https://github.com/dblock/danger-toc/blob/master/RELEASING.md) and [CanonicalEmails](https://github.com/dblock/canonical-emails/blob/master/RELEASING.md). Publishing requires repository push access and RubyGems ownership with MFA enabled. Never commit credentials or OTP codes.
 
-### Release
+## Prepare
 
-Install bundle, run tests, check that all tests succeed locally.
+Start from clean, current master using Ruby 3.1 or newer, compatible with the resolved ActiveSupport version:
 
-```
-bundle install
-rake
-```
-
-Check that the last build succeeded in [GitHub Actions](https://github.com/dblock/danger-changelog/actions) for all supported platforms.
-
-Increment the version, modify [lib/changelog/gem_version.rb](lib/changelog/gem_version.rb).
-
-Following the [Semantic Versioning](http://semver.org/):
-*  Increment the third number if the release has bug fixes and/or very minor features with backward compatibility, only (eg. change `0.2.1` to `0.2.2`).
-*  Increment the second number if the release contains major features or breaking API changes (eg. change `0.2.1` to `0.3.0`).
-
-Create a new version and mark it as Next in [CHANGELOG.md](CHANGELOG.md).
-
-```
-### 0.2.2 (12/03/2016)
+```sh
+git checkout master
+git pull --ff-only origin master
 ```
 
-Remove the line with "* Your contribution here.", since there will be no more contributions to this release.
+Follow [Semantic Versioning](https://semver.org/); during 0.x development, increment the minor version for breaking changes and describe them explicitly. Ensure `lib/changelog/gem_version.rb` matches the upcoming CHANGELOG.md section. Date that section (`YYYY-MM-DD`), remove the contribution placeholder and extra blank lines within the release list, and review compatibility changes.
 
-Commit your changes.
+Run the full validation once immediately before committing and push directly on master, without a release-preparation PR:
 
-```
+```sh
+bundle exec rake spec
 git add CHANGELOG.md lib/changelog/gem_version.rb
-git commit -m "Preparing for release 0.2.2."
+git commit -m "Prepare release VERSION"
 git push origin master
 ```
 
-Release.
+Use the intended version in place of VERSION throughout this guide. Confirm the release commit's full Ruby/ActiveSupport matrix and lint CI pass. Build and inspect the package from the clean release commit:
 
-```
-$ rake release
-
-danger-changelog 0.2.2 built to pkg/danger-changelog-0.2.2.gem.
-Tagged v0.2.2.
-Pushed git commits and tags.
-Pushed danger-changelog 0.2.2 to rubygems.org.
+```sh
+bundle exec rake build
+tar -xOf pkg/danger-changelog-VERSION.gem data.tar.gz | tar -tzf -
 ```
 
-### Prepare for the Next Version
+The package should contain library files and published documentation, not specs, credentials, or local artifacts.
 
-Add the next release to [CHANGELOG.md](CHANGELOG.md).
+## Publish and Verify
 
+Ask the maintainer for a fresh RubyGems OTP immediately before publishing, entering it when prompted. Never store it in files or commit it:
+
+```sh
+gem push pkg/danger-changelog-VERSION.gem
+curl --fail --silent --show-error https://rubygems.org/api/v2/rubygems/danger-changelog/versions/VERSION.json
 ```
-### 0.2.3 (Next)
 
-* Your contribution here.
+Verify the exact version using the API; remote gem listings may lag. If upload fails or its result is unclear, check publication state before retrying the existing package. Never overwrite a published version.
+
+After successful publication, create and push an annotated tag. Never move an existing pushed tag:
+
+```sh
+git tag -a vVERSION -m "Version VERSION"
+git push origin vVERSION
+git ls-remote --tags origin 'vVERSION*'
+gh release create vVERSION --verify-tag --title VERSION --notes-file RELEASE_NOTES
 ```
 
-Increment the third version number in [lib/changelog/gem_version.rb](lib/changelog/gem_version.rb).
+RELEASE_NOTES should contain only that version's changelog entries, not the entire changelog. Verify the published gem version, tag commit, and GitHub release before continuing. A GitHub release does not publish to RubyGems.
 
-Commit your changes.
+## Next Development Version
 
-```
-git add CHANGELOG.md lib/slack/version.rb
-git commit -m "Preparing for next development iteration, 0.2.3."
-git push origin master
-```
+Increment the patch version in `lib/changelog/gem_version.rb` and prepend a matching `(Next)` changelog section containing `* Your contribution here.`. Run `bundle exec rake spec`, commit, and push directly to master without a PR or new tag. Leave master clean and ready for development. Do not merge or publish unless requested.

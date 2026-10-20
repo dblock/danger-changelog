@@ -2,6 +2,7 @@
 
 ### 0.9.1 (Next)
 
+* [#73](https://github.com/dblock/danger-changelog/pull/73): Require Ruby 3.1, test through Ruby 4.0 with compatible ActiveSupport versions, modernize pinned tokenless workflows, and restrict packaged files - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.9.0 (2026/10/14)

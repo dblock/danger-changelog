@@ -18,11 +18,11 @@ git remote add upstream https://github.com/dblock/danger-changelog.git
 
 ### Bundle Install and Test
 
-Ensure that you can build the project and run tests.
+Use Ruby 3.1 or newer. CI covers Ruby 3.1 through 4.0 with compatible ActiveSupport 6.1, 7.2, 8.0, and 8.1 versions. Set `ACTIVESUPPORT_VERSION` when resolving a particular compatibility bundle. Ensure that you can build the project and run tests.
 
 ```
 bundle install
-bundle exec rake
+bundle exec rake spec
 ```
 
 ## Contribute Code
@@ -47,9 +47,9 @@ We definitely appreciate pull requests that highlight or reproduce a problem, ev
 
 Implement your feature or bug fix.
 
-Ruby style is enforced with [Rubocop](https://github.com/bbatsov/rubocop). Run `bundle exec rubocop` and fix any style issues highlighted, auto-correct issues when possible with `bundle exec rubocop -a`. To silence generally ingored issues, including line lengths or code complexity metrics, run `bundle exec rubocop --auto-gen-config`.
+Ruby style is enforced with [RuboCop](https://github.com/rubocop/rubocop). Run `bundle exec rubocop` and fix any style issues highlighted, auto-correct issues when possible with `bundle exec rubocop -a`. Do not regenerate exclusions to hide new offenses.
 
-Make sure that `bundle exec rake` completes without errors.
+Make sure that `bundle exec rake spec` completes without errors; it runs RSpec, RuboCop, and plugin documentation lint.
 
 ### Write Documentation
 
@@ -99,7 +99,7 @@ Amend your previous commit and force push the changes.
 
 ```
 git commit --amend
-git push origin my-feature-branch -f
+git push origin my-feature-branch --force-with-lease
 ```
 
 ### Rebase
@@ -109,7 +109,7 @@ If you've been working on a change for a while, rebase with upstream/master.
 ```
 git fetch upstream
 git rebase upstream/master
-git push origin my-feature-branch -f
+git push origin my-feature-branch --force-with-lease
 ```
 
 ### Check on Your Pull Request
