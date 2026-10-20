@@ -29,7 +29,7 @@ module Danger
     # @return [Boolean] true when the check passes
     def check!(**options)
       config = Danger::Changelog.config.with(**options)
-      updated_changelog?(config) && correct_changelog_format?(config) && unreleased_entries?(config)
+      updated_changelog?(config) && correct_changelog_format?(config) && unreleased_entries?(config) && correct_intent?(config)
     end
 
     # Run all checks.
@@ -76,6 +76,13 @@ module Danger
       unreleased_entries?(Danger::Changelog.config.with(**options))
     end
 
+    # Check entries against the optional intent-word dictionary and verb-family consistency rules.
+    # @param [Hash] options per-check overrides for global settings
+    # @return [Boolean] true when selected entries use allowed and consistent intent words
+    def intent_correct?(**options)
+      correct_intent?(Danger::Changelog.config.with(**options))
+    end
+
     private
 
     def unreleased_entries?(config)
@@ -93,6 +100,24 @@ module Danger
 
       messaging.fail("Added changelog entries outside the unreleased section in #{config.filename} at lines #{misplaced.join(', ')}.", sticky: false)
       false
+    end
+
+    def correct_intent?(config)
+      return true unless config.check_intent
+
+      unless File.exist?(config.filename)
+        messaging.fail("The #{config.filename} file does not exist.", sticky: false)
+        return false
+      end
+
+      added_lines = entry_added_lines(config)
+      return false if config.only_added && added_lines.nil?
+
+      failures = Danger::Changelog::IntentCheck.new(File.read(config.filename), config: config).failures(added_lines: added_lines)
+      failures.each do |number, detail|
+        messaging.fail("#{config.filename}:#{number}: #{detail}", sticky: false)
+      end
+      failures.empty?
     end
 
     def changed_changelog?(config)
@@ -126,7 +151,7 @@ module Danger
         return false
       end
 
-      added_lines = format_added_lines(config)
+      added_lines = entry_added_lines(config)
       return false if config.only_added && added_lines.nil?
 
       parser = config.parser(added_lines: added_lines)
@@ -157,7 +182,7 @@ module Danger
         Danger::Changelog::PRMetadata.fallback
     end
 
-    def format_added_lines(config)
+    def entry_added_lines(config)
       return nil unless config.only_added
       return [] unless changed_changelog?(config)
 

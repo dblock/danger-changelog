@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Danger::Changelog::Config do
   it 'supports every declared option globally and in isolated snapshots' do
-    custom = { filename: 'CHANGES.md', format: :keep_a_changelog, placeholder_line: nil, ignore_files: [/\.md$/], strict_semver: false, unreleased_heading: nil, only_added: true }
+    custom = { filename: 'CHANGES.md', format: :keep_a_changelog, placeholder_line: nil, ignore_files: [/\.md$/], strict_semver: false, unreleased_heading: nil, only_added: true, check_intent: true, intent_words: ['Add'] }
     global = described_class.new
     custom.each { |name, value| global.public_send("#{name}=", value) }
     expect(global.to_h).to eq(custom)

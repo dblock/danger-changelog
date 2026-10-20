@@ -1,3 +1,5 @@
+require 'changelog/intent_check'
+
 module Danger
   module Changelog
     class Config
@@ -8,7 +10,9 @@ module Danger
         ignore_files: ['README.md'.freeze].freeze,
         strict_semver: true,
         only_added: false,
-        unreleased_heading: /(?:\(Next\)|\[Unreleased\])/i
+        unreleased_heading: /(?:\(Next\)|\[Unreleased\])/i,
+        check_intent: false,
+        intent_words: IntentCheck::DEFAULT_WORDS
       }.freeze
       ATTRIBUTES = DEFAULTS.keys.freeze
       DELEGATORS = (ATTRIBUTES + ATTRIBUTES.map { |name| :"#{name}=" }).freeze
@@ -19,7 +23,9 @@ module Danger
         ignore_files: ->(value) { Array(value).all? { |item| item.is_a?(String) || item.is_a?(Regexp) } },
         strict_semver: ->(value) { [true, false].include?(value) },
         only_added: ->(value) { [true, false].include?(value) },
-        unreleased_heading: ->(value) { value.nil? || value.is_a?(Regexp) }
+        unreleased_heading: ->(value) { value.nil? || value.is_a?(Regexp) },
+        check_intent: ->(value) { [true, false].include?(value) },
+        intent_words: ->(value) { value.is_a?(Array) && !value.empty? && value.all? { |word| word.is_a?(String) && /\A\p{L}+\z/.match?(word) } }
       }.freeze
 
       attr_reader(*ATTRIBUTES)
