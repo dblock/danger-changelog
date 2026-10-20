@@ -143,10 +143,18 @@ Undefined references are reported explicitly. Resolved destinations must satisfy
 * [#1](https://github.com/dblock/danger-changelog/pull/1) Not valid - [@dblock](https://github.com/dblock).
 ```
 
-❌ Only links to GitHub are allowed, and only using `https`
+✅ GitHub pull requests and GitLab.com merge requests and author profiles are supported, including GitLab subgroups
 
 ```markdown
-* No GitLab - [@ivoanjo](https://gitlab.com/ivoanjo).
+* [#1](https://gitlab.com/group/subgroup/project/-/merge_requests/1): Fix an issue - [@contributor](https://gitlab.com/contributor).
+```
+
+GitLab reminders use merge-request metadata for their suggested entries. Self-managed GitLab hosts are not currently accepted by the Intridea URL rules; Keep a Changelog accepts arbitrary link destinations.
+
+❌ Links must use supported hosts and `https`
+
+```markdown
+* Unsupported host - [@ivoanjo](https://example.com/ivoanjo).
 * No insecure http - [@ivoanjo](http://github.com/ivoanjo).
 * [#1](https://you-get-the-point.com): Entry with a PR link - [@dblock](https://github.com/dblock).
 ```

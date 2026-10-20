@@ -8,12 +8,25 @@ module Danger
       EXAMPLE_TITLE = 'Your contribution'.freeze
       EXAMPLE_AUTHOR = 'username'.freeze
 
-      attr_reader :pr_json, :pr_title, :pr_author
+      attr_reader :pr_json, :pr_title, :pr_author, :author_url
 
-      def initialize(pr_json:, pr_title:, pr_author:)
+      def initialize(pr_json:, pr_title:, pr_author:, author_url: "https://github.com/#{pr_author}")
         @pr_json = pr_json
         @pr_title = pr_title
         @pr_author = pr_author
+        @author_url = author_url
+      end
+
+      def self.from_gitlab_plugin(gitlab)
+        return nil unless gitlab
+
+        mr = gitlab.mr_json
+        new(
+          pr_json: { 'number' => mr.iid, 'html_url' => mr.web_url },
+          pr_title: gitlab.mr_title,
+          pr_author: gitlab.mr_author,
+          author_url: mr.author.web_url
+        )
       end
 
       # Attempt to fetch PR metadata from the GitHub plugin.
