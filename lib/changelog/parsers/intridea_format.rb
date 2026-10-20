@@ -15,7 +15,8 @@ module Danger
           your_contribution_here = false
 
           references = MarkdownReferences.new(File.read(filename))
-          references.lines.each do |line|
+          references.lines.each_with_index do |line, index|
+            track_line(line, index + 1)
             next if line.strip.empty?
 
             expanded, errors = line == config.placeholder_line ? [line, []] : references.resolve(line)

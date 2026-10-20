@@ -2,6 +2,7 @@
 
 ### 0.10.0 (Next)
 
+* [#83](https://github.com/dblock/danger-changelog/pull/83): Add global and per-check only_added scope for format diagnostics while keeping full-file validation as the default and file-wide requirements unconditional - [@dblock](https://github.com/dblock).
 * [#81](https://github.com/dblock/danger-changelog/pull/81): Require added changelog entries to belong to an unreleased section by default, with global and per-check heading overrides and opt-out - [@dblock](https://github.com/dblock).
 * [#80](https://github.com/dblock/danger-changelog/pull/80): Keep invalid-line reports fenced correctly when changelog text contains backticks and verify consecutive Keep a Changelog error rendering - [@dblock](https://github.com/dblock).
 * [#79](https://github.com/dblock/danger-changelog/pull/79): Add global and per-check strict_semver settings to allow opt-in numeric versions with two or more components in both changelog formats - [@dblock](https://github.com/dblock).

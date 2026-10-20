@@ -1,3 +1,5 @@
+require 'changelog/added_lines'
+
 module Danger
   module Changelog
     class UnreleasedSection
@@ -8,7 +10,7 @@ module Danger
 
       def misplaced_entries(patch)
         allowed = entry_sections
-        added_lines(patch).select { |number| @lines[number - 1]&.match?(/^[*-]\s/) && !allowed[number] }
+        AddedLines.from_patch(patch).select { |number| @lines[number - 1]&.match?(/^[*-]\s/) && !allowed[number] }
       end
 
       private
@@ -26,20 +28,6 @@ module Danger
           end
           [index + 1, active]
         end
-      end
-
-      def added_lines(patch)
-        number = nil
-        added = []
-        patch.each_line do |line|
-          if (hunk = line.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/))
-            number = hunk[1].to_i
-          elsif number && line.start_with?('+', ' ')
-            added << number if line.start_with?('+')
-            number += 1
-          end
-        end
-        added
       end
     end
   end
