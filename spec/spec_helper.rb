@@ -15,7 +15,7 @@ RSpec.configure do |config|
   config.color = true
   config.tty = true
   config.before do
-    Danger::Changelog::Config.reset
+    Danger::Changelog.config.reset
   end
 end
 

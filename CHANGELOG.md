@@ -2,6 +2,7 @@
 
 ### 0.9.1 (Next)
 
+* [#75](https://github.com/dblock/danger-changelog/pull/75): Support all global settings as isolated per-check keyword overrides, including placeholder validation and parser selection - [@dblock](https://github.com/dblock).
 * [#74](https://github.com/dblock/danger-changelog/pull/74): Explain missing colons after pull request links, separate suggested entries with a heading, and document conditional changelog reminders - [@dblock](https://github.com/dblock).
 * [#73](https://github.com/dblock/danger-changelog/pull/73): Require Ruby 3.1, test through Ruby 4.0 with compatible ActiveSupport versions, modernize pinned tokenless workflows, and restrict packaged files - [@dblock](https://github.com/dblock).
 * Your contribution here.

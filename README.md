@@ -43,7 +43,16 @@ Methods and attributes from this plugin are available in your `Dangerfile` under
 
 ## Configuration
 
-The following options and checks are supported.
+Every option can be set globally on `changelog` or passed as a keyword to a check. Per-check keywords override global defaults only for that call; parsing and reports use an immutable snapshot. Unknown options and invalid values raise `ArgumentError`.
+
+```ruby
+changelog.ignore_files = ['README.md', /\.txt$/]
+changelog.check!
+changelog.check!(filename: 'packages/api/CHANGELOG.md')
+changelog.check!(filename: 'CHANGES.md', format: :keep_a_changelog)
+```
+
+Global strings and arrays are copied and frozen; assign a new value rather than modifying a setting in place. The deprecated `Danger::Changelog.configure` block still sets global defaults.
 
 ### changelog.filename
 
@@ -51,6 +60,7 @@ Set the CHANGELOG file name, defaults to `CHANGELOG.md`.
 
 ```ruby
 changelog.filename = 'CHANGES.md'
+changelog.check!(filename: 'CHANGES.md')
 ```
 
 ### changelog.format
@@ -59,9 +69,10 @@ Set the format of the CHANGELOG file.
 
 ```ruby
 changelog.format = :keep_a_changelog
+changelog.check!(format: :keep_a_changelog)
 ```
 
-Available formats are [Intridea](doc/intridea.md) (default) and [Keep a Changelog](doc/keep_a_changelog.md).
+Available formats are [Intridea](doc/intridea.md) (default) and [Keep a Changelog](doc/keep_a_changelog.md). Symbol and string format names are accepted.
 
 ### changelog.placeholder_line
 
@@ -69,7 +80,10 @@ Customize the `* Your contribution here.` line. Set the value to `nil` to stop c
 
 ```ruby
 changelog.placeholder_line = "* Your change here.\n"
+changelog.check!(placeholder_line: 'Your change here.')
 ```
+
+The leading `* ` and trailing newline are added when omitted. This option applies to the Intridea parser; Keep a Changelog does not require a placeholder.
 
 ### changelog.ignore_files
 
@@ -79,6 +93,7 @@ For example, ignore `UPGRADING.md` and all `.txt` files.
 
 ```ruby
 changelog.ignore_files = ['README.md', 'UPGRADING.md', /\.txt$/]
+changelog.check!(ignore_files: ['README.md', 'UPGRADING.md', /\.txt$/])
 ```
 
 ### Conditional reminders
@@ -110,21 +125,37 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-Invoke check methods.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, and `ignore_files`. Each uses only the relevant settings.
 
 ### changelog.check!
 
 Run all checks with defaults, including `have_you_updated_changelog?` and `is_changelog_format_correct?`.
 
+```ruby
+changelog.check!(filename: 'CHANGES.md', placeholder_line: nil)
+```
+
+As before, format validation runs only if the update reminder passes. The deprecated `check` also accepts keyword overrides and its legacy positional format, without modifying global defaults.
+
 #### changelog.have_you_updated_changelog?
 
 Checks whether you have updated CHANGELOG.md.
+
+```ruby
+changelog.have_you_updated_changelog?(filename: 'CHANGES.md', ignore_files: [/\.md$/])
+```
 
 ![](images/have_you_updated_changelog.png)
 
 #### changelog.is_changelog_format_correct?
 
 Checks whether the CHANGELOG format is correct.
+
+```ruby
+changelog.is_changelog_format_correct?(filename: 'CHANGES.md', format: :keep_a_changelog)
+```
+
+The change predicates `changelog_changes?` and `file_changes?` accept the same keywords, for example `changelog.changelog_changes?(filename: 'CHANGES.md')`.
 
 ![](images/is_changelog_format_correct.png)
 
