@@ -7,6 +7,7 @@ module Danger
       AUTHOR_NAME = /[\w-]+(?:\[bot\])?/
       AUTHOR_LINK = %r{\[@#{AUTHOR_NAME}\]\(https://github\.com/.*#{AUTHOR_NAME}\)}
       PR_LINK = %r{\[\#\d+\]\(https?://github\.com/.*?\d+/?\)}
+      DESCRIPTION_START = /[`\p{Lu}\p{Lt}\p{Lo}\p{Lm}\p{So}]/
 
       def valid?
         return validation_result.valid? if validation_result
@@ -16,8 +17,8 @@ module Danger
         validation_result.error! 'too many parenthesis' unless balanced?(line)
         return false if validation_result.invalid?
 
-        return true if line =~ /^\*\s[`[:upper:]].*[^.,] - #{AUTHOR_LINK}.$/
-        return true if line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[^.,] - #{AUTHOR_LINK}.$}
+        return true if line =~ /^\*\s#{DESCRIPTION_START}(?:.*[^.,])? - #{AUTHOR_LINK}.$/
+        return true if line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): #{DESCRIPTION_START}(?:.*[^.,])? - #{AUTHOR_LINK}.$}
 
         validation_result.error! 'does not start with a star' unless ChangelogEntryLine.starts_with_star?(line)
         validation_result.error! 'does not include a pull request link' unless ChangelogEntryLine.with_pr_link?(line)
@@ -27,8 +28,8 @@ module Danger
         validation_result.error! 'has an extra trailing space' if ChangelogEntryLine.ends_with_space?(line)
         validation_result.error! 'is missing a period at the end of the line' unless ChangelogEntryLine.ends_with_period?(line)
         validation_result.error! 'has an extra period or comma at the end of the description' if
-          line =~ /^\*\s[`[:upper:]].*[.,] - #{AUTHOR_LINK}.$/ ||
-          line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): [`[:upper:]].*[.,] - #{AUTHOR_LINK}.$}
+          line =~ /^\*\s#{DESCRIPTION_START}.*[.,] - #{AUTHOR_LINK}.$/ ||
+          line =~ %r{^\*\s\[\#\d+\]\(https://github\.com/.*\d+\): #{DESCRIPTION_START}.*[.,] - #{AUTHOR_LINK}.$}
 
         false
       end
@@ -82,9 +83,9 @@ module Danger
         false
       end
 
-      # checks whether line contains a capitalized Text, treated as a description
+      # Checks for a description starting with uppercase or uncased text, code, or a symbol.
       def self.with_changelog_description?(line)
-        return true if line =~ /[`[:upper:]].*/
+        return true if DESCRIPTION_START.match?(line)
 
         false
       end
