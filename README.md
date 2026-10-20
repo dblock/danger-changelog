@@ -17,6 +17,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.ignore_files](#changelogignore_files)
   - [changelog.strict_semver](#changelogstrict_semver)
   - [changelog.unreleased_heading](#changelogunreleased_heading)
+  - [changelog.only_added](#changelogonly_added)
   - [Conditional reminders](#conditional-reminders)
 - [Checks](#checks)
   - [changelog.check!](#changelogcheck)
@@ -124,6 +125,20 @@ Only added `*` or `-` list lines in Danger's changelog diff are checked. Nested 
 
 Call `changelog.entries_in_unreleased_section?(unreleased_heading: /\(Next\)/)` to run this check separately. Missing diff data produces an explicit error rather than silently skipping the enabled check.
 
+### changelog.only_added
+
+Format validation checks the entire file by default (`only_added: false`). Set `only_added: true` globally or per check to report line-level format problems only on added lines in Danger's diff. Edited historical entries count as additions. Headers, punctuation, capitalization, attribution, and reference diagnostics follow this scope; reference definitions elsewhere in the file remain available for resolution.
+
+```ruby
+changelog.only_added = true
+changelog.check!
+changelog.is_changelog_format_correct?(only_added: false)
+```
+
+Missing files, required placeholders, and Keep a Changelog preamble requirements always apply to the whole file. Missing diff data is an explicit failure when added-only checking is requested for a changed changelog. An unchanged file has no added-line diagnostics but still receives global checks.
+
+Release-section placement always checks additions only, regardless of `only_added`; checking released history against an unreleased section would incorrectly reject existing releases. Use `unreleased_heading: nil` to disable placement validation.
+
 ### Conditional reminders
 
 By default, only `README.md` is ignored. To skip reminders when all added or modified files are documentation at the repository root, use an anchored pattern. Subdirectory files still require a changelog update.
@@ -153,7 +168,7 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, and `unreleased_heading`. Each uses only the relevant settings.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, `unreleased_heading`, and `only_added`. Each uses only the relevant settings.
 
 ### changelog.check!
 

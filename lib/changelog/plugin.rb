@@ -1,4 +1,5 @@
 require 'changelog/unreleased_section'
+require 'changelog/added_lines'
 
 module Danger
   # Enforce CHANGELOG.md O.C.D. in your projects.
@@ -120,7 +121,15 @@ module Danger
 
     def correct_changelog_format?(config)
       filename = config.filename
-      parser = config.parser
+      unless File.exist?(filename)
+        messaging.fail("The #{filename} file does not exist.", sticky: false)
+        return false
+      end
+
+      added_lines = format_added_lines(config)
+      return false if config.only_added && added_lines.nil?
+
+      parser = config.parser(added_lines: added_lines)
       changelog_file = Danger::Changelog::ChangelogFile.new(filename, parser: parser)
 
       if changelog_file.exists?
@@ -146,6 +155,17 @@ module Danger
         Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
         Danger::Changelog::PRMetadata.from_gitlab_plugin(gitlab_plugin) ||
         Danger::Changelog::PRMetadata.fallback
+    end
+
+    def format_added_lines(config)
+      return nil unless config.only_added
+      return [] unless changed_changelog?(config)
+
+      diff = git.diff_for_file(config.filename)
+      return Danger::Changelog::AddedLines.from_patch(diff.patch) if diff
+
+      messaging.fail("Cannot inspect the diff for #{config.filename}.", sticky: false)
+      nil
     end
 
     def code_block(content)

@@ -39,8 +39,8 @@ module Danger
           blocks = []
           block = []
 
-          lines.each do |line|
-            line = line.chomp
+          lines.each_with_index do |line, index|
+            line = track_line(line.chomp, index + 1)
 
             if /^##?[^#]/.match?(line)
               blocks << block.dup unless block.empty?

@@ -7,6 +7,7 @@ module Danger
         format: :intridea,
         ignore_files: ['README.md'.freeze].freeze,
         strict_semver: true,
+        only_added: false,
         unreleased_heading: /(?:\(Next\)|\[Unreleased\])/i
       }.freeze
       ATTRIBUTES = DEFAULTS.keys.freeze
@@ -17,6 +18,7 @@ module Danger
         format: ->(value) { (value.is_a?(String) || value.is_a?(Symbol)) && Parsers.valid?(value) },
         ignore_files: ->(value) { Array(value).all? { |item| item.is_a?(String) || item.is_a?(Regexp) } },
         strict_semver: ->(value) { [true, false].include?(value) },
+        only_added: ->(value) { [true, false].include?(value) },
         unreleased_heading: ->(value) { value.nil? || value.is_a?(Regexp) }
       }.freeze
 
@@ -53,8 +55,8 @@ module Danger
         !placeholder_line.nil?
       end
 
-      def parser
-        Parsers.lookup(format, config: with)
+      def parser(**options)
+        Parsers.lookup(format, config: with, **options)
       end
 
       private
