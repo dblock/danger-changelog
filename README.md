@@ -27,6 +27,8 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
 
 By design, `danger-changelog` is quite strict with what it allows as a valid changelog file, using the [Intridea style](doc/intridea.md), [used by this library itself](CHANGELOG.md). It also supports the [Keep a Changelog](doc/keep_a_changelog.md) format.
 
+Intridea PR and author links can be inline links or [Markdown references](doc/intridea.md#changelog-entries), with definitions elsewhere in the file. Undefined references are reported without changing the original entry shown in the report.
+
 ## Installation
 
 Requires Ruby 3.1 or newer. Add `danger-changelog` to your Gemfile.

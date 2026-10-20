@@ -1,7 +1,8 @@
 ## Changelog
 
-### 0.9.1 (Next)
+### 0.10.0 (Next)
 
+* [#77](https://github.com/dblock/danger-changelog/pull/77): Support Markdown reference-style PR and author links in Intridea changelogs, reporting undefined references and preserving original entries in diagnostics - [@dblock](https://github.com/dblock).
 * [#76](https://github.com/dblock/danger-changelog/pull/76): Allow uncased scripts and emoji at the start of Intridea descriptions while retaining capitalization rules for cased letters - [@dblock](https://github.com/dblock).
 * [#75](https://github.com/dblock/danger-changelog/pull/75): Support all global settings as isolated per-check keyword overrides, including placeholder validation and parser selection - [@dblock](https://github.com/dblock).
 * [#74](https://github.com/dblock/danger-changelog/pull/74): Explain missing colons after pull request links, separate suggested entries with a heading, and document conditional changelog reminders - [@dblock](https://github.com/dblock).
