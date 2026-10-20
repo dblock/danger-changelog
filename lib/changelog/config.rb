@@ -6,7 +6,8 @@ module Danger
         filename: 'CHANGELOG.md'.freeze,
         format: :intridea,
         ignore_files: ['README.md'.freeze].freeze,
-        strict_semver: true
+        strict_semver: true,
+        unreleased_heading: /(?:\(Next\)|\[Unreleased\])/i
       }.freeze
       ATTRIBUTES = DEFAULTS.keys.freeze
       DELEGATORS = (ATTRIBUTES + ATTRIBUTES.map { |name| :"#{name}=" }).freeze
@@ -15,7 +16,8 @@ module Danger
         filename: ->(value) { value.is_a?(String) && !value.strip.empty? },
         format: ->(value) { (value.is_a?(String) || value.is_a?(Symbol)) && Parsers.valid?(value) },
         ignore_files: ->(value) { Array(value).all? { |item| item.is_a?(String) || item.is_a?(Regexp) } },
-        strict_semver: ->(value) { [true, false].include?(value) }
+        strict_semver: ->(value) { [true, false].include?(value) },
+        unreleased_heading: ->(value) { value.nil? || value.is_a?(Regexp) }
       }.freeze
 
       attr_reader(*ATTRIBUTES)

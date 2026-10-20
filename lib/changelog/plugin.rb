@@ -1,3 +1,5 @@
+require 'changelog/unreleased_section'
+
 module Danger
   # Enforce CHANGELOG.md O.C.D. in your projects.
   #
@@ -26,7 +28,7 @@ module Danger
     # @return [Boolean] true when the check passes
     def check!(**options)
       config = Danger::Changelog.config.with(**options)
-      updated_changelog?(config) && correct_changelog_format?(config)
+      updated_changelog?(config) && correct_changelog_format?(config) && unreleased_entries?(config)
     end
 
     # Run all checks.
@@ -66,7 +68,31 @@ module Danger
       correct_changelog_format?(Danger::Changelog.config.with(**options))
     end
 
+    # Require added list entries to belong to an unreleased section by default.
+    # @param [Hash] options per-check overrides for global settings
+    # @return [Boolean] true when entries are in the configured section
+    def entries_in_unreleased_section?(**options)
+      unreleased_entries?(Danger::Changelog.config.with(**options))
+    end
+
     private
+
+    def unreleased_entries?(config)
+      return true unless config.unreleased_heading && changed_changelog?(config)
+
+      diff = git.diff_for_file(config.filename)
+      unless diff
+        messaging.fail("Cannot inspect the diff for #{config.filename}.", sticky: false)
+        return false
+      end
+
+      section = Danger::Changelog::UnreleasedSection.new(File.read(config.filename), heading: config.unreleased_heading)
+      misplaced = section.misplaced_entries(diff.patch)
+      return true if misplaced.empty?
+
+      messaging.fail("Added changelog entries outside the unreleased section in #{config.filename} at lines #{misplaced.join(', ')}.", sticky: false)
+      false
+    end
 
     def changed_changelog?(config)
       git.modified_files.include?(config.filename) || git.added_files.include?(config.filename)

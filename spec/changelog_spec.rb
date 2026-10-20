@@ -7,6 +7,7 @@ describe Danger::Changelog do
 
   describe 'in a PR' do
     before do
+      allow(changelog.git).to receive(:diff_for_file).and_return(Struct.new(:patch).new(''))
       changelog.env.request_source.pr_json = {
         'number' => 123,
         'title' => 'being dangerous',
