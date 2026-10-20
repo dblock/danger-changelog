@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Danger::Changelog::ChangelogHeaderLine do
+  context 'with relaxed versions' do
+    ['### 0.1 [2018/1/1]', '### [0.1] [2018/1/1]', '## [0.2] - 2017-06-20', '### 2.0 (Next)', '## 1.2.3.4', '## 2.0-rc.1+build.2'].each do |header|
+      it "accepts #{header} only when configured" do
+        config = Danger::Changelog.config.with(strict_semver: false)
+        expect(described_class.new(header, config: config).valid?).to be true
+        expect(described_class.new(header).valid?).to be false
+      end
+    end
+
+    ['## 01.2', '## 1.', '## 1..2', '## 2.0 (2018-13-01)', '## [2.0)'].each do |header|
+      it "still rejects malformed header #{header}" do
+        expect(described_class.new(header, config: Danger::Changelog.config.with(strict_semver: false)).valid?).to be false
+      end
+    end
+  end
+
   it_behaves_like 'validates as changelog header line', '# 1.0.1'
   it_behaves_like 'validates as changelog header line', '## Version 1.0.1'
   it_behaves_like 'validates as changelog header line', '### three hashes'

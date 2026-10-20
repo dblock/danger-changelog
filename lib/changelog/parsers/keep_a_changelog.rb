@@ -21,7 +21,7 @@ module Danger
           end
 
           blocks.each do |header, *body|
-            notify_of_bad_line(header) unless ChangelogHeaderLine.new(header).valid?
+            notify_of_bad_line(header) unless ChangelogHeaderLine.new(header, config: config).valid?
 
             body.each do |line|
               next if approved_section?(line)

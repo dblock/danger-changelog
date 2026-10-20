@@ -15,6 +15,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.format](#changelogformat)
   - [changelog.placeholder_line](#changelogplaceholder_line)
   - [changelog.ignore_files](#changelogignore_files)
+  - [changelog.strict_semver](#changelogstrict_semver)
   - [Conditional reminders](#conditional-reminders)
 - [Checks](#checks)
   - [changelog.check!](#changelogcheck)
@@ -98,6 +99,15 @@ changelog.ignore_files = ['README.md', 'UPGRADING.md', /\.txt$/]
 changelog.check!(ignore_files: ['README.md', 'UPGRADING.md', /\.txt$/])
 ```
 
+### changelog.strict_semver
+
+Require three-component Semantic Versions by default. Set `strict_semver: false` to accept numeric versions with two or more components, such as `2.0` or `1.2.3.4`, with optional prerelease/build suffixes. Date, delimiter, and other formatting checks remain active. This applies to both supported formats.
+
+```ruby
+changelog.strict_semver = false
+changelog.check!(filename: 'CHANGES.md', strict_semver: false)
+```
+
 ### Conditional reminders
 
 By default, only `README.md` is ignored. To skip reminders when all added or modified files are documentation at the repository root, use an anchored pattern. Subdirectory files still require a changelog update.
@@ -127,7 +137,7 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, and `ignore_files`. Each uses only the relevant settings.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, and `strict_semver`. Each uses only the relevant settings.
 
 ### changelog.check!
 

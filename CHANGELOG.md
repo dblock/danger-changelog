@@ -2,6 +2,7 @@
 
 ### 0.10.0 (Next)
 
+* [#79](https://github.com/dblock/danger-changelog/pull/79): Add global and per-check strict_semver settings to allow opt-in numeric versions with two or more components in both changelog formats - [@dblock](https://github.com/dblock).
 * [#78](https://github.com/dblock/danger-changelog/pull/78): Support GitLab.com merge request and author links and generate reminders from GitLab metadata without requiring GitHub - [@dblock](https://github.com/dblock).
 * [#77](https://github.com/dblock/danger-changelog/pull/77): Support Markdown reference-style PR and author links in Intridea changelogs, reporting undefined references and preserving original entries in diagnostics - [@dblock](https://github.com/dblock).
 * [#76](https://github.com/dblock/danger-changelog/pull/76): Allow uncased scripts and emoji at the start of Intridea descriptions while retaining capitalization rules for cased letters - [@dblock](https://github.com/dblock).
