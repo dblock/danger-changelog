@@ -100,11 +100,7 @@ module Danger
       if changelog_file.exists?
         changelog_file.parse
         changelog_file.bad_lines.each do |line|
-          markdown <<~MARKDOWN
-            ```markdown
-            #{line.map(&:strip).join("\n")}
-            ```
-          MARKDOWN
+          markdown code_block(line.map(&:strip).join("\n"))
         end
         messaging.fail(parser.bad_line_message(filename), sticky: false) if changelog_file.bad_lines?
 
@@ -124,6 +120,11 @@ module Danger
         Danger::Changelog::PRMetadata.from_github_plugin(github_plugin) ||
         Danger::Changelog::PRMetadata.from_gitlab_plugin(gitlab_plugin) ||
         Danger::Changelog::PRMetadata.fallback
+    end
+
+    def code_block(content)
+      fence = '`' * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
+      "#{fence}markdown\n#{content}\n#{fence}\n"
     end
 
     def github_plugin
