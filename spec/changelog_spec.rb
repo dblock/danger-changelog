@@ -39,6 +39,7 @@ describe Danger::Changelog do
 
       context 'with CHANGELOG changes' do
         before do
+          changelog.filename = 'spec/intridea/fixtures/minimal.md'
           allow(changelog.git).to receive_messages(modified_files: [changelog.filename], added_files: [])
         end
 

@@ -1,6 +1,6 @@
 ## Changelog
 
-### 0.10.0 (Next)
+### 0.10.0 (2026-10-21)
 
 * [#84](https://github.com/dblock/danger-changelog/pull/84): Add global and per-check unreleased label lists for exact, case-sensitive header validation while preserving permissive defaults - [@dblock](https://github.com/dblock).
 * [#82](https://github.com/dblock/danger-changelog/pull/82): Add opt-in intent-word checks with a configurable dictionary, consistent forms within each verb family, and full-file or added-only validation - [@dblock](https://github.com/dblock).
@@ -14,8 +14,6 @@
 * [#75](https://github.com/dblock/danger-changelog/pull/75): Support all global settings as isolated per-check keyword overrides, including placeholder validation and parser selection - [@dblock](https://github.com/dblock).
 * [#74](https://github.com/dblock/danger-changelog/pull/74): Explain missing colons after pull request links, separate suggested entries with a heading, and document conditional changelog reminders - [@dblock](https://github.com/dblock).
 * [#73](https://github.com/dblock/danger-changelog/pull/73): Require Ruby 3.1, test through Ruby 4.0 with compatible ActiveSupport versions, modernize pinned tokenless workflows, and restrict packaged files - [@dblock](https://github.com/dblock).
-* Your contribution here.
-
 ### 0.9.0 (2026/10/14)
 
 * [#72](https://github.com/dblock/danger-changelog/pull/72): Accept bot author links with a `[bot]` suffix without changing their attribution - [@dblock](https://github.com/dblock).
