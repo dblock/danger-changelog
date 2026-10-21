@@ -92,6 +92,10 @@ The Intridea style changelog was pioneered on the Hashie project. It has many el
 # Not valid (2019/12/31)
 ```
 
+### Unreleased labels
+
+Version headers can use labels such as `## 0.4.0 (Next)` or `## 0.4.0 (next)` by default. To enforce one spelling, set `changelog.unreleased_labels = ['Next']` or pass `unreleased_labels: ['Next']` to a check. This replaces permissive label matching with an exact, case-sensitive list and also applies to standalone delimited labels such as `## [Next]`. Dates, bare versions, and ordinary unwrapped titles are unaffected. The default `nil` preserves existing behavior; `[]` allows no labels. See [configuration](../README.md#changelogunreleased_labels).
+
 ### Changelog entries
 
 ✅ Under each title, you can have changelog entries in the format: `* {optional link to GitHub pull request that must be followed by a colon} {a single sentence of text description} - {author github link}.`:

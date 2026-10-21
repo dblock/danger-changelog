@@ -2,6 +2,8 @@
 
 The Keep a Changelog style format checks that your changelog is formatted like the specification outlined at [KeepAChangelog.com](https://keepachangelog.com).
 
+Header labels are permissive by default. Set `changelog.unreleased_labels = ['Unreleased']` or pass `unreleased_labels: ['Unreleased']` to a check to require that exact spelling in `## [Unreleased]`; lowercase `[unreleased]` then fails. The list also restricts labels following version numbers but does not restrict dates, bare versions, the `Changelog` title, or category headings. The default `nil` preserves existing behavior; `[]` allows no labels. This does not change the separate entry-placement pattern, `unreleased_heading`. See [configuration](../README.md#changelogunreleased_labels).
+
 As an example, here is a changelog formatted in the Keep a Changelog style, as borrowed from the Keep a Changelog project:
 
 ```markdown

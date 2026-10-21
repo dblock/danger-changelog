@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Danger::Changelog::Config do
   it 'supports every declared option globally and in isolated snapshots' do
-    custom = { filename: 'CHANGES.md', format: :keep_a_changelog, placeholder_line: nil, ignore_files: [/\.md$/], strict_semver: false, unreleased_heading: nil, only_added: true, check_intent: true, intent_words: ['Add'] }
+    custom = { filename: 'CHANGES.md', format: :keep_a_changelog, placeholder_line: nil, ignore_files: [/\.md$/], strict_semver: false, unreleased_labels: ['Next'], unreleased_heading: nil, only_added: true, check_intent: true, intent_words: ['Add'] }
     global = described_class.new
     custom.each { |name, value| global.public_send("#{name}=", value) }
     expect(global.to_h).to eq(custom)
@@ -29,6 +29,28 @@ describe Danger::Changelog::Config do
     end
     expect { config.with(unknown: true) }.to raise_error(ArgumentError, /Unknown changelog options/)
     expect(config.to_h).to eq(described_class::DEFAULTS)
+  end
+
+  describe 'unreleased_labels' do
+    [[], ['Next', 'Coming soon!'], nil].each do |labels|
+      it "accepts #{labels.inspect}" do
+        expect(described_class.new(unreleased_labels: labels).unreleased_labels).to eq(labels)
+      end
+    end
+
+    ['Next', [nil], [''], [' Next'], ['Next '], ["Next\n"], ['[Next]'], ['(Next)'], ['{Next}']].each do |labels|
+      it "rejects #{labels.inspect}" do
+        expect { described_class.new(unreleased_labels: labels) }.to raise_error(ArgumentError, /unreleased_labels/)
+      end
+    end
+
+    it 'copies and freezes labels in per-check snapshots' do
+      labels = [+'Next']
+      config = described_class.new(unreleased_labels: labels).with
+      labels.first.replace('next')
+      expect(config.unreleased_labels).to eq(['Next'])
+      expect(config.unreleased_labels.first).to be_frozen
+    end
   end
 
   describe 'placeholder_line' do

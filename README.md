@@ -16,6 +16,7 @@ A plugin for [danger.systems](https://danger.systems) that obsessive-compulsivel
   - [changelog.placeholder_line](#changelogplaceholder_line)
   - [changelog.ignore_files](#changelogignore_files)
   - [changelog.strict_semver](#changelogstrict_semver)
+  - [changelog.unreleased_labels](#changelogunreleased_labels)
   - [changelog.unreleased_heading](#changelogunreleased_heading)
   - [changelog.only_added](#changelogonly_added)
   - [changelog.check_intent and changelog.intent_words](#changelogcheck_intent-and-changelogintent_words)
@@ -111,6 +112,21 @@ changelog.strict_semver = false
 changelog.check!(filename: 'CHANGES.md', strict_semver: false)
 ```
 
+### changelog.unreleased_labels
+
+By default (`nil`), header validation accepts existing label spellings such as `Next`, `next`, `Unreleased`, and project-specific words. Supply a list to replace that permissive behavior with exact, case-sensitive matching in both formats:
+
+```ruby
+changelog.unreleased_labels = ['Next']
+changelog.check! # Accepts 0.4.0 (Next), rejects 0.4.0 (next).
+changelog.is_changelog_format_correct?(unreleased_labels: ['Next', 'Unreleased'])
+changelog.check!(unreleased_labels: nil) # Restore permissive validation for this call.
+```
+
+The list restricts labels following a version (with or without delimiters) and standalone labels enclosed in parentheses, brackets, or braces, such as `[Unreleased]`. Bare versions, release dates, and ordinary unwrapped titles such as `Changelog` and `Changed:` remain unaffected. Labels are literal strings, not regular expressions; custom labels may contain spaces and punctuation. Each must be nonempty, have no leading/trailing whitespace, and contain no newlines or enclosing delimiter characters. An empty list rejects all labels while still allowing dated and bare versions.
+
+This option validates header spelling, not entry placement. Configure `unreleased_heading` separately if you adopt a custom heading convention; setting the label list does not change its pattern.
+
 ### changelog.unreleased_heading
 
 By default, added list entries must belong to an unreleased section. The default heading pattern, `/(?:\(Next\)|\[Unreleased\])/i`, recognizes Intridea's `(Next)` and Keep a Changelog's `[Unreleased]`, case-insensitively. This global or per-check setting applies to both formats and is enforced by `check!` after its existing checks pass:
@@ -184,7 +200,7 @@ The label example uses the GitHub plugin; adapt the condition to your provider. 
 
 ## Checks
 
-All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, `unreleased_heading`, `only_added`, `check_intent`, and `intent_words`. Each uses only the relevant settings.
+All checks accept the same configuration keywords: `filename`, `format`, `placeholder_line`, `ignore_files`, `strict_semver`, `unreleased_labels`, `unreleased_heading`, `only_added`, `check_intent`, and `intent_words`. Each uses only the relevant settings.
 
 ### changelog.check!
 
