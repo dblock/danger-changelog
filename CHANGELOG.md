@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.10.1 (Next)
+
+* Your contribution here.
+
 ### 0.10.0 (2026-10-21)
 
 * [#84](https://github.com/dblock/danger-changelog/pull/84): Add global and per-check unreleased label lists for exact, case-sensitive header validation while preserving permissive defaults - [@dblock](https://github.com/dblock).
