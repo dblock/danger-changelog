@@ -14,17 +14,31 @@ module Danger
         stripped_line = line.strip
         version = config.strict_semver ? SEMVER : RELAXED_VERSION
 
-        m = stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}[\w\s:]*#{CLOSE_PARENS}$/) # title
+        m = title_valid?(stripped_line) # title
         m ||= stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}#{version}#{CLOSE_PARENS}$/) # version only
-        m ||= stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}#{version}#{CLOSE_PARENS}[\s-]+#{OPEN_PARENS}(#{ISO8601_DATETIME}|\w*)#{CLOSE_PARENS}$/) # version and date or next version description
+        m ||= stripped_line.match(/^#{HASHES}\s#{OPEN_PARENS}#{version}#{CLOSE_PARENS}[\s-]+#{OPEN_PARENS}(#{ISO8601_DATETIME}|#{labels})#{CLOSE_PARENS}$/) # version and date or next version description
 
-        !m.nil? && balanced?(stripped_line)
+        !!m && balanced?(stripped_line)
       end
 
       def self.validates_as_changelog_line?(line)
         return true if line =~ /^#{HASHES}\s.+/
 
         false
+      end
+
+      private
+
+      def labels
+        config.unreleased_labels ? Regexp.union(config.unreleased_labels) : /\w*/
+      end
+
+      def title_valid?(title)
+        if config.unreleased_labels && (match = title.match(/^#{HASHES}\s[(\[{](.*)[)\]}]$/))
+          config.unreleased_labels.include?(match[1])
+        else
+          title.match?(/^#{HASHES}\s#{OPEN_PARENS}[\w\s:]*#{CLOSE_PARENS}$/)
+        end
       end
     end
   end

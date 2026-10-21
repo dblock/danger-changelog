@@ -12,6 +12,20 @@ describe Danger::Changelog do
   end
 
   %i[intridea keep_a_changelog].each do |format|
+    it "enforces exact unreleased labels for #{format} through global and per-check options" do
+      source = format == :intridea ? "## 0.4.0 (next)\n" : File.read(keep_a_changelog)
+      Tempfile.create(['unreleased-labels', '.md']) do |file|
+        file.write(source)
+        file.flush
+        options = { filename: file.path, format: format, placeholder_line: nil }
+        changelog.unreleased_labels = ['Next']
+        expect(changelog.is_changelog_format_correct?(**options)).to be false
+        expect(changelog.is_changelog_format_correct?(**options, unreleased_labels: %w[next Unreleased])).to be true
+        expect(changelog.is_changelog_format_correct?(**options, unreleased_labels: nil)).to be true
+        expect(changelog.unreleased_labels).to eq(['Next'])
+      end
+    end
+
     it "applies per-check version rules to #{format} without leaking defaults" do
       source = File.read(keep_a_changelog).sub('## [Unreleased]', '## [2.0]')
       source = "## 2.0 (Next)\n" if format == :intridea
