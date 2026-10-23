@@ -54,6 +54,20 @@ describe Danger::Changelog::ChangelogEntryLine do
       it_behaves_like 'valid changelog entry line', '* [#1](https://github.com/dblock/danger-changelog/pull/1): Valid with PR link - [@dblock](https://github.com/dblock).'
     end
 
+    context 'with multiple request links' do
+      it_behaves_like 'valid changelog entry line', '* [#2285](https://github.com/ruby-grape/grape/pull/2285), [#2287](https://github.com/ruby-grape/grape/pull/2287): Added :evaluate_given to declared(params) - [@zysend](https://github.com/zysend).'
+      it_behaves_like 'valid changelog entry line', '* [#1589](https://github.com/ruby-grape/grape/pull/1589): [#726](https://github.com/ruby-grape/grape/issues/726): Use default_format when Content-type is missing - [@inclooder](https://github.com/inclooder).'
+      it_behaves_like 'valid changelog entry line', '* [#1](https://gitlab.com/group/project/-/merge_requests/1), [#2](https://gitlab.com/group/project/-/merge_requests/2): Fix issue - [@contributor](https://gitlab.com/contributor).'
+      it_behaves_like 'invalid changelog entry line', '* [#1](https://github.com/dblock/danger-changelog/pull/1), [#2](https://example.com/2): Fix issue - [@dblock](https://github.com/dblock).'
+      it_behaves_like 'invalid changelog entry line', '* [#1](https://github.com/dblock/danger-changelog/pull/1), [#2](https://github.com/dblock/danger-changelog/pull/2): lowercase change - [@dblock](https://github.com/dblock).'
+
+      it 'reports punctuation after descriptions with multiple request links' do
+        entry = described_class.new("* [#1](https://github.com/dblock/danger-changelog/pull/1), [#2](https://github.com/dblock/danger-changelog/pull/2): Fix issue. - [@dblock](https://github.com/dblock).\n")
+        expect(entry.valid?).to be false
+        expect(entry.validation_result.errors).to include('has an extra period or comma at the end of the description')
+      end
+    end
+
     context 'when missing star' do
       it_behaves_like 'invalid changelog entry line', 'Missing star - [@dblock](https://github.com/dblock).'
     end
