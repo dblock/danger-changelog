@@ -98,6 +98,13 @@ Version headers can use labels such as `## 0.4.0 (Next)` or `## 0.4.0 (next)` by
 
 ### Changelog entries
 
+Multiple inline issue or pull request links can precede a description, separated by `, ` or `: `. The final link must be followed by `: ` and the description.
+
+```markdown
+* [#1](https://github.com/owner/repo/pull/1), [#2](https://github.com/owner/repo/issues/2): Fix issue - [@contributor](https://github.com/contributor).
+* [#1](https://github.com/owner/repo/pull/1): [#2](https://github.com/owner/repo/issues/2): Fix issue - [@contributor](https://github.com/contributor).
+```
+
 ✅ Under each title, you can have changelog entries in the format: `* {optional link to GitHub pull request that must be followed by a colon} {a single sentence of text description} - {author github link}.`:
 
 ```markdown
