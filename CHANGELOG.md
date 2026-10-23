@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.10.2 (Next)
+
+* Your contribution here.
+
 ### 0.10.1 (2026-10-23)
 
 * [#85](https://github.com/dblock/danger-changelog/pull/85): Restore validation of entries with multiple leading issue or pull request links separated by commas or colons - [@dblock](https://github.com/dblock).
