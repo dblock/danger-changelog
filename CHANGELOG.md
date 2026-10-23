@@ -1,10 +1,8 @@
 ## Changelog
 
-### 0.10.1 (Next)
+### 0.10.1 (2026-10-23)
 
 * [#85](https://github.com/dblock/danger-changelog/pull/85): Restore validation of entries with multiple leading issue or pull request links separated by commas or colons - [@dblock](https://github.com/dblock).
-* Your contribution here.
-
 ### 0.10.0 (2026-10-21)
 
 * [#84](https://github.com/dblock/danger-changelog/pull/84): Add global and per-check unreleased label lists for exact, case-sensitive header validation while preserving permissive defaults - [@dblock](https://github.com/dblock).
